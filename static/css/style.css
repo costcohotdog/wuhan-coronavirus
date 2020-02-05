@@ -1,0 +1,24 @@
+.navbar-light .navbar-brand, .update-text, body {
+    color: white;
+}
+
+body, .bg-dark {
+    background: rgb(54, 54, 54);
+}
+
+.bg-dark {
+    background: rgb(88, 88, 88)!important
+}
+
+.upper-charts, .lower-charts {
+    height: 400px;
+}
+
+.totals-numbers {
+    font-size: 5rem;
+}
+
+.map {
+    padding-right: 15px;
+    padding-left: 15px;
+}

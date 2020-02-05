@@ -2,16 +2,122 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel=stylesheet href="{{ url_for('static', filename="css/style.css")}}"></link>
-    <title>Wuhan Coronavirus</title>
-  </head>
-  <body>
 
-    <h1>Wuhan Coronavirus</h1>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    
+    <!-- Local CSS -->
+    <link rel="stylesheet" href="../static/css/style.css">
+    
+    <title>Wuhan Coronavirus Tracker</title>
+
+  </head>
+
+  <body>
+    <nav class='navbar navbar-expand-lg navbar-light bg-dark'>
+      <a class="navbar-brand" href="">
+        Wuhan Coronavirus Tracker
+      </a>
+      <div class='update-text ml-auto'>
+        Last Updated: 2/5/2020
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+
+      <!-- Totals at top of page -->
+      <div class="row mb-3">
+
+        <!-- Infected -->
+        <div class="col-md-4 text-center">
+          <div class='totals-numbers'>
+            22345
+          </div>
+          <div class='totals-text'>
+            Infected
+          </div>
+        </div>
+
+        <!-- Deaths -->
+        <div class="col-md-4 text-center">
+          <div class='totals-numbers'>
+            523
+          </div>
+          <div class='totals-text'>
+            Deaths
+          </div>
+        </div>
+
+        <!-- Countries -->
+        <div class="col-md-4 text-center">
+          <div class='totals-numbers'>
+            24
+          </div>
+          <div class='totals-text'>
+            Countries
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Two charts above the map -->
+      <div class="upper-charts row">
+        <div class="col-md-6">
+          <img src="https://www.chartphp.com/wp-content/uploads/dark-line.png" alt="" style="width:100%;height:100%;">
+        </div>
+        <div class="col-md-6">
+          <img src="https://www.chartphp.com/wp-content/uploads/dark-line.png" alt="" style="width:100%;height:100%;">
+        </div>
+      </div>
+
+      <!-- Interactive Map -->
+      <div class="map row mt-3 mb-3 justify-content-center">
+        <div class="cold-md-12">
+          <img src="https://i.ibb.co/JRZSxR6/Capture.png" alt="" style="width:100%;height:100%;">
+        </div>
+      </div>
+
+      <!-- Two charts below the map -->
+      <div class="lower-charts row">
+        <div class="col-md-6">
+          <img src="https://www.chartphp.com/wp-content/uploads/dark-line.png" alt="" style="width:100%;height:100%;">
+        </div>
+        <div class="col-md-6">
+          <img src="https://www.chartphp.com/wp-content/uploads/dark-line.png" alt="" style="width:100%;height:100%;">
+        </div>
+      </div>
+
+      <!-- Twitter feed and table -->
+      <div class="row mt-3">
+
+        <!-- Twitter feed -->
+        <div class="twitter-feed col-md-4">
+          <img src="https://www.drupal.org/files/project-images/selective_tweets-screenshot-1.png" alt="" style="width:100%;height:100%;">
+        </div>
+
+        <!-- Data table -->
+        <div class="data-table col-md-8">
+          <img src="https://i.ibb.co/dcFQK5m/Capture.png" alt="" style="width:100%;height:100%;">
+        </div>
+      </div>
+
+    </div>
 
   </body>
+  
+  <!-- D3 JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.7/d3.min.js"></script>
+  
+  <!-- Plotly JavaScript -->
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  
+  <!-- Local JavaScript -->
   <script src="{{ url_for('static', filename="js/index.js")}}"></script>
-</html>
+  
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->  
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+  </html>
