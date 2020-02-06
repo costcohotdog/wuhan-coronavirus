@@ -6,7 +6,8 @@ function getDOMElements() {
   const elements = {
     infected : d3.select('#total-infected-number'),
     deaths: d3.select('#total-deaths-number'),
-    countries: d3.select('#total-countries-number')
+    countries: d3.select('#total-countries-number'),
+    lastUpdated: d3.select('#last-updated')
   }
 
   return elements
@@ -25,8 +26,6 @@ function totalCounts(obj) {
 
   //2. Calculate total deaths
   const totalDeaths = latestDate.total_deaths
-
-
 
   //3. Calculate total countries
   let countries = []
@@ -47,12 +46,13 @@ function totalCounts(obj) {
   elements.deaths.append('p').text(totalDeaths);
   elements.countries.append('p').text(totalCountries)
   animateValue("total-infected-number", 25000, totalInfected, 0);
-  animateValue("total-deaths-number", 0, totalDeaths, 3000);
-  animateValue("total-countries-number", 0, totalCountries, 3000);
+  animateValue("total-deaths-number", 0, totalDeaths, 3500);
+  animateValue("total-countries-number", 0, totalCountries, 3500);
 
 };
 
 function animateValue(id, start, end, duration) {
+    // This function animates the counters
     var range = end - start;
     var current = start;
     var increment = end > start? 1 : -1;
@@ -65,9 +65,21 @@ function animateValue(id, start, end, duration) {
             clearInterval(timer);
         }
     }, stepTime);
-}
+};
 
-
+function lastUpdated(obj) {
+  // This function takes in the api/date Object
+  // and calculates the last time the corona virus data was Updated.
+  // It then updates the 'last-updated' section of the DOM
+  let date;
+  const latest = obj[obj.length -1]
+  for (let [key, value] of Object.entries(latest.date)) {
+    date = value
+  };
+  const dateObj = new Date(date);
+  const elements = getDOMElements();
+  elements.lastUpdated.append('p').text(`Last Updated: ${dateObj.toLocaleDateString()}`);
+};
 
 
 
@@ -79,4 +91,6 @@ d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
 
   // Update Total Counts
   totalCounts(result);
+  // Update the Last Updated Value
+  lastUpdated(result);
 })
