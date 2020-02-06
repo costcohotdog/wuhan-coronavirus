@@ -144,7 +144,7 @@ function infectionRate(obj) {
       gridwidth: 1,
       gridcolor: '#7A7A7A '},
     yaxis: {
-      dtick: 2000,
+      dtick: 300,
       showgrid: false},
     title: "Infection Rate",
     autosize: true,
@@ -156,7 +156,7 @@ function infectionRate(obj) {
       pad: 4
     }
   }
-  Plotly.newPlot('upper-left-chart', [trace1], layout )
+  Plotly.newPlot('upper-left-chart', [trace1], layout, {responsive: true})
 };
 
 function infectionByRegion(obj) {
@@ -233,7 +233,9 @@ function infectionByRegion(obj) {
     },
     xaxis: {
       autotick: false,
-      showgrid: false},
+      showgrid: true,
+      gridwidth: 1,
+      gridcolor: '#7A7A7A '},
     yaxis: {
       // dtick: 300,
       showgrid: false},
@@ -243,22 +245,24 @@ function infectionByRegion(obj) {
       x: 0.1,
       y: 1,
       traceorder: 'normal',
+    },
+    autosize: true,
+    margin: {
+      l: 50,
+      r: 50,
+      b: 50,
+      t: 50,
+      pad: 4
     }
 }
-  Plotly.newPlot('upper-right-chart', [trace1, trace2], layout )
+  Plotly.newPlot('upper-right-chart', [trace1, trace2], layout, {responsive: true})
 };
 
 
-=======
-
->>>>>>> ad06360c2dd1d5f56a3327086fc9e8b9bc74fa75
-
-  Plotly.newPlot('upper-left-chart', [trace1], layout , {responsive: true})
 
 
 
 
-};
 
 
 // Load Data then call functions...
