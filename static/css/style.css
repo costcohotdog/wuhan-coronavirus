@@ -2,6 +2,10 @@
     color: white;
 }
 
+.totals {
+  background-color: rgb(88, 88, 88);
+}
+
 body, .bg-dark {
     background: rgb(54, 54, 54);
 }

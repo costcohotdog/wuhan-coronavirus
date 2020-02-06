@@ -125,10 +125,14 @@ function infectionRate(obj) {
     },
     xaxis: {
       autotick: false,
-      showgrid: false},
+      showgrid: true,
+      gridwidth: 1,
+      gridcolor: '#7A7A7A '},
     yaxis: {
       dtick: 300,
-      showgrid: false},
+      showgrid: true,
+      gridwidth: 1,
+      gridcolor: '#7A7A7A '},
     title: "Infection Rate",
     autosize: true,
     margin: {
@@ -139,26 +143,13 @@ function infectionRate(obj) {
       pad: 4
     }
 }
-<<<<<<< HEAD
 
   Plotly.newPlot('upper-left-chart', [trace1], layout , {responsive: true})
 
 
 
 
-=======
-  Plotly.newPlot('upper-left-chart', [trace1], layout )
->>>>>>> e79f86967088a70000d9526c4ad0213ba7a04690
 };
-
-
-
-
-
-
-
-
-
 
 
 // Load Data then call functions...
