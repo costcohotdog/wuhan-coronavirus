@@ -93,15 +93,16 @@ function infectionRate(obj) {
   console.log(obj);
 
   // get total days
-  let dates = obj.map(date => {
-    var dateArr = [];
-    for (let [key, value] of Object.entries(date.date)) {
-      let date = new Date(value);
-      dateArr.push(date.toLocaleDateString());
-    };
-    return dateArr.join();
-  });
-  console.log(dates);
+  // let dates = obj.map(date => {
+  //   var dateArr = [];
+  //   for (let [key, value] of Object.entries(date.date)) {
+  //     parseDate = d3.timeParse("%Y-%m-%d")
+  //     let date = new Date(value);
+  //     dateArr.push(parseDate(date));
+  //   };
+  //   return dateArr.join();
+  // });
+  // console.log(dates);
 
   // get infections
   let infections = obj.map(infections => {
@@ -110,43 +111,58 @@ function infectionRate(obj) {
   })
   console.log(infections);
 
-  // get infection rate
+  // get infection rate and days of infection
   let infectionRate = [];
-  let rate;
+  let days = [];
+  let rate, day;
   for (var i=0; i < infections.length; i++) {
     rate = infections[i] / infections.length;
+    day = i + 1
     infectionRate.push(rate);
+    days.push(day);
   }
   console.log(infectionRate);
-
-
-
-
+  console.log(days);
   // plot data
 
-  let svgWidth = 503;
-  let svgHeight = 400;
+  let trace1 = {
+    x: days,
+    y: infectionRate,
+    line: {
+      color: 'limegreen',
+      width: 2
+    }
 
-  let margin = {
+  }
+  layout= {
+    paper_bgcolor:'rgba(0,0,0,0)',
+    plot_bgcolor:'rgba(0,0,0,0)',
+    font: {
+        family:"Courier New, monospace",
+        size:18,
+        color:"white"
+    },
+    xaxis: {
+      autotick: false,
+      showgrid: false},
+    yaxis: {
+      dtick: 300,
+      showgrid: false},
+    title: "Infection Rate"
+}
 
-    top: 20,
-    right: 40,
-    bottom: 60,
-    left: 50
-  };
+  Plotly.newPlot('upper-left-chart', [trace1], layout )
 
-  let width = svgWidth - margin.left - margin.right;
-  let height = svgHeight - margin.top - margin.bottom;
 
-  var svg = d3
-    .select('#upper-left-chart')
-    .append("svg")
-    .attr("width", svgWidth)
-    .attr("height", svgHeight);
 
-  let chartGroup = svg.append('g')
-    .attr('tranform', `translate(${margin.left}, ${margin.top})`);
+
 };
+
+
+
+
+
+
 
 
 

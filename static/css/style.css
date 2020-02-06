@@ -22,3 +22,16 @@ body, .bg-dark {
     padding-right: 15px;
     padding-left: 15px;
 }
+
+.line {
+  fill: none;
+  stroke-width: 2px;
+}
+
+.orange {
+  stroke: orange;
+}
+
+.green {
+  stroke: green;
+}
