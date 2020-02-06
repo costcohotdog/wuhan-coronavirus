@@ -116,8 +116,8 @@ function infectionRate(obj) {
   let days = [];
   let rate, day;
   for (var i=0; i < infections.length; i++) {
-    rate = infections[i] / infections.length;
     day = i + 1
+    rate = infections[i] / day
     infectionRate.push(rate);
     days.push(day);
   }
