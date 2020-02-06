@@ -148,10 +148,18 @@ function infectionRate(obj) {
     yaxis: {
       dtick: 300,
       showgrid: false},
-    title: "Infection Rate"
+    title: "Infection Rate",
+    autosize: true,
+    margin: {
+      l: 50,
+      r: 50,
+      b: 50,
+      t: 50,
+      pad: 4
+    }
 }
 
-  Plotly.newPlot('upper-left-chart', [trace1], layout )
+  Plotly.newPlot('upper-left-chart', [trace1], layout , {responsive: true})
 
 
 

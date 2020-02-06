@@ -10,12 +10,16 @@ body, .bg-dark {
     background: rgb(88, 88, 88)!important
 }
 
-.upper-charts, .lower-charts {
+.upper-charts, .lower-charts, #upper-left-chart {
     height: 400px;
 }
 
 .totals-numbers {
     font-size: 5rem;
+}
+
+.modebar{
+  display: none !important;
 }
 
 .map {
