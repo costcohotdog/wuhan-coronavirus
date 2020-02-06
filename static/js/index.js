@@ -7,7 +7,8 @@ function getDOMElements() {
     infected : d3.select('#total-infected-number'),
     deaths: d3.select('#total-deaths-number'),
     countries: d3.select('#total-countries-number'),
-    lastUpdated: d3.select('#last-updated')
+    lastUpdated: d3.select('#last-updated'),
+    upperLeftChart: d3.select('#upper-left-chart')
   }
 
   return elements
@@ -81,6 +82,72 @@ function lastUpdated(obj) {
   elements.lastUpdated.append('p').text(`Last Updated: ${dateObj.toLocaleDateString()}`);
 };
 
+function infectionRate(obj) {
+
+  var parseTime = d3.timeParse("%d-%b");
+
+  // Format the data
+
+
+  // infectionRate = infections / Day
+  console.log(obj);
+
+  // get total days
+  let dates = obj.map(date => {
+    var dateArr = [];
+    for (let [key, value] of Object.entries(date.date)) {
+      let date = new Date(value);
+      dateArr.push(date.toLocaleDateString());
+    };
+    return dateArr.join();
+  });
+  console.log(dates);
+
+  // get infections
+  let infections = obj.map(infections => {
+      let totals = infections.total_confirmed + infections.total_recovered + infections.total_deaths;
+      return totals;
+  })
+  console.log(infections);
+
+  // get infection rate
+  let infectionRate = [];
+  let rate;
+  for (var i=0; i < infections.length; i++) {
+    rate = infections[i] / infections.length;
+    infectionRate.push(rate);
+  }
+  console.log(infectionRate);
+
+
+
+
+  // plot data
+
+  let svgWidth = 503;
+  let svgHeight = 400;
+
+  let margin = {
+
+    top: 20,
+    right: 40,
+    bottom: 60,
+    left: 50
+  };
+
+  let width = svgWidth - margin.left - margin.right;
+  let height = svgHeight - margin.top - margin.bottom;
+
+  var svg = d3
+    .select('#upper-left-chart')
+    .append("svg")
+    .attr("width", svgWidth)
+    .attr("height", svgHeight);
+
+  let chartGroup = svg.append('g')
+    .attr('tranform', `translate(${margin.left}, ${margin.top})`);
+};
+
 
 
 
@@ -93,4 +160,6 @@ d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
   totalCounts(result);
   // Update the Last Updated Value
   lastUpdated(result);
+  // Create infection rate chart
+  infectionRate(result);
 })
