@@ -144,7 +144,7 @@ function infectionRate(obj) {
       gridwidth: 1,
       gridcolor: '#7A7A7A '},
     yaxis: {
-      dtick: 300,
+      dtick: 1000,
       showgrid: false},
     title: "Infection Rate",
     autosize: true,
@@ -156,7 +156,7 @@ function infectionRate(obj) {
       pad: 4
     }
   }
-  Plotly.newPlot('upper-left-chart', [trace1], layout, {responsive: true})
+  Plotly.newPlot('upper-left-chart', [trace1], layout, {responsive: true, displayModeBar: false})
 };
 
 function infectionByRegion(obj) {
@@ -255,7 +255,7 @@ function infectionByRegion(obj) {
       pad: 4
     }
 }
-  Plotly.newPlot('upper-right-chart', [trace1, trace2], layout, {responsive: true})
+  Plotly.newPlot('upper-right-chart', [trace1, trace2], layout, {responsive: true, displayModeBar: false})
 };
 
 
