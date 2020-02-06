@@ -3,8 +3,8 @@ from pymongo import MongoClient
 from bson.json_util import dumps
 
 app = Flask(__name__)
-username = 'USERNAME HERE'
-password = 'PASSWORD'
+username = 'Terra925'
+password = 'H%40mmond271'
 client = MongoClient("mongodb+srv://" + username + ":" + password + "@cluster0-paegd.mongodb.net/test?retryWrites=true&w=majority")
 db = client.corona_virus
 
@@ -12,7 +12,7 @@ cases_collection = db['cases']
 cases = [case for case in cases_collection.find()]
 
 date_collection = db['cases_by_date']
-dat = [date for date in date_collection.find()]
+data = [date for date in date_collection.find()]
 
 
 @app.route('/', methods=['GET'])
