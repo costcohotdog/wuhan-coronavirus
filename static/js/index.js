@@ -46,8 +46,28 @@ function totalCounts(obj) {
   elements.infected.append('p').text(totalInfected);
   elements.deaths.append('p').text(totalDeaths);
   elements.countries.append('p').text(totalCountries)
+  animateValue("total-infected-number", 25000, totalInfected, 0);
+  animateValue("total-deaths-number", 0, totalDeaths, 3000);
+  animateValue("total-countries-number", 0, totalCountries, 3000);
 
 };
+
+function animateValue(id, start, end, duration) {
+    var range = end - start;
+    var current = start;
+    var increment = end > start? 1 : -1;
+    var stepTime = Math.abs(Math.floor(duration / range));
+    var obj = document.getElementById(id);
+    var timer = setInterval(function() {
+        current += increment;
+        obj.innerHTML = current;
+        if (current == end) {
+            clearInterval(timer);
+        }
+    }, stepTime);
+}
+
+
 
 
 
