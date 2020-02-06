@@ -90,25 +90,40 @@ function infectionRate(obj) {
 
   // Format the data
   // infectionRate = infections / Day
+
+  //get days
+  let parseDate = d3.timeFormat("%Y-%m-%d")
+  let date;
+  let dates;
+  dates = obj.map(date => {
+    for (let [key, value] of Object.entries(date.date)) {
+      date = new Date(value)
+
+      return parseDate(date)
+    };
+
+  })
   // get infections
   let infections = obj.map(infections => {
       let totals = infections.total_confirmed + infections.total_recovered + infections.total_deaths;
       return totals;
   })
-  // get infection rate and days of infection
+  // get infection rate
   let infectionRate = [];
-  let days = [];
-  let rate, day;
+  let rate;
   for (var i=0; i < infections.length; i++) {
-    day = i + 1
-    rate = infections[i] / day
-    infectionRate.push(rate);
-    days.push(day);
+    if (i === 0) {
+      rate = infections[i]
+      infectionRate.push(rate);
+    } else {
+      rate = infections[i] - infections[i - 1]
+      infectionRate.push(rate);
+    }
   }
   // plot data
 
   let trace1 = {
-    x: days,
+    x: dates,
     y: infectionRate,
     line: {
       color: 'limegreen',
@@ -127,14 +142,101 @@ function infectionRate(obj) {
       autotick: false,
       showgrid: false},
     yaxis: {
-      dtick: 300,
+      dtick: 2000,
       showgrid: false},
     title: "Infection Rate"
 }
   Plotly.newPlot('upper-left-chart', [trace1], layout )
 };
 
+function infectionByRegion(obj) {
+  /// This function takes in the api/date object
+  /// and calculates the infection rate per day.
+  /// The data is then used to create a Plotly chart
+  /// tracking the infection rate
+  console.log(obj);
+  // Format the data
 
+  //get days
+  let parseDate = d3.timeFormat("%Y-%m-%d")
+  let date;
+  let dates;
+  dates = obj.map(date => {
+    for (let [key, value] of Object.entries(date.date)) {
+      date = new Date(value)
+
+      return parseDate(date)
+    };
+
+  })
+
+  // get infections by region
+  let china = [];
+  let notChina = [];
+  let country, cases, sum;
+  let countries = obj.map(data => {
+    let chinaSum = 0;
+    let notChinaSum = 0;
+    for (const property in data.locations) {
+      country = data.locations[property].region;
+      if (country === "Mainland China") {
+        sum = data.locations[property].confirmed + data.locations[property].deaths + data.locations[property].recovered;
+        chinaSum += sum;
+      }else {
+        sum = data.locations[property].confirmed + data.locations[property].deaths + data.locations[property].recovered;
+        notChinaSum += sum;
+
+      }
+
+    }
+    notChina.push(notChinaSum);
+    china.push(chinaSum);
+
+  })
+
+
+  let trace1 = {
+    x: dates,
+    y: china,
+    name: "Mainland China",
+    line: {
+      color: 'orange',
+      width: 2
+    }
+  }
+  let trace2 = {
+    x: dates,
+    y: notChina,
+    name: "World",
+    line: {
+      color: '#ff00cc',
+      width: 2
+    }
+  }
+  let layout = {
+    paper_bgcolor:'rgba(0,0,0,0)',
+    plot_bgcolor:'rgba(0,0,0,0)',
+    font: {
+        family:"Courier New, monospace",
+        size:18,
+        color:"white"
+    },
+    xaxis: {
+      autotick: false,
+      showgrid: false},
+    yaxis: {
+      // dtick: 300,
+      showgrid: false},
+    title: "Total Infections",
+    showlegend:true,
+    legend: {
+      x: 0.1,
+      y: 1,
+      traceorder: 'normal',
+    }
+}
+  Plotly.newPlot('upper-right-chart', [trace1, trace2], layout )
+};
 
 
 
@@ -154,4 +256,6 @@ d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
   lastUpdated(result);
   // Create infection rate chart
   infectionRate(result);
+  // Create infection by region chart
+  infectionByRegion(result);
 })
