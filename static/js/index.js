@@ -83,34 +83,18 @@ function lastUpdated(obj) {
 };
 
 function infectionRate(obj) {
-
-  var parseTime = d3.timeParse("%d-%b");
+  /// This function takes in the api/date object
+  /// and calculates the infection rate per day.
+  /// The data is then used to create a Plotly chart
+  /// tracking the infection rate
 
   // Format the data
-
-
   // infectionRate = infections / Day
-  console.log(obj);
-
-  // get total days
-  // let dates = obj.map(date => {
-  //   var dateArr = [];
-  //   for (let [key, value] of Object.entries(date.date)) {
-  //     parseDate = d3.timeParse("%Y-%m-%d")
-  //     let date = new Date(value);
-  //     dateArr.push(parseDate(date));
-  //   };
-  //   return dateArr.join();
-  // });
-  // console.log(dates);
-
   // get infections
   let infections = obj.map(infections => {
       let totals = infections.total_confirmed + infections.total_recovered + infections.total_deaths;
       return totals;
   })
-  console.log(infections);
-
   // get infection rate and days of infection
   let infectionRate = [];
   let days = [];
@@ -121,8 +105,6 @@ function infectionRate(obj) {
     infectionRate.push(rate);
     days.push(day);
   }
-  console.log(infectionRate);
-  console.log(days);
   // plot data
 
   let trace1 = {
@@ -132,9 +114,8 @@ function infectionRate(obj) {
       color: 'limegreen',
       width: 2
     }
-
   }
-  layout= {
+  let layout = {
     paper_bgcolor:'rgba(0,0,0,0)',
     plot_bgcolor:'rgba(0,0,0,0)',
     font: {
@@ -158,12 +139,16 @@ function infectionRate(obj) {
       pad: 4
     }
 }
+<<<<<<< HEAD
 
   Plotly.newPlot('upper-left-chart', [trace1], layout , {responsive: true})
 
 
 
 
+=======
+  Plotly.newPlot('upper-left-chart', [trace1], layout )
+>>>>>>> e79f86967088a70000d9526c4ad0213ba7a04690
 };
 
 
