@@ -1,7 +1,7 @@
 
 this.d3v3 = d3
 
-var width = 960,
+var width = 600,
     height = 500,
     root;
 
@@ -9,14 +9,14 @@ var force = d3v3.layout.force()
     .size([width, height])
     .on("tick", tick);
 
-var svg = d3v3.select("body").append("svg")
+var svg = d3v3.select("#corona-chart").append("svg")
     .attr("width", width)
     .attr("height", height);
 
 var link = svg.selectAll(".link"),
     node = svg.selectAll(".node");
 
-d3v3.json("./static/js/readme.json", function(error, json) {
+d3v3.json("./static/js/coronavirus.json", function(error, json) {
   if (error) throw error;
 
   root = json;

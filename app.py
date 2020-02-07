@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, render_template, redirect, current_app
 from pymongo import MongoClient
 from bson.json_util import dumps
+import article_scraper
 
 app = Flask(__name__)
 username = 'Terra925'
@@ -14,6 +15,7 @@ cases = [case for case in cases_collection.find()]
 date_collection = db['cases_by_date']
 data = [date for date in date_collection.find()]
 
+news_feed = article_scraper.scrape()
 
 @app.route('/', methods=['GET'])
 def home():
@@ -34,6 +36,11 @@ def api_case_location(location):
 def api_latest_data():
     date_list = list(date_collection.find())
     return current_app.response_class(dumps(date_list), mimetype="application/json")
+
+@app.route('/api/timeline', methods=['GET'])
+def api_time_line():
+    timeline = news_feed
+    return current_app.response_class(dumps(timeline), mimetype="application/json")
 
 if __name__ == '__main__':
     app.run(debug=True)

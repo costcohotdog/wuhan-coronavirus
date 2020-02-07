@@ -55,3 +55,7 @@ body, .bg-dark {
   stroke: #9ecae1;
   stroke-width: 1.5px;
 }
+
+.spread-charts {
+  background-color: rgb(88, 88, 88);
+}
