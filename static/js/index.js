@@ -1,4 +1,6 @@
 
+
+
 function getDOMElements() {
   // This function gets DOM elements and returns them
   // to other functions for ease of use.
@@ -235,9 +237,8 @@ function infectionByRegion(obj) {
       autotick: false,
       showgrid: true,
       gridwidth: 1,
-      gridcolor: '#7A7A7A '},
+      gridcolor: '#7A7A7A'},
     yaxis: {
-      // dtick: 300,
       showgrid: false},
     title: "Total Infections",
     showlegend:true,
