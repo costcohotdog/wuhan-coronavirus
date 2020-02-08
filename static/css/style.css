@@ -1,3 +1,7 @@
+#mapid {
+  height: 500px;
+}
+
 .navbar-light .navbar-brand, .update-text, body {
     color: white;
 }
