@@ -16,7 +16,7 @@ var svg = d3v3.select("#corona-chart").append("svg")
 var link = svg.selectAll(".link"),
     node = svg.selectAll(".node");
 
-d3v3.json("./static/js/coronavirus.json", function(error, json) {
+d3v3.json("../static/js/coronavirus.json", function(error, json) {
   if (error) throw error;
 
   root = json;

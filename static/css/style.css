@@ -1,5 +1,5 @@
 #mapid {
-  height: 500px;
+  height: 600px;
 }
 
 .navbar-light .navbar-brand, .update-text, body {
@@ -7,11 +7,11 @@
 }
 
 .totals {
-  background-color: rgb(88, 88, 88);
+  background-color: rgb(61, 61, 61);
 }
 
 body, .bg-dark {
-    background: rgb(54, 54, 54);
+    background: rgb(26, 26, 26);
 }
 
 .bg-dark {
