@@ -62,6 +62,7 @@
 
       <!-- Two charts above the map -->
       <div class="upper-charts row">
+
         <div id='upper-left-chart' class="col-md-6">
           <!-- <img src="https://www.chartphp.com/wp-content/uploads/dark-line.png" alt="" style="width:100%;height:100%;"> -->
         </div>
@@ -87,6 +88,20 @@
         </div>
       </div>
 
+      <!-- Spread charts below bottom charts -->
+      <div class="spread-charts row">
+
+          <div id='corona-chart'></div>
+
+
+      </div>
+
+      <div class="timeline row">
+
+
+      </div>
+
+
       <!-- Twitter feed and table -->
       <div class="row mt-3">
 
@@ -104,8 +119,10 @@
     </div>
 
   </body>
-
+  <script src="../static/js/d3.v3.min.js"></script>
+  <script src="../static/js/coronavirus.js"></script>
   <!-- D3 JavaScript -->
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.7/d3.min.js"></script>
 
   <!-- Plotly JavaScript -->
@@ -113,7 +130,9 @@
 
 
   <!-- Local JavaScript -->
+
   <script src="../static/js/index.js"></script>
+  <script src="../static/js/news_feed.js"></script>
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
