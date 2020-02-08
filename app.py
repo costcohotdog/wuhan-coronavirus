@@ -15,12 +15,19 @@ cases = [case for case in cases_collection.find()]
 date_collection = db['cases_by_date']
 data = [date for date in date_collection.find()]
 
+sars_collection = db['sars']
+data = [day for day in sars_collection.find()]
+
 news_feed = article_scraper.scrape()
 
 @app.route('/', methods=['GET'])
 def home():
     return render_template('index.html', data=cases)
 
+@app.route('/api/sars',methods=['GET'])
+def api_sars():
+    sars_list = list(sars_collection.find())
+    return current_app.response_class(dumps(sars_list), mimetype="application/json")
 
 @app.route('/api/cases',methods=['GET'])
 def api_case():
