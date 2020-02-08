@@ -261,8 +261,159 @@ function infectionByRegion(obj) {
 
 
 
+function comparisonInfectionChart(coronaData, sarsData) {
+
+  console.log(coronaData);
+  console.log(sarsData);
+  let coronaInfections = coronaData.map(infections => {
+      let totals = infections.total_confirmed + infections.total_recovered + infections.total_deaths;
+      return totals;
+  })
+  console.log(coronaInfections);
+  let sarsInfections = sarsData.map(infections => {
+      let totals = infections.infected + infections.deaths;
+      return totals;
+  })
+  console.log(sarsInfections);
+
+  let days = [];
+  for (var i=0; i < sarsInfections.length; i++) {
+    days.push(i)
+
+  }
+  console.log(days);
 
 
+
+  let trace1 = {
+    x: days,
+    y: coronaInfections,
+    name: "Coronavirus",
+    line: {
+      color: 'orange',
+      width: 2
+    }
+  }
+  let trace2 = {
+    x: days,
+    y: sarsInfections,
+    name: "SARS",
+    line: {
+      color: '#ff00cc',
+      width: 2
+    }
+  }
+
+  let layout = {
+    paper_bgcolor:'rgba(0,0,0,0)',
+    plot_bgcolor:'rgba(0,0,0,0)',
+    font: {
+        family:"Courier New, monospace",
+        size:18,
+        color:"white"
+    },
+    xaxis: {
+      autotick: false,
+      showgrid: true,
+      gridwidth: 1,
+      gridcolor: '#7A7A7A'},
+    yaxis: {
+      showgrid: false},
+    title: "Total Infections",
+    showlegend:true,
+    legend: {
+      x: 0.1,
+      y: 1,
+      traceorder: 'normal',
+    },
+    autosize: true,
+    margin: {
+      l: 50,
+      r: 50,
+      b: 50,
+      t: 50,
+      pad: 4
+    }
+}
+
+
+
+  Plotly.newPlot('lower-left-chart', [trace1, trace2], layout, {responsive: true, displayModeBar: false})
+}
+
+function comparisonDeathChart(coronaData, sarsData) {
+
+  console.log(coronaData);
+  console.log(sarsData);
+  let coronaInfections = coronaData.map(infections => infections.total_deaths);
+  console.log(coronaInfections);
+  let sarsInfections = sarsData.map(infections => infections.deaths);
+  console.log(sarsInfections);
+
+  let days = [];
+  for (var i=0; i < sarsInfections.length; i++) {
+    days.push(i)
+
+  }
+  console.log(days);
+
+
+
+  let trace1 = {
+    x: days,
+    y: coronaInfections,
+    name: "Coronavirus",
+    line: {
+      color: 'orange',
+      width: 2
+    }
+  }
+  let trace2 = {
+    x: days,
+    y: sarsInfections,
+    name: "SARS",
+    line: {
+      color: '#ff00cc',
+      width: 2
+    }
+  }
+
+  let layout = {
+    paper_bgcolor:'rgba(0,0,0,0)',
+    plot_bgcolor:'rgba(0,0,0,0)',
+    font: {
+        family:"Courier New, monospace",
+        size:18,
+        color:"white"
+    },
+    xaxis: {
+      autotick: false,
+      showgrid: true,
+      gridwidth: 1,
+      gridcolor: '#7A7A7A'},
+    yaxis: {
+      showgrid: false},
+    title: "Total Deaths",
+    showlegend:true,
+    legend: {
+      x: 0.1,
+      y: 1,
+      traceorder: 'normal',
+    },
+    autosize: true,
+    margin: {
+      l: 50,
+      r: 50,
+      b: 50,
+      t: 50,
+      pad: 4
+    }
+}
+
+
+
+  Plotly.newPlot('lower-right-chart', [trace1, trace2], layout, {responsive: true, displayModeBar: false})
+}
 
 
 
@@ -270,12 +421,21 @@ function infectionByRegion(obj) {
 
 d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
 
+  let coronaData = result
   // Update Total Counts
-  totalCounts(result);
+  totalCounts(coronaData);
   // Update the Last Updated Value
-  lastUpdated(result);
+  lastUpdated(coronaData);
   // Create infection rate chart
-  infectionRate(result);
+  infectionRate(coronaData);
   // Create infection by region chart
-  infectionByRegion(result);
+  infectionByRegion(coronaData);
+
+  d3.json('http://127.0.0.1:5000/api/sars').then(function(result,error) {
+    let sarsData = result
+
+
+    comparisonInfectionChart(coronaData, sarsData)
+    comparisonDeathChart(coronaData, sarsData)
+  })
 })
