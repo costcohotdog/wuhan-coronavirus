@@ -43,12 +43,14 @@ function totalCounts(obj) {
   }
   const totalCountries = countries.length
 
+  let counterDif = totalInfected - 700;
+
   //4. Update DOM
   let elements = getDOMElements()
   elements.infected.append('p').text(totalInfected);
   elements.deaths.append('p').text(totalDeaths);
   elements.countries.append('p').text(totalCountries)
-  animateValue("total-infected-number", 25000, totalInfected, 0);
+  animateValue("total-infected-number", counterDif, totalInfected, 0);
   animateValue("total-deaths-number", 0, totalDeaths, 3500);
   animateValue("total-countries-number", 0, totalCountries, 3500);
 
@@ -313,8 +315,11 @@ function comparisonInfectionChart(coronaData, sarsData) {
         color:"white"
     },
     xaxis: {
-      autotick: false,
+      autotick: true,
       showgrid: true,
+      tickmode: 'linear',
+      tick0: 0,
+      dtick: 10,
       gridwidth: 1,
       gridcolor: '#7A7A7A'},
     yaxis: {
@@ -387,8 +392,11 @@ function comparisonDeathChart(coronaData, sarsData) {
         color:"white"
     },
     xaxis: {
-      autotick: false,
+      autotick: true,
       showgrid: true,
+      tickmode: 'linear',
+      tick0: 0,
+      dtick: 10,
       gridwidth: 1,
       gridcolor: '#7A7A7A'},
     yaxis: {

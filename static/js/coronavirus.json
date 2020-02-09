@@ -3,172 +3,175 @@
  "size": 50000,
  "children": [
    {
-      "name": "patient2",
+      "name": "patient0",
+      "size": 20000,
       "children": [
        {"name": "AxisLayout", "size": 9000, "children": [
          {"name": "AxisLayout", "size": 5000, "children": [
-           {"name": "AxisLayout", "size": 5000},
-           {"name": "BundledEdgeRouter", "size": 5000},
-           {"name": "CircleLayout", "size": 5000}
+           {"name": "AxisLayout", "size": 3000},
+           {"name": "BundledEdgeRouter", "size": 3000},
+           {"name": "CircleLayout", "size": 3000}
            ]},
          {"name": "BundledEdgeRouter", "size": 5000, "children": [
-           {"name": "AxisLayout", "size": 5000},
-           {"name": "BundledEdgeRouter", "size": 5000},
-           {"name": "CircleLayout", "size": 5000}
+           {"name": "AxisLayout", "size": 3000},
+           {"name": "BundledEdgeRouter", "size": 3000},
+           {"name": "CircleLayout", "size": 3000}
            ]},
          {"name": "CircleLayout", "size": 5000, "children": [
-           {"name": "AxisLayout", "size": 5000},
-           {"name": "BundledEdgeRouter", "size": 5000},
-           {"name": "CircleLayout", "size": 5000}
+           {"name": "AxisLayout", "size": 3000},
+           {"name": "BundledEdgeRouter", "size": 3000},
+           {"name": "CircleLayout", "size": 3000}
            ]}
          ]},
        {"name": "BundledEdgeRouter", "size": 9000, "children": [
          {"name": "AxisLayout", "size": 5000, "children": [
-           {"name": "AxisLayout", "size": 5000},
-           {"name": "BundledEdgeRouter", "size": 5000},
-           {"name": "CircleLayout", "size": 5000}
+           {"name": "AxisLayout", "size": 3000},
+           {"name": "BundledEdgeRouter", "size": 3000},
+           {"name": "CircleLayout", "size": 3000}
            ]},
          {"name": "BundledEdgeRouter", "size": 5000, "children": [
-           {"name": "AxisLayout", "size": 5000},
-           {"name": "BundledEdgeRouter", "size": 5000},
-           {"name": "CircleLayout", "size": 5000}
+           {"name": "AxisLayout", "size": 3000},
+           {"name": "BundledEdgeRouter", "size": 3000},
+           {"name": "CircleLayout", "size": 3000}
            ]},
          {"name": "CircleLayout", "size": 5000, "children": [
-           {"name": "AxisLayout", "size": 5000},
-           {"name": "BundledEdgeRouter", "size": 5000},
-           {"name": "CircleLayout", "size": 5000}
+           {"name": "AxisLayout", "size": 3000},
+           {"name": "BundledEdgeRouter", "size": 3000},
+           {"name": "CircleLayout", "size": 3000}
            ]}
          ]},
        {"name": "CircleLayout", "size": 9000, "children": [
          {"name": "AxisLayout", "size": 5000, "children": [
-           {"name": "AxisLayout", "size": 5000},
-           {"name": "BundledEdgeRouter", "size": 5000},
-           {"name": "CircleLayout", "size": 5000}
+           {"name": "AxisLayout", "size": 3000},
+           {"name": "BundledEdgeRouter", "size": 3000},
+           {"name": "CircleLayout", "size": 3000}
            ]},
          {"name": "BundledEdgeRouter", "size": 5000, "children": [
-           {"name": "AxisLayout", "size": 5000},
-           {"name": "BundledEdgeRouter", "size": 5000},
-           {"name": "CircleLayout", "size": 5000}
+           {"name": "AxisLayout", "size": 3000},
+           {"name": "BundledEdgeRouter", "size": 3000},
+           {"name": "CircleLayout", "size": 3000}
            ]},
          {"name": "CircleLayout", "size": 5000, "children": [
-           {"name": "AxisLayout", "size": 5000},
-           {"name": "BundledEdgeRouter", "size": 5000},
-           {"name": "CircleLayout", "size": 5000}
+           {"name": "AxisLayout", "size": 3000},
+           {"name": "BundledEdgeRouter", "size": 3000},
+           {"name": "CircleLayout", "size": 3000}
            ]}
          ]}
       ]
     },
      {
-        "name": "patient2",
+       "name": "patient0",
+       "size": 20000,
+       "children": [
+        {"name": "AxisLayout", "size": 9000, "children": [
+          {"name": "AxisLayout", "size": 5000, "children": [
+            {"name": "AxisLayout", "size": 3000},
+            {"name": "BundledEdgeRouter", "size": 3000},
+            {"name": "CircleLayout", "size": 3000}
+            ]},
+          {"name": "BundledEdgeRouter", "size": 5000, "children": [
+            {"name": "AxisLayout", "size": 3000},
+            {"name": "BundledEdgeRouter", "size": 3000},
+            {"name": "CircleLayout", "size": 3000}
+            ]},
+          {"name": "CircleLayout", "size": 5000, "children": [
+            {"name": "AxisLayout", "size": 3000},
+            {"name": "BundledEdgeRouter", "size": 3000},
+            {"name": "CircleLayout", "size": 3000}
+            ]}
+          ]},
+        {"name": "BundledEdgeRouter", "size": 9000, "children": [
+          {"name": "AxisLayout", "size": 5000, "children": [
+            {"name": "AxisLayout", "size": 3000},
+            {"name": "BundledEdgeRouter", "size": 3000},
+            {"name": "CircleLayout", "size": 3000}
+            ]},
+          {"name": "BundledEdgeRouter", "size": 5000, "children": [
+            {"name": "AxisLayout", "size": 3000},
+            {"name": "BundledEdgeRouter", "size": 3000},
+            {"name": "CircleLayout", "size": 3000}
+            ]},
+          {"name": "CircleLayout", "size": 5000, "children": [
+            {"name": "AxisLayout", "size": 3000},
+            {"name": "BundledEdgeRouter", "size": 3000},
+            {"name": "CircleLayout", "size": 3000}
+            ]}
+          ]},
+        {"name": "CircleLayout", "size": 9000, "children": [
+          {"name": "AxisLayout", "size": 5000, "children": [
+            {"name": "AxisLayout", "size": 3000},
+            {"name": "BundledEdgeRouter", "size": 3000},
+            {"name": "CircleLayout", "size": 3000}
+            ]},
+          {"name": "BundledEdgeRouter", "size": 5000, "children": [
+            {"name": "AxisLayout", "size": 3000},
+            {"name": "BundledEdgeRouter", "size": 3000},
+            {"name": "CircleLayout", "size": 3000}
+            ]},
+          {"name": "CircleLayout", "size": 5000, "children": [
+            {"name": "AxisLayout", "size": 3000},
+            {"name": "BundledEdgeRouter", "size": 3000},
+            {"name": "CircleLayout", "size": 3000}
+            ]}
+          ]}
+       ]
+     },
+      {
+        "name": "patient0",
+        "size": 20000,
         "children": [
          {"name": "AxisLayout", "size": 9000, "children": [
            {"name": "AxisLayout", "size": 5000, "children": [
-             {"name": "AxisLayout", "size": 5000},
-             {"name": "BundledEdgeRouter", "size": 5000},
-             {"name": "CircleLayout", "size": 5000}
+             {"name": "AxisLayout", "size": 3000},
+             {"name": "BundledEdgeRouter", "size": 3000},
+             {"name": "CircleLayout", "size": 3000}
              ]},
            {"name": "BundledEdgeRouter", "size": 5000, "children": [
-             {"name": "AxisLayout", "size": 5000},
-             {"name": "BundledEdgeRouter", "size": 5000},
-             {"name": "CircleLayout", "size": 5000}
+             {"name": "AxisLayout", "size": 3000},
+             {"name": "BundledEdgeRouter", "size": 3000},
+             {"name": "CircleLayout", "size": 3000}
              ]},
            {"name": "CircleLayout", "size": 5000, "children": [
-             {"name": "AxisLayout", "size": 5000},
-             {"name": "BundledEdgeRouter", "size": 5000},
-             {"name": "CircleLayout", "size": 5000}
+             {"name": "AxisLayout", "size": 3000},
+             {"name": "BundledEdgeRouter", "size": 3000},
+             {"name": "CircleLayout", "size": 3000}
              ]}
            ]},
          {"name": "BundledEdgeRouter", "size": 9000, "children": [
            {"name": "AxisLayout", "size": 5000, "children": [
-             {"name": "AxisLayout", "size": 5000},
-             {"name": "BundledEdgeRouter", "size": 5000},
-             {"name": "CircleLayout", "size": 5000}
+             {"name": "AxisLayout", "size": 3000},
+             {"name": "BundledEdgeRouter", "size": 3000},
+             {"name": "CircleLayout", "size": 3000}
              ]},
            {"name": "BundledEdgeRouter", "size": 5000, "children": [
-             {"name": "AxisLayout", "size": 5000},
-             {"name": "BundledEdgeRouter", "size": 5000},
-             {"name": "CircleLayout", "size": 5000}
+             {"name": "AxisLayout", "size": 3000},
+             {"name": "BundledEdgeRouter", "size": 3000},
+             {"name": "CircleLayout", "size": 3000}
              ]},
            {"name": "CircleLayout", "size": 5000, "children": [
-             {"name": "AxisLayout", "size": 5000},
-             {"name": "BundledEdgeRouter", "size": 5000},
-             {"name": "CircleLayout", "size": 5000}
+             {"name": "AxisLayout", "size": 3000},
+             {"name": "BundledEdgeRouter", "size": 3000},
+             {"name": "CircleLayout", "size": 3000}
              ]}
            ]},
          {"name": "CircleLayout", "size": 9000, "children": [
            {"name": "AxisLayout", "size": 5000, "children": [
-             {"name": "AxisLayout", "size": 5000},
-             {"name": "BundledEdgeRouter", "size": 5000},
-             {"name": "CircleLayout", "size": 5000}
+             {"name": "AxisLayout", "size": 3000},
+             {"name": "BundledEdgeRouter", "size": 3000},
+             {"name": "CircleLayout", "size": 3000}
              ]},
            {"name": "BundledEdgeRouter", "size": 5000, "children": [
-             {"name": "AxisLayout", "size": 5000},
-             {"name": "BundledEdgeRouter", "size": 5000},
-             {"name": "CircleLayout", "size": 5000}
+             {"name": "AxisLayout", "size": 3000},
+             {"name": "BundledEdgeRouter", "size": 3000},
+             {"name": "CircleLayout", "size": 3000}
              ]},
            {"name": "CircleLayout", "size": 5000, "children": [
-             {"name": "AxisLayout", "size": 5000},
-             {"name": "BundledEdgeRouter", "size": 5000},
-             {"name": "CircleLayout", "size": 5000}
+             {"name": "AxisLayout", "size": 3000},
+             {"name": "BundledEdgeRouter", "size": 3000},
+             {"name": "CircleLayout", "size": 3000}
              ]}
            ]}
         ]
-      },
-      {
-         "name": "patient2",
-         "children": [
-          {"name": "AxisLayout", "size": 9000, "children": [
-            {"name": "AxisLayout", "size": 5000, "children": [
-              {"name": "AxisLayout", "size": 5000},
-              {"name": "BundledEdgeRouter", "size": 5000},
-              {"name": "CircleLayout", "size": 5000}
-              ]},
-            {"name": "BundledEdgeRouter", "size": 5000, "children": [
-              {"name": "AxisLayout", "size": 5000},
-              {"name": "BundledEdgeRouter", "size": 5000},
-              {"name": "CircleLayout", "size": 5000}
-              ]},
-            {"name": "CircleLayout", "size": 5000, "children": [
-              {"name": "AxisLayout", "size": 5000},
-              {"name": "BundledEdgeRouter", "size": 5000},
-              {"name": "CircleLayout", "size": 5000}
-              ]}
-            ]},
-          {"name": "BundledEdgeRouter", "size": 9000, "children": [
-            {"name": "AxisLayout", "size": 5000, "children": [
-              {"name": "AxisLayout", "size": 5000},
-              {"name": "BundledEdgeRouter", "size": 5000},
-              {"name": "CircleLayout", "size": 5000}
-              ]},
-            {"name": "BundledEdgeRouter", "size": 5000, "children": [
-              {"name": "AxisLayout", "size": 5000},
-              {"name": "BundledEdgeRouter", "size": 5000},
-              {"name": "CircleLayout", "size": 5000}
-              ]},
-            {"name": "CircleLayout", "size": 5000, "children": [
-              {"name": "AxisLayout", "size": 5000},
-              {"name": "BundledEdgeRouter", "size": 5000},
-              {"name": "CircleLayout", "size": 5000}
-              ]}
-            ]},
-          {"name": "CircleLayout", "size": 9000, "children": [
-            {"name": "AxisLayout", "size": 5000, "children": [
-              {"name": "AxisLayout", "size": 5000},
-              {"name": "BundledEdgeRouter", "size": 5000},
-              {"name": "CircleLayout", "size": 5000}
-              ]},
-            {"name": "BundledEdgeRouter", "size": 5000, "children": [
-              {"name": "AxisLayout", "size": 5000},
-              {"name": "BundledEdgeRouter", "size": 5000},
-              {"name": "CircleLayout", "size": 5000}
-              ]},
-            {"name": "CircleLayout", "size": 5000, "children": [
-              {"name": "AxisLayout", "size": 5000},
-              {"name": "BundledEdgeRouter", "size": 5000},
-              {"name": "CircleLayout", "size": 5000}
-              ]}
-            ]}
-         ]
-        }
+      }
    ]
   }
