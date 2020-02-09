@@ -1,22 +1,28 @@
-from selenium import webdriver as wb
-from time import sleep
+from bs4 import BeautifulSoup as bs
+import pandas as pd
+import requests
+
+
+url = 'https://www.pharmaceutical-technology.com/news/coronavirus-a-timeline-of-how-the-deadly-outbreak-evolved/'
+response = requests.get(url)
+soup = bs(response.text, 'html.parser')
 
 def scrape():
-
-    driver = wb.Chrome()
-    driver.get("https://www.pharmaceutical-technology.com/news/coronavirus-a-timeline-of-how-the-deadly-outbreak-evolved/")
-
-    articles = driver.find_elements_by_class_name('cc-blockquote')
-    current_date = driver.find_elements_by_class_name('update-date')[0].text
-    current_headline = driver.find_elements_by_xpath("//h1")[1].text
-
-    dates = driver.find_elements_by_class_name('update-date')
-
-    news_feed = {};
+    block = soup.find_all(class_='cc-blockquote')
     i = 0
-    for x in articles:
-        date = x.find_element_by_class_name('update-date').text
-        headline = x.find_elements_by_xpath("//h2//strong")[i].text
-        news_feed[f"article{i}"] = {'date': date, 'headline': headline}
+    news_feed = {};
+    for x in block:
+        date = x.find(class_='update-date').find('strong').text
+
+        if x.find(class_='update-date').find('h1') == None:
+            headline = x.find(class_='update-date').find('h2').text
+        else:
+            headline = x.find(class_='update-date').find('h1').text
+
+        news_feed[f"article{i}"] = {
+            'date': date,
+            'headline': headline
+        }
         i = i + 1
-    return news_feed
+    return(news_feed)
+scrape()
