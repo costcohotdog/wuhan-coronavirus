@@ -15,11 +15,10 @@ function updateNewsFeed(obj) {
     headlines: headlines
   }
 
-  div = d3.select(".timeline")
+  div = d3.select(".timeline").append('ul')
   let article, story;
   for (i=0; i < dates.length; i++) {
-    article = div.append("span").text(`${dates[i]} ${headlines[i]}`);
-    article.append('hr')
+    article = div.append("li").text(`${dates[i]} ${headlines[i]}`).append('hr');
   };
 
 
