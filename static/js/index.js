@@ -168,7 +168,7 @@ function infectionByRegion(obj) {
   /// and calculates the infection rate per day.
   /// The data is then used to create a Plotly chart
   /// tracking the infection rate
-  console.log(obj);
+  
   // Format the data
 
   //get days
@@ -265,25 +265,23 @@ function infectionByRegion(obj) {
 
 function comparisonInfectionChart(coronaData, sarsData) {
 
-  console.log(coronaData);
-  console.log(sarsData);
   let coronaInfections = coronaData.map(infections => {
       let totals = infections.total_confirmed + infections.total_recovered + infections.total_deaths;
       return totals;
   })
-  console.log(coronaInfections);
+  
   let sarsInfections = sarsData.map(infections => {
       let totals = infections.infected + infections.deaths;
       return totals;
   })
-  console.log(sarsInfections);
+ 
 
   let days = [];
   for (var i=0; i < sarsInfections.length; i++) {
     days.push(i)
 
   }
-  console.log(days);
+
 
 
 
@@ -348,19 +346,16 @@ function comparisonInfectionChart(coronaData, sarsData) {
 
 function comparisonDeathChart(coronaData, sarsData) {
 
-  console.log(coronaData);
-  console.log(sarsData);
   let coronaInfections = coronaData.map(infections => infections.total_deaths);
-  console.log(coronaInfections);
+
   let sarsInfections = sarsData.map(infections => infections.deaths);
-  console.log(sarsInfections);
 
   let days = [];
   for (var i=0; i < sarsInfections.length; i++) {
     days.push(i)
 
   }
-  console.log(days);
+
 
 
 
