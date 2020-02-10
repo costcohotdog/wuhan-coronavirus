@@ -23,12 +23,6 @@ function markers(result) {
     // create array of location data
     const locationsArray = Object.entries(locations)
     
-    var a = [
-        ["tag_17", 0, 4],
-        ["tag_18", 13, 18],
-        ["tag_435", 6, 11]
-    ];
-    
     // sort the locations in descending confirmed cases
     // helps selecting overlaying markers for popups
     locationsArray.sort(sortFunction);

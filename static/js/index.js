@@ -175,6 +175,71 @@ function highchartTotal(coronaData, sarsData) {
 
 }
 
+function totalcountsChart(obj) {
+
+  // get latest date
+  let latestDate = obj[obj.length - 1];
+
+  // 1. Calculate total countries
+  let totalConfirmed = latestDate.total_confirmed/100;
+  let totalRecovered = latestDate.total_recovered/100; 
+  let totalDeaths = latestDate.total_deaths/100;
+
+  Highcharts.chart('highchartstest', {
+
+    chart: {
+        type: 'item',
+        height: 200,
+        width:1000
+    },
+
+    title: {
+        text: 'Highcharts item chart'
+    },
+
+    legend: {
+        labelFormat: '{name} <span style="opacity: 0.4">{y}{totalConfirmed}</span>'
+    },
+
+    tooltip: {
+      useHTML: true,
+      headerFormat: '<small>{point.key}</small><table>',
+      pointFormat: '<tr>' +
+      '<td style="text-align: right"><b>{point.y} x 100</b></td></tr>',
+      footerFormat: '</table>',
+    },
+
+    series: [{
+        name: 'Representatives',
+        layout: 'horizontal',
+        data: [{
+            name: 'Confirmed',
+            y: totalConfirmed,
+            marker: {
+                symbol: 'url(https://i.ibb.co/Fshdn65/person-red.png)'
+            },
+            color: '#F23A2F'
+        }, {
+            name: 'Recovered',
+            y: totalRecovered,
+            marker: {
+                symbol: 'url(https://i.ibb.co/jLTNVN1/person-green.png)'
+            },
+            color: '#17FF00'
+        }, {
+          name: 'Dead',
+          y: totalDeaths,
+          marker: {
+              symbol: 'url(https://i.ibb.co/3p8Z91D/person-grey.png)'
+          },
+          color: '#8C8C8C'
+      }]
+    }]
+
+});
+
+}
+
 // function infectionRate(obj) {
 //   /// This function takes in the api/date object
 //   /// and calculates the infection rate per day.
@@ -500,8 +565,6 @@ function comparisonDeathChart(coronaData, sarsData) {
   Plotly.newPlot('lower-right-chart', [trace1, trace2], layout, {responsive: true, displayModeBar: false})
 }
 
-
-
 // Load Data then call functions...
 
 d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
@@ -509,6 +572,7 @@ d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
   let coronaData = result
   // Update Total Counts
   totalCounts(coronaData);
+  totalcountsChart(coronaData)
   // Update the Last Updated Value
   lastUpdated(coronaData);
   // Create infection rate chart
@@ -527,7 +591,10 @@ d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
 
 // highcharts theme
 Highcharts.theme = {
-  colors: ['#ff2e63', '#08d9d6', '#f45b5b', '#7798BF', '#aaeeee', '#ff0066',
+  lang: {
+    thousandsSep: ','
+  },
+  colors: ['red', '#08d9d6', '#f45b5b', '#7798BF', '#aaeeee', '#ff0066',
       '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
   chart: {
       backgroundColor: 'rgba(26, 26, 26)',
