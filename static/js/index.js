@@ -86,82 +86,171 @@ function lastUpdated(obj) {
   elements.lastUpdated.append('p').text(`Last Updated: ${dateObj.toLocaleDateString()}`);
 };
 
-function infectionRate(obj) {
-  /// This function takes in the api/date object
-  /// and calculates the infection rate per day.
-  /// The data is then used to create a Plotly chart
-  /// tracking the infection rate
-
-  // Format the data
-  // infectionRate = infections / Day
-
-  //get days
-  let parseDate = d3.timeFormat("%Y-%m-%d")
-  let date;
-  let dates;
-  dates = obj.map(date => {
-    for (let [key, value] of Object.entries(date.date)) {
-      date = new Date(value)
-
-      return parseDate(date)
-    };
-
+function highchartTotal(coronaData, sarsData) {
+  
+  // get total coronavirus infections
+  let coronaInfections = coronaData.map(infections => {
+    let totals = infections.total_confirmed + infections.total_recovered + infections.total_deaths;
+    return totals;
   })
-  // get infections
-  let infections = obj.map(infections => {
-      let totals = infections.total_confirmed + infections.total_recovered + infections.total_deaths;
-      return totals;
+  
+  // get total sars infections
+  let sarsInfections = sarsData.map(infections => {
+    let totals = infections.infected + infections.deaths;
+    return totals;
   })
-  // get infection rate
-  let infectionRate = [];
-  let rate;
-  for (var i=0; i < infections.length; i++) {
-    if (i === 0) {
-      rate = infections[i]
-      infectionRate.push(rate);
-    } else {
-      rate = infections[i] - infections[i - 1]
-      infectionRate.push(rate);
-    }
-  }
-  // plot data
 
-  let trace1 = {
-    x: dates,
-    y: infectionRate,
-    line: {
-      color: 'limegreen',
-      width: 2
-    }
+  // get days
+  let days = [];
+  for (var i=0; i < sarsInfections.length; i++) {
+    days.push(i)
   }
-  let layout = {
-    paper_bgcolor:'rgba(0,0,0,0)',
-    plot_bgcolor:'rgba(0,0,0,0)',
-    font: {
-        family:"Courier New, monospace",
-        size:18,
-        color:"white"
+
+  Highcharts.chart('upper-left-chart', {
+
+    title: {
+        text: 'Total Infections'
     },
-    xaxis: {
-      autotick: false,
-      showgrid: true,
-      gridwidth: 1,
-      gridcolor: '#7A7A7A '},
-    yaxis: {
-      dtick: 1000,
-      showgrid: false},
-    title: "Infection Rate",
-    autosize: true,
-    margin: {
-      l: 50,
-      r: 50,
-      b: 50,
-      t: 50,
-      pad: 4
+
+    subtitle: {
+        text: '2019-nCoV vs. SARS'
+    },
+
+    yAxis: {
+        title: {
+            text: 'Infected'
+        }
+    },
+
+    xAxis: {
+      title: {
+          text: 'Days Since Outbreak'
+      }
+    },
+
+    tooltip: {
+      shared: true,
+      useHTML: true,
+      headerFormat: '<small>Day {point.key}</small><table>',
+      pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
+      '<td style="text-align: right"><b>{point.y}</b></td></tr>',
+      footerFormat: '</table>',
+    },
+
+    legend: {
+        enabled: false
+    },
+
+    plotOptions: {
+        series: {
+            label: {
+                connectorAllowed: false
+            },
+            pointStart: 1
+        }
+    },
+
+    series: [{
+        name: '2019-nCoV',
+        data: coronaInfections
+    }, {
+        name: 'SARS',
+        data: sarsInfections
+    }],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    enabled: false
+                }
+            }
+        }]
     }
-  }
-  Plotly.newPlot('upper-left-chart', [trace1], layout, {responsive: true, displayModeBar: false})
-};
+
+  });
+
+}
+
+// function infectionRate(obj) {
+//   /// This function takes in the api/date object
+//   /// and calculates the infection rate per day.
+//   /// The data is then used to create a Plotly chart
+//   /// tracking the infection rate
+
+//   // Format the data
+//   // infectionRate = infections / Day
+
+//   //get days
+//   let parseDate = d3.timeFormat("%Y-%m-%d")
+//   let date;
+//   let dates;
+//   dates = obj.map(date => {
+//     for (let [key, value] of Object.entries(date.date)) {
+//       date = new Date(value)
+
+//       return parseDate(date)
+//     };
+
+//   })
+//   // get infections
+//   let infections = obj.map(infections => {
+//       let totals = infections.total_confirmed + infections.total_recovered + infections.total_deaths;
+//       return totals;
+//   })
+//   // get infection rate
+//   let infectionRate = [];
+//   let rate;
+//   for (var i=0; i < infections.length; i++) {
+//     if (i === 0) {
+//       rate = infections[i]
+//       infectionRate.push(rate);
+//     } else {
+//       rate = infections[i] - infections[i - 1]
+//       infectionRate.push(rate);
+//     }
+//   }
+//   // plot data
+
+//   let trace1 = {
+//     x: dates,
+//     y: infectionRate,
+//     line: {
+//       color: 'limegreen',
+//       width: 2
+//     }
+//   }
+//   let layout = {
+//     paper_bgcolor:'rgba(0,0,0,0)',
+//     plot_bgcolor:'rgba(0,0,0,0)',
+//     font: {
+//         family:"Courier New, monospace",
+//         size:18,
+//         color:"white"
+//     },
+//     xaxis: {
+//       autotick: false,
+//       showgrid: true,
+//       gridwidth: 1,
+//       gridcolor: '#7A7A7A '},
+//     yaxis: {
+//       dtick: 1000,
+//       showgrid: false},
+//     title: "Infection Rate",
+//     autosize: true,
+//     margin: {
+//       l: 50,
+//       r: 50,
+//       b: 50,
+//       t: 50,
+//       pad: 4
+//     }
+//   }
+//   Plotly.newPlot('upper-left-chart', [trace1], layout, {responsive: true, displayModeBar: false})
+// };
 
 function infectionByRegion(obj) {
   /// This function takes in the api/date object
@@ -261,8 +350,6 @@ function infectionByRegion(obj) {
   Plotly.newPlot('upper-right-chart', [trace1, trace2], layout, {responsive: true, displayModeBar: false})
 };
 
-
-
 function comparisonInfectionChart(coronaData, sarsData) {
 
   let coronaInfections = coronaData.map(infections => {
@@ -279,10 +366,7 @@ function comparisonInfectionChart(coronaData, sarsData) {
   let days = [];
   for (var i=0; i < sarsInfections.length; i++) {
     days.push(i)
-
   }
-
-
 
 
   let trace1 = {
@@ -357,8 +441,6 @@ function comparisonDeathChart(coronaData, sarsData) {
   }
 
 
-
-
   let trace1 = {
     x: days,
     y: coronaInfections,
@@ -430,15 +512,209 @@ d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
   // Update the Last Updated Value
   lastUpdated(coronaData);
   // Create infection rate chart
-  infectionRate(coronaData);
+  // infectionRate(coronaData);
   // Create infection by region chart
   infectionByRegion(coronaData);
 
   d3.json('http://127.0.0.1:5000/api/sars').then(function(result,error) {
     let sarsData = result
 
-
-    comparisonInfectionChart(coronaData, sarsData)
-    comparisonDeathChart(coronaData, sarsData)
+    comparisonInfectionChart(coronaData, sarsData);
+    comparisonDeathChart(coronaData, sarsData);
+    highchartTotal(coronaData, sarsData);
   })
 })
+
+// highcharts theme
+Highcharts.theme = {
+  colors: ['#ff2e63', '#08d9d6', '#f45b5b', '#7798BF', '#aaeeee', '#ff0066',
+      '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
+  chart: {
+      backgroundColor: 'rgba(26, 26, 26)',
+      style: {
+          fontFamily: '\'Unica One\', sans-serif'
+      },
+      plotBorderColor: '#606063'
+  },
+  title: {
+      style: {
+          color: '#E0E0E3',
+          textTransform: 'uppercase',
+          fontSize: '20px'
+      }
+  },
+  subtitle: {
+      style: {
+          color: '#E0E0E3',
+          textTransform: 'uppercase'
+      }
+  },
+  xAxis: {
+      gridLineColor: '#707073',
+      labels: {
+          style: {
+              color: '#E0E0E3'
+          }
+      },
+      lineColor: '#707073',
+      minorGridLineColor: '#505053',
+      tickColor: '#707073',
+      title: {
+          style: {
+              color: '#A0A0A3'
+          }
+      }
+  },
+  yAxis: {
+      gridLineColor: '#707073',
+      labels: {
+          style: {
+              color: '#E0E0E3'
+          }
+      },
+      lineColor: '#707073',
+      minorGridLineColor: '#505053',
+      tickColor: '#707073',
+      tickWidth: 1,
+      title: {
+          style: {
+              color: '#A0A0A3'
+          }
+      }
+  },
+  tooltip: {
+      backgroundColor: 'rgba(0, 0, 0, 0.85)',
+      style: {
+          color: '#F0F0F0'
+      }
+  },
+  plotOptions: {
+      series: {
+          dataLabels: {
+              color: '#F0F0F3',
+              style: {
+                  fontSize: '13px'
+              }
+          },
+          marker: {
+              lineColor: '#333'
+          }
+      },
+      boxplot: {
+          fillColor: '#505053'
+      },
+      candlestick: {
+          lineColor: 'white'
+      },
+      errorbar: {
+          color: 'white'
+      }
+  },
+  legend: {
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      itemStyle: {
+          color: '#E0E0E3'
+      },
+      itemHoverStyle: {
+          color: '#FFF'
+      },
+      itemHiddenStyle: {
+          color: '#606063'
+      },
+      title: {
+          style: {
+              color: '#C0C0C0'
+          }
+      }
+  },
+  credits: {
+      style: {
+          color: '#666'
+      }
+  },
+  labels: {
+      style: {
+          color: '#707073'
+      }
+  },
+  drilldown: {
+      activeAxisLabelStyle: {
+          color: '#F0F0F3'
+      },
+      activeDataLabelStyle: {
+          color: '#F0F0F3'
+      }
+  },
+  navigation: {
+      buttonOptions: {
+          symbolStroke: '#DDDDDD',
+          theme: {
+              fill: '#505053'
+          }
+      }
+  },
+  // scroll charts
+  rangeSelector: {
+      buttonTheme: {
+          fill: '#505053',
+          stroke: '#000000',
+          style: {
+              color: '#CCC'
+          },
+          states: {
+              hover: {
+                  fill: '#707073',
+                  stroke: '#000000',
+                  style: {
+                      color: 'white'
+                  }
+              },
+              select: {
+                  fill: '#000003',
+                  stroke: '#000000',
+                  style: {
+                      color: 'white'
+                  }
+              }
+          }
+      },
+      inputBoxBorderColor: '#505053',
+      inputStyle: {
+          backgroundColor: '#333',
+          color: 'silver'
+      },
+      labelStyle: {
+          color: 'silver'
+      }
+  },
+  navigator: {
+      handles: {
+          backgroundColor: '#666',
+          borderColor: '#AAA'
+      },
+      outlineColor: '#CCC',
+      maskFill: 'rgba(255,255,255,0.1)',
+      series: {
+          color: '#7798BF',
+          lineColor: '#A6C7ED'
+      },
+      xAxis: {
+          gridLineColor: '#505053'
+      }
+  },
+  scrollbar: {
+      barBackgroundColor: '#808083',
+      barBorderColor: '#808083',
+      buttonArrowColor: '#CCC',
+      buttonBackgroundColor: '#606063',
+      buttonBorderColor: '#606063',
+      rifleColor: '#FFF',
+      trackBackgroundColor: '#404043',
+      trackBorderColor: '#404043'
+  }
+};
+
+// apply the theme
+Highcharts.setOptions(Highcharts.theme);
+
+

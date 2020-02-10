@@ -1,5 +1,5 @@
 // map object
-var mymap = L.map('mapid').setView([20, 0], 2);
+var mymap = L.map('mapid', {zoomControl: false}).setView([20, 0], 2);
 
 // basemap layer
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
