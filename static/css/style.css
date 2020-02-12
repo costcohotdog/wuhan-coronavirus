@@ -1,3 +1,7 @@
+p {
+  margin-bottom: 0;
+}
+
 #mapid {
   height: 600px;
 }
@@ -6,18 +10,40 @@
     color: white;
 }
 
-.totals {
-  /* background-color: rgb(52, 51, 49); */
-  background: rgb(26, 26, 26);
+#intro {
+  position: relative;
+  margin-top: 100px;
 }
+
+.intro-subtitle {
+  margin-top: 4rem;
+}
+
+.intro-backgroundimage {
+  position: absolute;
+  z-index: -1;
+  background-image: url(https://www.saubereluftmitmaske.eu/wp-content/uploads/2020/01/Coronaviruses_004_lores.jpg);
+  background-position-x: center;
+  background-size: cover;
+  background-position-y: center;
+  background-attachment: fixed;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: initial;
+  height: 300px;
+  width: 100%;
+  opacity: 0.5;
+}
+
+#intro-container {
+  height: 300px
+}
+
 
 body, .bg-dark {
-    background: rgb(26, 26, 26);
+    background: rgb(26, 26, 26)!important;
 }
 
-.bg-dark {
-    background: rgb(88, 88, 88)!important
-}
 
 .upper-charts, .lower-charts, #upper-left-chart {
     height: 400px;

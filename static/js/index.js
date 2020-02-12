@@ -175,6 +175,88 @@ function highchartTotal(coronaData, sarsData) {
 
 }
 
+function highchartTotalDeaths(coronaData, sarsData) {
+
+  // get total coronavirus infections
+  let coronaDeaths = coronaData.map(infections => infections.total_deaths);
+
+  // get total sars infections
+  let sarsDeaths = sarsData.map(infections => infections.deaths);
+
+  // get days
+  let days = [];
+  for (var i=0; i < sarsDeaths.length; i++) {
+    days.push(i)
+  }
+
+  Highcharts.chart('upper-right-chart', {
+
+    title: {
+        text: 'Total Deaths'
+    },
+
+    subtitle: {
+        text: '2019-nCoV vs. SARS'
+    },
+
+    yAxis: {
+        title: {
+            text: 'Deaths'
+        }
+    },
+
+    xAxis: {
+      title: {
+          text: 'Days Since Outbreak'
+      }
+    },
+
+    tooltip: {
+      shared: true,
+      useHTML: true,
+      headerFormat: '<small>Day {point.key}</small><table>',
+      pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
+      '<td style="text-align: right"><b>{point.y}</b></td></tr>',
+      footerFormat: '</table>',
+    },
+
+    legend: {
+        enabled: false
+    },
+
+    plotOptions: {
+        series: {
+            label: {
+                connectorAllowed: false
+            },
+            pointStart: 1
+        }
+    },
+
+    series: [{
+        name: '2019-nCoV',
+        data: coronaDeaths
+    }, {
+        name: 'SARS',
+        data: sarsDeaths
+    }],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    enabled: false
+                }
+            }
+        }]
+    }
+
+  });
+}
+
 function totalcountsChart(obj) {
 
   // get latest date
@@ -186,7 +268,7 @@ function totalcountsChart(obj) {
   let totalDeaths = latestDate.total_deaths/100;
 
   Highcharts.chart('highchartstest', {
-
+  
     chart: {
         type: 'item',
         height: 200,
@@ -198,7 +280,7 @@ function totalcountsChart(obj) {
     },
 
     legend: {
-        labelFormat: '{name} <span style="opacity: 0.4">{y}{totalConfirmed}</span>'
+        labelFormat: '{name} <span style="opacity: 0.4">{y}</span>'
     },
 
     tooltip: {
@@ -317,103 +399,103 @@ function totalcountsChart(obj) {
 //   Plotly.newPlot('upper-left-chart', [trace1], layout, {responsive: true, displayModeBar: false})
 // };
 
-function infectionByRegion(obj) {
-  /// This function takes in the api/date object
-  /// and calculates the infection rate per day.
-  /// The data is then used to create a Plotly chart
-  /// tracking the infection rate
+// function infectionByRegion(obj) {
+//   /// This function takes in the api/date object
+//   /// and calculates the infection rate per day.
+//   /// The data is then used to create a Plotly chart
+//   /// tracking the infection rate
   
-  // Format the data
+//   // Format the data
 
-  //get days
-  let parseDate = d3.timeFormat("%Y-%m-%d")
-  let date;
-  let dates;
-  dates = obj.map(date => {
-    for (let [key, value] of Object.entries(date.date)) {
-      date = new Date(value)
+//   //get days
+//   let parseDate = d3.timeFormat("%Y-%m-%d")
+//   let date;
+//   let dates;
+//   dates = obj.map(date => {
+//     for (let [key, value] of Object.entries(date.date)) {
+//       date = new Date(value)
 
-      return parseDate(date)
-    };
+//       return parseDate(date)
+//     };
 
-  })
+//   })
 
-  // get infections by region
-  let china = [];
-  let notChina = [];
-  let country, cases, sum;
-  let countries = obj.map(data => {
-    let chinaSum = 0;
-    let notChinaSum = 0;
-    for (const property in data.locations) {
-      country = data.locations[property].region;
-      if (country === "Mainland China") {
-        sum = data.locations[property].confirmed + data.locations[property].deaths + data.locations[property].recovered;
-        chinaSum += sum;
-      }else {
-        sum = data.locations[property].confirmed + data.locations[property].deaths + data.locations[property].recovered;
-        notChinaSum += sum;
+//   // get infections by region
+//   let china = [];
+//   let notChina = [];
+//   let country, cases, sum;
+//   let countries = obj.map(data => {
+//     let chinaSum = 0;
+//     let notChinaSum = 0;
+//     for (const property in data.locations) {
+//       country = data.locations[property].region;
+//       if (country === "Mainland China") {
+//         sum = data.locations[property].confirmed + data.locations[property].deaths + data.locations[property].recovered;
+//         chinaSum += sum;
+//       }else {
+//         sum = data.locations[property].confirmed + data.locations[property].deaths + data.locations[property].recovered;
+//         notChinaSum += sum;
 
-      }
+//       }
 
-    }
-    notChina.push(notChinaSum);
-    china.push(chinaSum);
+//     }
+//     notChina.push(notChinaSum);
+//     china.push(chinaSum);
 
-  })
+//   })
 
 
-  let trace1 = {
-    x: dates,
-    y: china,
-    name: "Mainland China",
-    line: {
-      color: 'orange',
-      width: 2
-    }
-  }
-  let trace2 = {
-    x: dates,
-    y: notChina,
-    name: "World",
-    line: {
-      color: '#ff00cc',
-      width: 2
-    }
-  }
-  let layout = {
-    paper_bgcolor:'rgba(0,0,0,0)',
-    plot_bgcolor:'rgba(0,0,0,0)',
-    font: {
-        family:"Courier New, monospace",
-        size:18,
-        color:"white"
-    },
-    xaxis: {
-      autotick: false,
-      showgrid: true,
-      gridwidth: 1,
-      gridcolor: '#7A7A7A'},
-    yaxis: {
-      showgrid: false},
-    title: "Total Infections",
-    showlegend:true,
-    legend: {
-      x: 0.1,
-      y: 1,
-      traceorder: 'normal',
-    },
-    autosize: true,
-    margin: {
-      l: 50,
-      r: 50,
-      b: 50,
-      t: 50,
-      pad: 4
-    }
-}
-  Plotly.newPlot('upper-right-chart', [trace1, trace2], layout, {responsive: true, displayModeBar: false})
-};
+//   let trace1 = {
+//     x: dates,
+//     y: china,
+//     name: "Mainland China",
+//     line: {
+//       color: 'orange',
+//       width: 2
+//     }
+//   }
+//   let trace2 = {
+//     x: dates,
+//     y: notChina,
+//     name: "World",
+//     line: {
+//       color: '#ff00cc',
+//       width: 2
+//     }
+//   }
+//   let layout = {
+//     paper_bgcolor:'rgba(0,0,0,0)',
+//     plot_bgcolor:'rgba(0,0,0,0)',
+//     font: {
+//         family:"Courier New, monospace",
+//         size:18,
+//         color:"white"
+//     },
+//     xaxis: {
+//       autotick: false,
+//       showgrid: true,
+//       gridwidth: 1,
+//       gridcolor: '#7A7A7A'},
+//     yaxis: {
+//       showgrid: false},
+//     title: "Total Infections",
+//     showlegend:true,
+//     legend: {
+//       x: 0.1,
+//       y: 1,
+//       traceorder: 'normal',
+//     },
+//     autosize: true,
+//     margin: {
+//       l: 50,
+//       r: 50,
+//       b: 50,
+//       t: 50,
+//       pad: 4
+//     }
+// }
+//   Plotly.newPlot('upper-right-chart', [trace1, trace2], layout, {responsive: true, displayModeBar: false})
+// };
 
 function comparisonInfectionChart(coronaData, sarsData) {
 
@@ -578,7 +660,7 @@ d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
   // Create infection rate chart
   // infectionRate(coronaData);
   // Create infection by region chart
-  infectionByRegion(coronaData);
+  // infectionByRegion(coronaData);
 
   d3.json('http://127.0.0.1:5000/api/sars').then(function(result,error) {
     let sarsData = result
@@ -586,6 +668,7 @@ d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
     comparisonInfectionChart(coronaData, sarsData);
     comparisonDeathChart(coronaData, sarsData);
     highchartTotal(coronaData, sarsData);
+    highchartTotalDeaths(coronaData, sarsData)
   })
 })
 
