@@ -1,6 +1,3 @@
-
-
-
 function getDOMElements() {
   // This function gets DOM elements and returns them
   // to other functions for ease of use.
@@ -15,7 +12,6 @@ function getDOMElements() {
 
   return elements
 };
-
 
 
 function totalCounts(obj) {
@@ -647,10 +643,16 @@ function comparisonDeathChart(coronaData, sarsData) {
   Plotly.newPlot('lower-right-chart', [trace1, trace2], layout, {responsive: true, displayModeBar: false})
 }
 
+
+
+
+
+
+
 // Load Data then call functions...
 
 d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
-
+  
   let coronaData = result
   // Update Total Counts
   totalCounts(coronaData);
