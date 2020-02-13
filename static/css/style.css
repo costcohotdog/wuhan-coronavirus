@@ -1,3 +1,7 @@
+p {
+  margin-bottom: 0;
+}
+
 #mapid {
   height: 600px;
 }
@@ -6,18 +10,104 @@
     color: white;
 }
 
-.totals {
-  /* background-color: rgb(52, 51, 49); */
-  background: rgb(26, 26, 26);
+#intro {
+  position: relative;
 }
+
+.intro-subtitle {
+  margin-top: 4rem;
+}
+
+.intro-backgroundimage {
+  position: absolute;
+  z-index: -1;
+  background-image: url(https://www.saubereluftmitmaske.eu/wp-content/uploads/2020/01/Coronaviruses_004_lores.jpg);
+  background-position-x: center;
+  background-size: cover;
+  background-position-y: center;
+  background-attachment: fixed;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: initial;
+  height: 300px;
+  width: 100%;
+  opacity: 0.5;
+}
+
+.newyear-backgroundimage {
+  position: absolute;
+  z-index: -1;
+  background-image: url(https://resize.hswstatic.com/w_907/gif/chinese-new-year-5.jpg);
+  background-position-x: center;
+  background-size: cover;
+  background-position-y: center;
+  background-attachment: fixed;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: initial;
+  height: 300px;
+  width: 100%;
+  opacity: 0.5;
+}
+
+.spread-backgroundimage {
+  position: absolute;
+  z-index: -1;
+  background-image: url(https://cosmos-production-assets.s3.amazonaws.com/file/spina/photo/14331/GettyImages-171136267.jpg);
+  background-position-x: center;
+  background-size: cover;
+  background-position-y: center;
+  background-attachment: fixed;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: initial;
+  height: 200px;
+  width: 100%;
+  opacity: 0.5;
+}
+
+.global-backgroundimage {
+  position: absolute;
+  z-index: -1;
+  background-image: url(https://static.wixstatic.com/media/aef0b1_a781bbe9d94147de8d7ec471aae0a991~mv2.jpg/v1/fit/w_1024,h_683,al_c,q_80/file.jpg);
+  background-position-x: center;
+  background-size: cover;
+  background-position-y: center;
+  background-attachment: fixed;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: initial;
+  height: 100px;
+  width: 100%;
+  opacity: 0.2;
+}
+
+#intro-container {
+  height: 300px;
+}
+
+#newyear-container {
+  height: 300px;
+  margin-top: 200px;
+  margin-bottom: 200px;
+}
+
+#spread-container {
+  height: 200px;
+  margin-bottom: 50px;
+}
+
+#global-container {
+  height: 100px;
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
 
 body, .bg-dark {
-    background: rgb(26, 26, 26);
+    background: rgb(26, 26, 26)!important;
 }
 
-.bg-dark {
-    background: rgb(88, 88, 88)!important
-}
 
 .upper-charts, .lower-charts, #upper-left-chart {
     height: 400px;

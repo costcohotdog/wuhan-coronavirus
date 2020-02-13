@@ -1,19 +1,21 @@
 // map object
-var mymap = L.map('mapid', {zoomControl: false}).setView([20, 0], 2);
+var mymap = L.map('mapid', { zoomControl: false }).setView([20, 0], 2);
 
-// basemap layer
-L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-    attribution: 'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    maxZoom: 10,
-    id: 'mapbox/dark-v10',
-    accessToken: 'pk.eyJ1IjoiY29zdGNvLWhvdGRvZyIsImEiOiJjazYxajkyNGUwNDljM2xvZnZjZmxmcjJqIn0.zW5wSAD1e2DKZIjtlAwNtQ'
-}).addTo(mymap);
+//  retrive data and run functions
+d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
 
-///////////////////////////////
-// markers and popups
-///////////////////////////////
-function markers(result) {
-    
+    // basemap layer
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        attribution: 'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 10,
+        id: 'mapbox/dark-v10',
+        accessToken: 'pk.eyJ1IjoiY29zdGNvLWhvdGRvZyIsImEiOiJjazYxajkyNGUwNDljM2xvZnZjZmxmcjJqIn0.zW5wSAD1e2DKZIjtlAwNtQ'
+    }).addTo(mymap);
+
+    ///////////////////////////////
+    // markers and popups
+    ///////////////////////////////
+
     // retrieve latest date
     latestDate = result[result.length-1]
 
@@ -22,6 +24,12 @@ function markers(result) {
 
     // create array of location data
     const locationsArray = Object.entries(locations)
+    
+    var a = [
+        ["tag_17", 0, 4],
+        ["tag_18", 13, 18],
+        ["tag_435", 6, 11]
+    ];
     
     // sort the locations in descending confirmed cases
     // helps selecting overlaying markers for popups
@@ -53,27 +61,15 @@ function markers(result) {
             color: 'red',
             fillColor: '#f03',
             fillOpacity: 0.5,
-            radius: confirmed*20
+            radius: confirmed*30
         }).addTo(mymap);
 
         // popup
-        var popup = `<strong>${location[0]}</strong><br>Confirmed: ${confirmed}<br>Recovered: ${recovered}<br>Deaths: ${deaths}`;
+        var toolTip = `<strong>${location[0]}</strong><br>Confirmed: ${confirmed}<br>Recovered: ${recovered}<br>Deaths: ${deaths}`;
 
         // bind popup
-        circle.bindPopup(popup);
+        circle.bindTooltip(toolTip);
     })
-}
 
-///////////////////////////////
-// map animation
-///////////////////////////////
-function timeline(result) {
-    console.log(result)
-}
-//  retrive data and run functions
-d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
 
-  markers(result);
-  timeline(result);
 })
-

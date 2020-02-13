@@ -18,59 +18,113 @@
     <link rel="stylesheet" href="../static/css/style.css">
     
 
-    <title>Wuhan Coronavirus Tracker</title>
+    <title>2019-nCoV</title>
 
   </head>
 
   <body>
     <nav class='navbar navbar-expand-lg navbar-light bg-dark'>
       <a class="navbar-brand" href="">
-        Wuhan Coronavirus Tracker
+        2019-nCoV
       </a>
-      <div id='last-updated' class='update-text ml-auto'>
-
-      </div>
+      <div id='last-updated' class='update-text ml-auto'></div>
     </nav>
+
+          <!-- Totals at top of page -->
+          <div class="totals row">
+
+            <!-- Infected -->
+            <div class="col-md-4 text-center">
+              <div id='total-infected-number' class='totals-numbers'>
+    
+              </div>
+              <div class='totals-text pb-3'>
+                Infected
+              </div>
+            </div>
+    
+            <!-- Deaths -->
+            <div class="col-md-4 text-center">
+              <div id ='total-deaths-number' class='totals-numbers'>
+    
+              </div>
+              <div class='totals-text'>
+                Deaths
+              </div>
+            </div>
+    
+            <!-- Countries -->
+            <div class="col-md-4 text-center">
+              <div id='total-countries-number' class='totals-numbers'>
+    
+              </div>
+              <div class='totals-text'>
+                Countries
+              </div>
+            </div>
+    
+          </div>
+
+
+    <section id="intro">
+      <div class="intro-backgroundimage"></div>
+      <div id='intro-container' class="container-lg">
+        <div class="row intro-text justify-content-center h-100">
+          <div class="col-md-8 my-auto text-center">
+            <h2>In December 2019, an outbreak of pneumonia occured near the Huanan Seafood Market in Wuan, China.</h2>
+            <h5 class='intro-subtitle'>By the end of January, over 57 million people were quarentined in 16 cities throughout Hubei province.</h5>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="newyear">
+        <div class="col-md-5">
+          <div class="newyear-backgroundimage"></div>
+        </div>
+      <div id="newyear-container">
+        <div class="row intro-text justify-content-left h-100">
+          <div class="col-md-5 my-auto text-center ml-3">
+              <h3>Assisted by the Chinese new year migration, the virus rapidly spread to other Chinese provinces.</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="spread">
+      <div class="row">
+        <div class="spread-backgroundimage"></div>
+      </div>
+      <div id='spread-container' class="container-lg">
+        <div class="row intro-text justify-content-center h-100">
+          <div class="col-md-8 my-auto text-center">
+            <h3>The virus was soon carried to other countries by international travellers.</h3>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <div class="container-lg">
 
-      <!-- Totals at top of page -->
-      <div class="totals row">
-
-        <!-- Infected -->
-        <div class="col-md-4 text-center">
-          <div id='total-infected-number' class='totals-numbers'>
-
-          </div>
-          <div class='totals-text pb-3'>
-            Infected
-          </div>
-        </div>
-
-        <!-- Deaths -->
-        <div class="col-md-4 text-center">
-          <div id ='total-deaths-number' class='totals-numbers'>
-
-          </div>
-          <div class='totals-text'>
-            Deaths
-          </div>
-        </div>
-
-        <!-- Countries -->
-        <div class="col-md-4 text-center">
-          <div id='total-countries-number' class='totals-numbers'>
-
-          </div>
-          <div class='totals-text'>
-            Countries
-          </div>
-        </div>
-
-      </div>
-
       <!-- Interactive Map -->
       <div id="mapid"></div>
+
+    </div>
+
+    <section id="global">
+      <div class="global-backgroundimage"></div>
+      <div id="global-container">
+        <div class="row h-100 justify-content-center">
+          <div class="col-md-8 my-auto text-center">
+              <h4>However, the spread of the virus has been minimized due to quarantine and travel restrictions. (so far)</h4>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="continer-lg">
+
+    
 
       <!-- Two charts below the map -->
       <div class="upper-charts row">
@@ -141,21 +195,23 @@
   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
   crossorigin=""></script>
+  
 
   <!-- highcharts -->
   <script src="https://code.highcharts.com/highcharts.js"></script>
   <script src="https://code.highcharts.com/modules/series-label.js"></script>
   <script src="https://code.highcharts.com/modules/item-series.js"></script>
 
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
   <!-- local  -->
   <script src="../static/js/index.js"></script>
   <script src="../static/js/news_feed.js"></script>
   <script src="../static/js/map.js"></script>
 
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  
 
   </html>
