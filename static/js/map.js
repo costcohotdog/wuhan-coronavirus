@@ -1,5 +1,5 @@
 // map object
-var mymap = L.map('mapid', { zoomControl: false }).setView([20, 0], 2);
+var mymap = L.map('mapid', { zoomControl: false }).setView([25, 0], 2);
 
 //  retrive data and run functions
 d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
@@ -61,7 +61,7 @@ d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
             color: 'red',
             fillColor: '#f03',
             fillOpacity: 0.5,
-            radius: confirmed*30
+            radius: (confirmed+1000)*30
         }).addTo(mymap);
 
         // popup
