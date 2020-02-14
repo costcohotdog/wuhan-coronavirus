@@ -165,3 +165,10 @@ body, .bg-dark {
 .spread-charts {
   background-color: rgb(88, 88, 88);
 }
+
+.line {
+  height: 1em;
+  width: 1em;
+  padding: 10px;
+  display: inline-block;
+}
