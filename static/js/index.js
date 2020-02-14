@@ -260,11 +260,11 @@ function totalcountsChart(obj) {
 
   // 1. Calculate total countries
   let totalConfirmed = latestDate.total_confirmed/100;
-  let totalRecovered = latestDate.total_recovered/100; 
+  let totalRecovered = latestDate.total_recovered/100;
   let totalDeaths = latestDate.total_deaths/100;
 
   Highcharts.chart('highchartstest', {
-  
+
     chart: {
         type: 'item',
         height: 200,
@@ -569,7 +569,7 @@ function worldInfections(obj) {
 //   /// and calculates the infection rate per day.
 //   /// The data is then used to create a Plotly chart
 //   /// tracking the infection rate
-  
+
 //   // Format the data
 
 //   //get days
@@ -668,12 +668,12 @@ function comparisonInfectionChart(coronaData, sarsData) {
       let totals = infections.total_confirmed + infections.total_recovered + infections.total_deaths;
       return totals;
   })
-  
+
   let sarsInfections = sarsData.map(infections => {
       let totals = infections.infected + infections.deaths;
       return totals;
   })
- 
+
 
   let days = [];
   for (var i=0; i < sarsInfections.length; i++) {
@@ -814,6 +814,89 @@ function comparisonDeathChart(coronaData, sarsData) {
 
 
 
+function stackedBarChart(obj) {
+
+  let parseDate = d3.timeFormat("%Y-%m-%d")
+  let date;
+  let dates;
+  dates = obj.map(date => {
+    for (let [key, value] of Object.entries(date.date)) {
+      date = new Date(value)
+
+      return parseDate(date)
+    };
+
+  })
+  // console.log(dates);
+  let lastDateObj = obj[obj.length - 1]
+
+
+  let states = [];
+  for (const property in lastDateObj.locations) {
+    if (lastDateObj.locations[property].region === "Mainland China") {
+      states.push(property);
+    }
+  }
+
+  let seriesObj = {
+    series: []
+  };
+  let post;
+  for (const i in states) {
+    post = {
+      name: states[i],
+      data: []
+    }
+    seriesObj.series.push(post)
+
+  }
+
+  let state, dataSeries, sum;
+  for (const location in seriesObj.series) {
+    state = seriesObj.series[location].name;
+
+    dataSeries = obj.map(data => {
+
+      for (const x in data.locations) {
+        if (x === state) {
+          sum = data.locations[x].confirmed + data.locations[x].recovered + data.locations[x].deaths;
+          seriesObj.series[location].data.push(sum)
+        }
+      }
+    });
+
+
+
+
+  };
+  console.log(seriesObj);
+  Highcharts.chart('stackedBar', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Infections in China'
+    },
+    xAxis: {
+        categories: dates
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Infections'
+        }
+    },
+    legend: {
+        reversed: true
+    },
+    plotOptions: {
+        series: {
+            stacking: 'normal'
+        }
+    },
+    series: seriesObj.series
+});
+};
 
 
 
@@ -821,7 +904,7 @@ function comparisonDeathChart(coronaData, sarsData) {
 // Load Data then call functions...
 
 d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
-  
+
   let coronaData = result
   // Update Total Counts
   totalCounts(coronaData);
@@ -835,6 +918,8 @@ d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
   // china vs world infections
   chinaWorldInfections(coronaData);
   worldInfections(coronaData);
+  // Create Doesn't Matter
+  stackedBarChart(coronaData);
 
   d3.json('http://127.0.0.1:5000/api/sars').then(function(result,error) {
     let sarsData = result
@@ -1040,5 +1125,3 @@ Highcharts.theme = {
 
 // apply the theme
 Highcharts.setOptions(Highcharts.theme);
-
-
