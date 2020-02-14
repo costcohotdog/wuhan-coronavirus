@@ -41,7 +41,7 @@ def api_case_location(location):
 
 @app.route('/api/date', methods=['GET'])
 def api_latest_data():
-    date_list = list(date_collection.find())
+    date_list = list(date_collection.find().sort('date'))
     return current_app.response_class(dumps(date_list), mimetype="application/json")
 
 @app.route('/api/timeline', methods=['GET'])
