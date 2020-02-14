@@ -13,10 +13,10 @@
 
     <!-- Google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Orbitron&display=swap" rel="stylesheet">
-    
+
     <!-- Local CSS -->
     <link rel="stylesheet" href="../static/css/style.css">
-    
+
 
     <title>2019-nCoV</title>
 
@@ -93,7 +93,7 @@
           </div>
         </div>
       </div>
-      
+
       <div id="spread">
         <div class="spread-backgroundimage"></div>
         <div id='spread-container'>
@@ -104,10 +104,10 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Interactive Map -->
       <div id="mapid"></div>
-      
+
       <section id="global">
         <div class="global-backgroundimage"></div>
         <div id="global-container">
@@ -118,19 +118,19 @@
           </div>
         </div>
       </section>
-      
+
       <div class="container-flex">
-      
-      
-      
+
+
+
         <!-- Two charts below the map -->
         <div class="row justify-content-center">
-      
+
           <div class="col-md-5">
-            <div id="upper-left-chart"></div>
+            <div id="china-vs-world-infections-chart"></div>
           </div>
           <div class="col-md-5">
-            <div id="upper-right-chart"></div>
+            <div id="world-countries-infections-chart"></div>
           </div>
           <div class="col-md-5">
             <div id="lower-left-chart"></div>
@@ -139,40 +139,44 @@
             <div id="lower-right-chart"></div>
           </div>
         </div>
-      
+
         <!-- Spread charts below bottom charts -->
         <div class="spread-charts row"></div>
         <div class="col-mg-5">
           <div id='corona-chart'></div>
         </div>
       </div>
-      
+
       <div class="timeline row">
       </div>
-      
-      
+
+
       <!-- Twitter feed and table -->
       <div class="row mt-3">
-      
+
         <!-- Twitter feed -->
         <div class="twitter-feed col-md-4">
           <img src="https://www.drupal.org/files/project-images/selective_tweets-screenshot-1.png" alt=""
             style="width:100%;height:100%;">
         </div>
-      
+
         <!-- Data table -->
         <div class="data-table col-md-8">
           <img src="https://i.ibb.co/dcFQK5m/Capture.png" alt="" style="width:100%;height:100%;">
         </div>
       </div>
-      
+
       <div class="row mt-3">
         <div id='highchartstest'></div>
       </div>
-      
+
+      <div class="row mt-3">
+        <div id='stackedBar'></div>
+      </div>
+
       </div>
     </div>
-    
+
 
   </body>
   <script src="../static/js/d3.v3.min.js"></script>
@@ -188,7 +192,7 @@
   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
   crossorigin=""></script>
-  
+
 
   <!-- highcharts -->
   <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -205,6 +209,6 @@
   <script src="../static/js/news_feed.js"></script>
   <script src="../static/js/map.js"></script>
 
-  
+
 
   </html>

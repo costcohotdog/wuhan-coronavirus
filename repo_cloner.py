@@ -121,9 +121,9 @@ for x in deaths_imports:
     z = x[0:6]
     i = i + 1
 
-confirmed_imports_filtered = confirmed_imports_filtered + list(confirmed_df.columns[0:4])
-recovered_imports_filtered = recovered_imports_filtered + list(recovered_df.columns[0:4])
-deaths_imports_filtered = deaths_imports_filtered + list(deaths_df.columns[0:4])
+confirmed_imports_filtered = confirmed_imports_filtered[::-1] + list(confirmed_df.columns[0:4])
+recovered_imports_filtered = recovered_imports_filtered[::-1] + list(recovered_df.columns[0:4])
+deaths_imports_filtered = deaths_imports_filtered[::-1] + list(deaths_df.columns[0:4])
 
 
 confirmed_df = confirmed_df[confirmed_imports_filtered]
@@ -155,6 +155,7 @@ df = df.iloc[:, [0,1,2,3,4,5,11,17]]
 
 by_date = df.groupby(["Date", "Province/State"]).max().reset_index()
 totals = by_date.groupby("Date")["Confirmed Cases", "Recovered Cases", "Death Cases"].sum().reset_index()
+totals.sort_values(by='Date', ascending=True, inplace=True)
 
 totals['Date'] = pd.to_datetime(totals['Date'])
 by_date['Date'] = pd.to_datetime(by_date['Date'])
