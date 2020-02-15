@@ -66,21 +66,21 @@ last_update.strftime("%m/%d/%Y")
 i = 0
 confirmed_imports = []
 for x in confirmed_dates_formatted:
-    if x >= last_update:
+    if x > last_update:
         confirmed_imports.append(confirmed_columns[i])
     i = i + 1
 
 i = 0
 recovered_imports = []
 for x in recovered_dates_formatted:
-    if x >= last_update:
+    if x > last_update:
         recovered_imports.append(recovered_columns[i])
     i = i + 1
 
 i = 0
 deaths_imports = []
 for x in deaths_dates_formatted:
-    if x >= last_update:
+    if x > last_update:
         deaths_imports.append(deaths_columns[i])
     i = i + 1
 

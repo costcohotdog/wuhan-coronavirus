@@ -15,50 +15,56 @@ function updateNewsFeed(obj) {
     headlines: headlines
   }
 
-  div = d3.select(".timeline").append('ul')
+  div = d3.select(".timeline").append('div')
   let article, story;
   for (i=0; i < dates.length; i++) {
-    article = div.append("li").text(`${dates[i]} ${headlines[i]}`).append('hr');
+    article = div.append("h3").text(`${dates[i]}`).classed('story-date', true).classed('text-center', true).attr('id', `story-date${i}`)
+              .on('mouseover', function() {
+                d3.select(this).style('color', 'darkOrange')
+              })
+              .on('mouseout', function() {
+                d3.select(this).style('color', 'white')
+              });
+    story = article.append('h4').text(`${headlines[i]}`).classed('headline', true).classed('text-center', true).attr('id', `headline${i}`);
   };
 
-// <svg width="50" height="50">
-// <line x1="5" y1="5" x2="40" y2="40" stroke="gray" stroke-width="5"  />
-// </svg>
 
-let svgContainer = d3.select('#timeline').append("svg")
-    .attr('width', 2000)
-    .attr('height', 200)
-    .attr('style', 'display: block;')
-    let svgData = {
-      series: []
+
+
+  for (let i=0; i < dates.length; i++) {
+    if (i >= 9) {
+      document.getElementById(`headline${i}`).style.display = 'none';
+      document.getElementById(`story-date${i}`).style.display = 'none';
+    } else {
+      document.getElementById(`headline${i}`).style.display = 'block';
+      document.getElementById(`story-date${i}`).style.display = 'block';
     }
-    let post;
-  for (let i=0; i < timeline.dates.length; i = i + 3) {
-      post = {
-        dates: [timeline.dates[i], timeline.dates[i + 1], timeline.dates[i+2]],
-        headlines: [timeline.headlines[i], timeline.headlines[i + 1], timeline.headlines[i+2]]
-      }
-
-      svgData.series.push(post);
   }
-  let lines = svgData.series.map((data, index) => {
-    let line = svgContainer.append('line')
-        .attr('x1', 0)
-        .attr('y1', 20 * (index + 1))
-        .attr('x2', 1000)
-        .attr('y2', 20 * (index + 1))
-        .attr('id', `line${index}`)
-        .classed('line', true)
-        .attr('stroke-width', 2)
-        .attr('stroke', 'yellow')
-  });
 
-  let horizontalLines = svg.selectAll('line')
+  let button = d3.select('#show-more')
+  let buttonText;
+  button.on('click', function() {
+    buttonText = button.text()
+    if (buttonText === 'Show More') {
+      for (let i=0; i < dates.length; i++) {
+        document.getElementById(`headline${i}`).style.display = 'block';
+        document.getElementById(`story-date${i}`).style.display = 'block';
+        button.text('Show Less');
+      }
+    } else {
+      for (let i=0; i < dates.length; i++) {
+        if (i >= 9) {
+          document.getElementById(`headline${i}`).style.display = 'none';
+          document.getElementById(`story-date${i}`).style.display = 'none';
+          button.text('Show More');
+        }
+      }
+    }
+    document.getElementById('timeline').scrollIntoView();
 
-  console.log(horizontalLines.nodes().map( d => d.getAttribute('x1')) );
 
+  })
 
-  console.log(svgData)
 
 
 };
