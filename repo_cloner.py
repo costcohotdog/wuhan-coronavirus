@@ -7,15 +7,15 @@ import pymongo
 import dns
 
 path = 'C:/Users/Terra/corona_data'  ### CHANGE THIS TO A DIFFERENT PATH THAN THE CORONAVIRUS REPO
-data_folder = 'C:/Users/Terra/corona_data/time_series/'  ### CHANGE THIS TO A DIFFERENT PATH THAN THE CORONAVIRUS REPO
+data_folder = 'C:/Users/terra/corona_data/csse_covid_19_data/csse_covid_19_time_series/'  ### CHANGE THIS TO A DIFFERENT PATH THAN THE CORONAVIRUS REPO
 
 g = git.cmd.Git(path)
 g.pull()
 
 
-confirmed_file = data_folder + 'time_series_2019-ncov-Confirmed.csv'
-recovered_file = data_folder + 'time_series_2019-ncov-Recovered.csv'
-deaths_file = data_folder + 'time_series_2019-ncov-Deaths.csv'
+confirmed_file = data_folder + 'time_series_19-covid-Confirmed.csv'
+recovered_file = data_folder + 'time_series_19-covid-Recovered.csv'
+deaths_file = data_folder + 'time_series_19-covid-Deaths.csv'
 
 
 confirmed_df = pd.read_csv(confirmed_file)

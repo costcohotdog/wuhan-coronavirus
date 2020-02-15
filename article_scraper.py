@@ -12,17 +12,20 @@ def scrape():
     i = 0
     news_feed = {};
     for x in block:
-        date = x.find(class_='update-date').find('strong').text
+        try:
+            date = x.find(class_='update-date').find('strong').text
 
-        if x.find(class_='update-date').find('h1') == None:
-            headline = x.find(class_='update-date').find('h2').text
-        else:
-            headline = x.find(class_='update-date').find('h1').text
+            if x.find(class_='update-date').find('h1') == None:
+                headline = x.find(class_='update-date').find('h2').text
+            else:
+                headline = x.find(class_='update-date').find('h1').text
 
-        news_feed[f"article{i}"] = {
-            'date': date,
-            'headline': headline
-        }
+            news_feed[f"article{i}"] = {
+                'date': date,
+                'headline': headline
+            }
+        except:
+            print(f"Could not load article at index {i}. Check HTML.")
         i = i + 1
     return(news_feed)
 scrape()
