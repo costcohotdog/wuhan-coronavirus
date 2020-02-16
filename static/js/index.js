@@ -76,20 +76,22 @@ function lastUpdated(obj) {
   const latest = obj[obj.length -1]
   for (let [key, value] of Object.entries(latest.date)) {
     date = value
+
   };
   const dateObj = new Date(date);
+  dateObj.setTime( dateObj.getTime() - new Date().getTimezoneOffset()*60*(-1000) );
   const elements = getDOMElements();
   elements.lastUpdated.append('p').text(`Last Updated: ${dateObj.toLocaleDateString()}`);
 };
 
 // function highchartTotal(coronaData, sarsData) {
-  
+
 //   // get total coronavirus infections
 //   let coronaInfections = coronaData.map(infections => {
 //     let totals = infections.total_confirmed + infections.total_recovered + infections.total_deaths;
 //     return totals;
 //   })
-  
+
 //   // get total sars infections
 //   let sarsInfections = sarsData.map(infections => {
 //     let totals = infections.infected + infections.deaths;
@@ -411,7 +413,7 @@ function chinaWorldInfections(obj) {
 
     // have to add a blank to the 0 index for highcharts for some reason
     dates.unshift('filler')
-    
+
 
     // get infections by region
     let china = [];
@@ -440,17 +442,17 @@ function chinaWorldInfections(obj) {
         title: {
             text: 'Total Infections'
         },
-    
+
         subtitle: {
             text: 'China vs. World'
         },
-    
+
         yAxis: {
             title: {
                 text: 'Infections'
             }
         },
-    
+
         xAxis: {
             categories: dates,
             title: {
@@ -460,7 +462,7 @@ function chinaWorldInfections(obj) {
                 enabled: false
             }
         },
-    
+
         tooltip: {
           shared: true,
           useHTML: true,
@@ -469,11 +471,11 @@ function chinaWorldInfections(obj) {
           '<td style="text-align: right"><b>{point.y}</b></td></tr>',
           footerFormat: '</table>',
         },
-    
+
         legend: {
             enabled: false
         },
-    
+
         plotOptions: {
             series: {
                 label: {
@@ -482,7 +484,7 @@ function chinaWorldInfections(obj) {
                 pointStart: 1
             }
         },
-    
+
         series: [{
             name: 'China',
             data: china
@@ -490,7 +492,7 @@ function chinaWorldInfections(obj) {
             name: 'World',
             data: notChina
         }],
-    
+
         responsive: {
             rules: [{
                 condition: {
@@ -503,29 +505,28 @@ function chinaWorldInfections(obj) {
                 }
             }]
         }
-    
+
     });
 
 }
 
 function worldInfections(obj) {
-    
+
     // retrieve latest date
     latestDate = obj[obj.length-1]
-    
+
 
     let countries =[];
-    
+
     for (const property in latestDate.locations) {
         if (countries.includes(latestDate.locations[property].region)) {
             continue
         }
         else {
             countries.push(latestDate.locations[property].region)
-        }   
+        }
     }
 
-    console.log(countries)
 
     let chinaSeries = [];
     let worldSeries = [];
@@ -539,7 +540,7 @@ function worldInfections(obj) {
             if (latestDate.locations[property].region === countries[i]) {
 
                 countrySum += latestDate.locations[property].confirmed + latestDate.locations[property].deaths + latestDate.locations[property].recovered
-                
+
             }
         }
 
@@ -932,7 +933,6 @@ function stackedBarChart(obj) {
 
 
   };
-  console.log(seriesObj);
   Highcharts.chart('stackedBar', {
     chart: {
         type: 'column'

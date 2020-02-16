@@ -191,9 +191,25 @@ body, .bg-dark {
   background-color: rgb(88, 88, 88);
 }
 
-.line {
-  height: 1em;
-  width: 1em;
+.timeline {
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 5px;
+  border-color: #a3a3a3;
   padding: 10px;
-  display: inline-block;
+}
+
+.story-date {
+  padding-top: 15px;
+  padding-bottom: 2px;
+  padding-left: 5px;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.headline {
+  padding-left: 5px;
+  padding-top: 2px;
+  padding-bottom: 15px;
+  font-family: 'Arial';
+  border-bottom: 2px solid #a3a3a3;
 }
