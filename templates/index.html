@@ -82,18 +82,22 @@
       </div>
 
       <div id="newyear">
-        <div class="col-md-5 pl-0">
-          <div class="newyear-backgroundimage"></div>
-          <div id='newyear-container'>
-            <div class="row justify-content-center h-100">
-              <div class="col-md-12 my-auto text-center">
-                <h3>Assisted by the Chinese new year migration, the virus rapidly spread to other Chinese provinces.</h3>
+        <div class="row ml-3 mr-3">
+          <div class="col-md-5">
+            <div class="newyear-backgroundimage"></div>
+            <div id='newyear-container'>
+              <div class="row justify-content-center h-100">
+                <div class="col-md-12 my-auto text-center">
+                  <h3>Assisted by the Chinese new year migration, the virus quickly spread to other Chinese provinces.</h3>
+                  <h5 class='intro-subtitle'>However, the spread was primarily contained in Hubei (Wuhan's province).</h5>
+                </div>
               </div>
-
             </div>
-
+            <!-- <div id='timeline'></div> -->
           </div>
-          <div id='timeline'></div>
+          <div class="col-md-7">
+            <div id='stackedBar'></div>
+          </div>
         </div>
       </div>
 
@@ -111,30 +115,35 @@
       <!-- Interactive Map -->
       <div id="mapid"></div>
 
-      <section id="global">
-        <div class="global-backgroundimage"></div>
-        <div id="global-container">
-          <div class="row h-100 justify-content-center">
-            <div class="col-md-6 my-auto text-center">
-              <h4>However, the spread of the virus has been minimized due to quarantine and travel restrictions. (so far)</h4>
+      <div id="global">
+        <div class="row ml-3 mr-3" style="height: 600px;">
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-12">
+                <div id="china-vs-world-infections-chart" style="height: 300px;"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div id="world-countries-infections-chart" style="height: 300px;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="global-backgroundimage"></div>
+            <div id="global-container">
+              <div class="row h-100 justify-content-center">
+                <div class="col-md-12 mt-3 pl-6 text-center">
+                  <h4>The spread of the virus in other countries has been minimized due to quarantine and travel restrictions. (so far)</h4>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </section>
-
-      <div class="container-flex">
-
-
+      </div>
 
         <!-- Two charts below the map -->
         <div class="row justify-content-center">
-
-          <div class="col-md-5">
-            <div id="china-vs-world-infections-chart"></div>
-          </div>
-          <div class="col-md-5">
-            <div id="world-countries-infections-chart"></div>
-          </div>
           <div class="col-md-5">
             <div id="lower-left-chart"></div>
           </div>
@@ -148,7 +157,6 @@
         <div class="col-mg-5">
           <div id='corona-chart'></div>
         </div>
-      </div>
 
       <div class="timeline row">
       </div>
@@ -171,10 +179,6 @@
 
       <div class="row mt-3">
         <div id='highchartstest'></div>
-      </div>
-
-      <div class="row mt-3">
-        <div id='stackedBar'></div>
       </div>
 
       </div>
@@ -201,6 +205,7 @@
   <script src="https://code.highcharts.com/highcharts.js"></script>
   <script src="https://code.highcharts.com/modules/series-label.js"></script>
   <script src="https://code.highcharts.com/modules/item-series.js"></script>
+  <script src="https://code.highcharts.com/highcharts-more.js"></script>
 
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

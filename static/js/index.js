@@ -399,10 +399,12 @@ function chinaWorldInfections(obj) {
     //get days
     let parseDate = d3.timeFormat("%m/%d/%Y")
     let date;
+    
     dates = obj.map(date => {
         for (let [key, value] of Object.entries(date.date)) {
-        date = new Date(value)
-
+        date = new Date(value);
+        date.setTime( date.getTime() - new Date().getTimezoneOffset()*60*(-1000));
+    
         return parseDate(date)
         };
     })
@@ -435,7 +437,6 @@ function chinaWorldInfections(obj) {
     })
 
     Highcharts.chart('china-vs-world-infections-chart', {
-
         title: {
             text: 'Total Infections'
         },
@@ -526,7 +527,8 @@ function worldInfections(obj) {
 
     console.log(countries)
 
-    let dataArray = [];
+    let chinaSeries = [];
+    let worldSeries = [];
 
     for (i in countries) {
 
@@ -543,12 +545,70 @@ function worldInfections(obj) {
 
         let post = {
             name: countries[i],
-            data: countrySum
+            value: countrySum
         }
-        dataArray.push(post)
+        
+        if (countries[i] === 'Mainland China') {
+            chinaSeries.push(post);
+        }
+        else {
+            worldSeries.push(post);
+        }
+        
     }
 
-    console.log(dataArray)
+    console.log(chinaSeries)
+    console.log(worldSeries)
+
+    Highcharts.chart('world-countries-infections-chart', {
+        chart: {
+            type: 'packedbubble'
+        },
+        title: {
+            text: ''
+        },
+        subtitle: {
+            text: '',
+        },
+        tooltip: {
+            useHTML: true,
+            pointFormat: '<b>{point.name}:</b> {point.y}'
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            packedbubble: {
+                useSimulation: false,
+                minSize: '50%',
+                maxSize: '80%',
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.name}',
+                    filter: {
+                        property: 'y',
+                        operator: '>',
+                        value: 250
+                    },
+                    style: {
+                        color: 'black',
+                        textOutline: 'none',
+                        fontWeight: 'normal'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'China',
+            data: chinaSeries
+        },
+        {
+            name: 'World',
+            data: worldSeries,
+            color: 'white'
+        }]    
+    });
+    
 
 
 
@@ -822,6 +882,7 @@ function stackedBarChart(obj) {
   dates = obj.map(date => {
     for (let [key, value] of Object.entries(date.date)) {
       date = new Date(value)
+      date.setTime( date.getTime() - new Date().getTimezoneOffset()*60*(-1000));
 
       return parseDate(date)
     };
@@ -847,8 +908,12 @@ function stackedBarChart(obj) {
       name: states[i],
       data: []
     }
-    seriesObj.series.push(post)
-
+    if (states[i] === 'Hubei') {
+        seriesObj.series.unshift(post)
+    }
+    else {
+        seriesObj.series.push(post)
+    }
   }
 
   let state, dataSeries, sum;
@@ -866,8 +931,6 @@ function stackedBarChart(obj) {
     });
 
 
-
-
   };
   console.log(seriesObj);
   Highcharts.chart('stackedBar', {
@@ -876,6 +939,9 @@ function stackedBarChart(obj) {
     },
     title: {
         text: 'Infections in China'
+    },
+    subtitle: {
+        text: 'By Province'
     },
     xAxis: {
         categories: dates
@@ -887,7 +953,7 @@ function stackedBarChart(obj) {
         }
     },
     legend: {
-        reversed: true
+        enabled: false
     },
     plotOptions: {
         series: {

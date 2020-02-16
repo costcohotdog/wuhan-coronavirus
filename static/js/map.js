@@ -1,6 +1,7 @@
 // map object
-var mymap = L.map('mapid', { zoomControl: false }).setView([25, 0], 2);
-
+var mymap = L.map('mapid', { zoomControl: false, scrollWheelZoom: false }).setView([25, 0], 2);
+mymap.on('focus', function() { mymap.scrollWheelZoom.enable(); });
+mymap.on('blur', function() { mymap.scrollWheelZoom.disable(); });
 //  retrive data and run functions
 d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
 

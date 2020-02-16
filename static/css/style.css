@@ -1,3 +1,19 @@
+.test-square-blue {
+  background-color: aqua;
+  height: 100%;
+  width: 100%;
+}
+
+#china-vs-world-infections-chart, #world-countries-infections-chart {
+  width: 100%;
+}
+
+.test-square-red {
+  background-color: rgb(255, 0, 0);
+  height: 100%;
+  width: 100%;
+}
+
 html,body
 {
     width: 100%;
@@ -13,6 +29,8 @@ p {
 
 #mapid {
   height: 700px;
+  margin-left: 50px;
+  margin-right: 50px
 }
 
 .navbar-light .navbar-brand, .update-text, body {
@@ -53,8 +71,8 @@ p {
   background-origin: initial;
   background-clip: initial;
   background-color: initial;
-  height: 300px;
-  width: 100%;
+  height: 350px;
+  width: 95%;
   opacity: 0.5;
 }
 
@@ -77,16 +95,16 @@ p {
 .global-backgroundimage {
   position: absolute;
   z-index: -1;
-  background-image: url(https://static.wixstatic.com/media/aef0b1_a781bbe9d94147de8d7ec471aae0a991~mv2.jpg/v1/fit/w_1024,h_683,al_c,q_80/file.jpg);
+  background-image: url(https://user32265.clients-cdnnow.ru/localStorage/post/7f/10/67/0e/7f10670e_resizedScaled_740to986.jpg);
   background-position-x: center;
   background-size: cover;
-  background-position-y: center;
+  background-position-y: bottom;
   background-origin: initial;
   background-clip: initial;
   background-color: initial;
-  height: 100px;
-  width: 100%;
-  opacity: 0.3;
+  height: 600px;
+  width: 95%;
+  opacity: 0.5;
 }
 
 #intro-container {
@@ -94,9 +112,18 @@ p {
 }
 
 #newyear-container {
-  height: 300px;
+  height: 350px;
+}
+
+#newyear {
   margin-top: 200px;
   margin-bottom: 200px;
+}
+
+#global {
+  margin-top: 200px;
+  margin-bottom: 100px;
+  height: 600px;
 }
 
 #spread-container {
@@ -105,9 +132,7 @@ p {
 }
 
 #global-container {
-  height: 100px;
-  margin-top: 50px;
-  margin-bottom: 100px;
+  height: 500px;
 }
 
 
