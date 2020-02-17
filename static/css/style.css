@@ -1,12 +1,4 @@
-.test-square-blue {
-  background-color: aqua;
-  height: 100%;
-  width: 100%;
-}
 
-#china-vs-world-infections-chart, #world-countries-infections-chart {
-  width: 100%;
-}
 
 .test-square-red {
   background-color: rgb(255, 0, 0);
@@ -107,8 +99,27 @@ p {
   opacity: 0.5;
 }
 
+.deaths-backgroundimage {
+  position: absolute;
+  z-index: -1;
+  background-image: url(https://i.ibb.co/KL9Rmck/49534370233-1376f512b1-k.jpg);
+  background-position-x: center;
+  background-size: cover;
+  background-position-y: bottom;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: initial;
+  height: 100%;
+  width: 95%;
+  opacity: 0.5;
+}
+
 #intro-container {
   height: 300px;
+}
+
+#deaths-container {
+  height: 100%;
 }
 
 #newyear-container {
