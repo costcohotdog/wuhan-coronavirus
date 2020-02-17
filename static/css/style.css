@@ -71,7 +71,7 @@ p {
   background-origin: initial;
   background-clip: initial;
   background-color: initial;
-  height: 350px;
+  height: 100%;
   width: 95%;
   opacity: 0.5;
 }
@@ -102,7 +102,7 @@ p {
   background-origin: initial;
   background-clip: initial;
   background-color: initial;
-  height: 600px;
+  height: 100%;
   width: 95%;
   opacity: 0.5;
 }
@@ -112,7 +112,7 @@ p {
 }
 
 #newyear-container {
-  height: 350px;
+  height: 100%;
 }
 
 #newyear {

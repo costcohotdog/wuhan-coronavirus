@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="../static/css/style.css">
 
 
-    <title>2019-nCoV</title>
+    <title>COVID-19</title>
 
   </head>
 
@@ -26,7 +26,7 @@
 
     <nav class='navbar navbar-expand-lg navbar-light bg-dark'>
       <a class="navbar-brand" href="">
-        2019-nCoV
+        COVID-19
       </a>
       <div id='last-updated' class='update-text ml-auto'></div>
     </nav>
@@ -66,7 +66,7 @@
 
     </div>
 
-    <div class="container-flex">
+    <div class="container-lg">
 
       <div id="intro">
         <div class="intro-backgroundimage"></div>
@@ -81,8 +81,8 @@
         </div>
       </div>
 
-      <div id="newyear">
-        <div class="row ml-3 mr-3">
+
+        <div class="row" style="margin-top: 200px; margin-bottom: 200px;height: 400px;">
           <div class="col-md-5">
             <div class="newyear-backgroundimage"></div>
             <div id='newyear-container'>
@@ -99,7 +99,6 @@
             <div id='stackedBar'></div>
           </div>
         </div>
-      </div>
 
       <div id="spread">
         <div class="spread-backgroundimage"></div>
@@ -115,32 +114,33 @@
       <!-- Interactive Map -->
       <div id="mapid"></div>
 
-      <div id="global">
-        <div class="row ml-3 mr-3" style="height: 600px;">
+      
+        <div id ="global" class="row ml-3 mr-3" style="height: 900px;">
           <div class="col-md-8">
             <div class="row">
               <div class="col-md-12">
-                <div id="china-vs-world-infections-chart" style="height: 300px;"></div>
+                <div id="china-vs-world-infections-chart" style="height: 450px;"></div>
               </div>
             </div>
             <div class="row">
               <div class="col-md-12">
-                <div id="world-countries-infections-chart" style="height: 300px;"></div>
+                <div id="world-countries-infections-chart" style="height: 450px;"></div>
               </div>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4 text-center">
             <div class="global-backgroundimage"></div>
             <div id="global-container">
-              <div class="row h-100 justify-content-center">
-                <div class="col-md-12 mt-3 pl-6 text-center">
-                  <h4>The spread of the virus in other countries has been minimized due to quarantine and travel restrictions. (so far)</h4>
+              <div class="row justify-content-center h-100">
+                <div class="col-md-12 pl-4 my-auto text-center">
+                  <h4>The spread of the virus in other countries has been minimized due to quarantine and travel restrictions. (so far)
+                  </h4>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      
 
         <!-- Two charts below the map -->
         <div class="row justify-content-center">

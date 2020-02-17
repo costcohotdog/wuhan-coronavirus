@@ -510,7 +510,7 @@ function chinaWorldInfections(obj) {
 
 }
 
-function worldInfections(obj) {
+function worldcountriesInfections(obj) {
 
     // retrieve latest date
     latestDate = obj[obj.length-1]
@@ -558,56 +558,72 @@ function worldInfections(obj) {
         
     }
 
-    console.log(chinaSeries)
-    console.log(worldSeries)
+    let sortable = [];
 
-    Highcharts.chart('world-countries-infections-chart', {
-        chart: {
-            type: 'packedbubble'
-        },
-        title: {
-            text: ''
-        },
-        subtitle: {
-            text: '',
-        },
-        tooltip: {
-            useHTML: true,
-            pointFormat: '<b>{point.name}:</b> {point.y}'
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            packedbubble: {
-                useSimulation: false,
-                minSize: '50%',
-                maxSize: '80%',
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.name}',
-                    filter: {
-                        property: 'y',
-                        operator: '>',
-                        value: 250
-                    },
-                    style: {
-                        color: 'black',
-                        textOutline: 'none',
-                        fontWeight: 'normal'
-                    }
-                }
-            }
-        },
-        series: [{
-            name: 'China',
-            data: chinaSeries
-        },
+    for (const obj in worldSeries) {
+        sortable.push([worldSeries[obj].name, worldSeries[obj].value]);
+    }
+
+    sortable.sort(function(a, b) {
+      return b[1] - a[1];
+    });
+
+    let worldTop10Series = [];
+
+    let worldTop10 = sortable.slice(0,10)
+
+    for (i in worldTop10) {
+        
+        if (worldTop10[i][0] == "Others") {
+          let post = {
+            name: "Diamond Princess cruise ship",
+            y: worldTop10[i][1]
+          };
+          worldTop10Series.push(post);
+        } else {
+          let post = {
+            name: worldTop10[i][0],
+            y: worldTop10[i][1]
+          };
+          worldTop10Series.push(post);
+        }      
+    }
+
+    console.log(worldTop10Series)
+
+    Highcharts.chart("world-countries-infections-chart", {
+      chart: {
+        type: "column"
+      },
+      title: {
+        text: ""
+      },
+      subtitle: {
+        text: "Top 10 Non-China Countries"
+      },
+      xAxis: {
+        type: "category"
+      },
+      yAxis: {
+          title: {
+              text: 'Infections'
+          }
+      },
+      legend: {
+        enabled: false
+      },
+      tooltip: {
+        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+        pointFormat:
+          '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}<br/>'
+      },
+      series: [
         {
-            name: 'World',
-            data: worldSeries,
-            color: 'white'
-        }]    
+          name: "Countries",
+          colorByPoint: true,
+          data: worldTop10Series
+        }
+      ]
     });
     
 
@@ -933,35 +949,36 @@ function stackedBarChart(obj) {
 
 
   };
-  Highcharts.chart('stackedBar', {
+  Highcharts.chart("stackedBar", {
     chart: {
-        type: 'column'
+      type: "column"
     },
     title: {
-        text: 'Infections in China'
+      text: "Infections in China"
     },
     subtitle: {
-        text: 'By Province'
+      text: "By Province"
     },
     xAxis: {
-        categories: dates
+      categories: dates
     },
     yAxis: {
-        min: 0,
-        title: {
-            text: 'Infections'
-        }
+      min: 0,
+      title: {
+        text: "Infections"
+      }
     },
     legend: {
-        enabled: false
+      enabled: false
     },
     plotOptions: {
-        series: {
-            stacking: 'normal'
-        }
+      series: {
+        borderWidth: 0.1,
+        stacking: "normal"
+      }
     },
     series: seriesObj.series
-});
+  });
 };
 
 
@@ -983,7 +1000,7 @@ d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
   // infectionByRegion(coronaData);
   // china vs world infections
   chinaWorldInfections(coronaData);
-  worldInfections(coronaData);
+  worldcountriesInfections(coronaData);
   // Create Doesn't Matter
   stackedBarChart(coronaData);
 
@@ -1000,192 +1017,203 @@ d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
 // highcharts theme
 Highcharts.theme = {
   lang: {
-    thousandsSep: ','
+    thousandsSep: ","
   },
-  colors: ['red', '#08d9d6', '#f45b5b', '#7798BF', '#aaeeee', '#ff0066',
-      '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
+  colors: [
+    "#7cb5ec",
+    "#f7a35c",
+    "#90ee7e",
+    "#7798BF",
+    "#aaeeee",
+    "#ff0066",
+    "#eeaaee",
+    "#55BF3B",
+    "#DF5353",
+    "#7798BF",
+    "#aaeeee"
+  ],
   chart: {
-      backgroundColor: 'rgba(26, 26, 26)',
-      style: {
-          fontFamily: '\'Unica One\', sans-serif'
-      },
-      plotBorderColor: '#606063'
+    backgroundColor: "rgba(26, 26, 26)",
+    style: {
+      fontFamily: "'Unica One', sans-serif"
+    },
+    plotBorderColor: "#606063"
   },
   title: {
-      style: {
-          color: '#E0E0E3',
-          textTransform: 'uppercase',
-          fontSize: '20px'
-      }
+    style: {
+      color: "#E0E0E3",
+      textTransform: "uppercase",
+      fontSize: "20px"
+    }
   },
   subtitle: {
-      style: {
-          color: '#E0E0E3',
-          textTransform: 'uppercase'
-      }
+    style: {
+      color: "#E0E0E3",
+      textTransform: "uppercase"
+    }
   },
   xAxis: {
-      gridLineColor: '#707073',
-      labels: {
-          style: {
-              color: '#E0E0E3'
-          }
-      },
-      lineColor: '#707073',
-      minorGridLineColor: '#505053',
-      tickColor: '#707073',
-      title: {
-          style: {
-              color: '#A0A0A3'
-          }
+    gridLineColor: "#707073",
+    labels: {
+      style: {
+        color: "#E0E0E3"
       }
+    },
+    lineColor: "#707073",
+    minorGridLineColor: "#505053",
+    tickColor: "#707073",
+    title: {
+      style: {
+        color: "#A0A0A3"
+      }
+    }
   },
   yAxis: {
-      gridLineColor: '#707073',
-      labels: {
-          style: {
-              color: '#E0E0E3'
-          }
-      },
-      lineColor: '#707073',
-      minorGridLineColor: '#505053',
-      tickColor: '#707073',
-      tickWidth: 1,
-      title: {
-          style: {
-              color: '#A0A0A3'
-          }
+    gridLineColor: "#707073",
+    labels: {
+      style: {
+        color: "#E0E0E3"
       }
+    },
+    lineColor: "#707073",
+    minorGridLineColor: "#505053",
+    tickColor: "#707073",
+    tickWidth: 1,
+    title: {
+      style: {
+        color: "#A0A0A3"
+      }
+    }
   },
   tooltip: {
-      backgroundColor: 'rgba(0, 0, 0, 0.85)',
-      style: {
-          color: '#F0F0F0'
-      }
+    backgroundColor: "rgba(0, 0, 0, 0.85)",
+    style: {
+      color: "#F0F0F0"
+    }
   },
   plotOptions: {
-      series: {
-          dataLabels: {
-              color: '#F0F0F3',
-              style: {
-                  fontSize: '13px'
-              }
-          },
-          marker: {
-              lineColor: '#333'
-          }
+    series: {
+      dataLabels: {
+        color: "#F0F0F3",
+        style: {
+          fontSize: "13px"
+        }
       },
-      boxplot: {
-          fillColor: '#505053'
-      },
-      candlestick: {
-          lineColor: 'white'
-      },
-      errorbar: {
-          color: 'white'
+      marker: {
+        lineColor: "#333"
       }
+    },
+    boxplot: {
+      fillColor: "#505053"
+    },
+    candlestick: {
+      lineColor: "white"
+    },
+    errorbar: {
+      color: "white"
+    }
   },
   legend: {
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      itemStyle: {
-          color: '#E0E0E3'
-      },
-      itemHoverStyle: {
-          color: '#FFF'
-      },
-      itemHiddenStyle: {
-          color: '#606063'
-      },
-      title: {
-          style: {
-              color: '#C0C0C0'
-          }
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    itemStyle: {
+      color: "#E0E0E3"
+    },
+    itemHoverStyle: {
+      color: "#FFF"
+    },
+    itemHiddenStyle: {
+      color: "#606063"
+    },
+    title: {
+      style: {
+        color: "#C0C0C0"
       }
+    }
   },
   credits: {
-      style: {
-          color: '#666'
-      }
+    style: {
+      color: "#666"
+    }
   },
   labels: {
-      style: {
-          color: '#707073'
-      }
+    style: {
+      color: "#707073"
+    }
   },
   drilldown: {
-      activeAxisLabelStyle: {
-          color: '#F0F0F3'
-      },
-      activeDataLabelStyle: {
-          color: '#F0F0F3'
-      }
+    activeAxisLabelStyle: {
+      color: "#F0F0F3"
+    },
+    activeDataLabelStyle: {
+      color: "#F0F0F3"
+    }
   },
   navigation: {
-      buttonOptions: {
-          symbolStroke: '#DDDDDD',
-          theme: {
-              fill: '#505053'
-          }
+    buttonOptions: {
+      symbolStroke: "#DDDDDD",
+      theme: {
+        fill: "#505053"
       }
+    }
   },
   // scroll charts
   rangeSelector: {
-      buttonTheme: {
-          fill: '#505053',
-          stroke: '#000000',
+    buttonTheme: {
+      fill: "#505053",
+      stroke: "#000000",
+      style: {
+        color: "#CCC"
+      },
+      states: {
+        hover: {
+          fill: "#707073",
+          stroke: "#000000",
           style: {
-              color: '#CCC'
-          },
-          states: {
-              hover: {
-                  fill: '#707073',
-                  stroke: '#000000',
-                  style: {
-                      color: 'white'
-                  }
-              },
-              select: {
-                  fill: '#000003',
-                  stroke: '#000000',
-                  style: {
-                      color: 'white'
-                  }
-              }
+            color: "white"
           }
-      },
-      inputBoxBorderColor: '#505053',
-      inputStyle: {
-          backgroundColor: '#333',
-          color: 'silver'
-      },
-      labelStyle: {
-          color: 'silver'
+        },
+        select: {
+          fill: "#000003",
+          stroke: "#000000",
+          style: {
+            color: "white"
+          }
+        }
       }
+    },
+    inputBoxBorderColor: "#505053",
+    inputStyle: {
+      backgroundColor: "#333",
+      color: "silver"
+    },
+    labelStyle: {
+      color: "silver"
+    }
   },
   navigator: {
-      handles: {
-          backgroundColor: '#666',
-          borderColor: '#AAA'
-      },
-      outlineColor: '#CCC',
-      maskFill: 'rgba(255,255,255,0.1)',
-      series: {
-          color: '#7798BF',
-          lineColor: '#A6C7ED'
-      },
-      xAxis: {
-          gridLineColor: '#505053'
-      }
+    handles: {
+      backgroundColor: "#666",
+      borderColor: "#AAA"
+    },
+    outlineColor: "#CCC",
+    maskFill: "rgba(255,255,255,0.1)",
+    series: {
+      color: "#7798BF",
+      lineColor: "#A6C7ED"
+    },
+    xAxis: {
+      gridLineColor: "#505053"
+    }
   },
   scrollbar: {
-      barBackgroundColor: '#808083',
-      barBorderColor: '#808083',
-      buttonArrowColor: '#CCC',
-      buttonBackgroundColor: '#606063',
-      buttonBorderColor: '#606063',
-      rifleColor: '#FFF',
-      trackBackgroundColor: '#404043',
-      trackBorderColor: '#404043'
+    barBackgroundColor: "#808083",
+    barBorderColor: "#808083",
+    buttonArrowColor: "#CCC",
+    buttonBackgroundColor: "#606063",
+    buttonBorderColor: "#606063",
+    rifleColor: "#FFF",
+    trackBackgroundColor: "#404043",
+    trackBorderColor: "#404043"
   }
 };
 
