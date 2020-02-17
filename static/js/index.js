@@ -433,10 +433,9 @@ function comparisonChart(coronaData) {
     // get latest day data
     let latestDay = coronaData[coronaData.length-1]
 
-    let totalDeaths = latestDay.total_deaths
+    let totalDeaths = latestDay.total_deaths;
+    let totalConfirmed = latestDay.total_confirmed;
     let mortalityRate = ((latestDay.total_deaths * 100) / latestDay.total_confirmed);
-
-    console.log(mortalityRate)
 
     // create comparison chart
     Highcharts.chart("rates-comparison", {
@@ -454,28 +453,23 @@ function comparisonChart(coronaData) {
         text: "Disease Mortality and Infection Rates"
       },
       subtitle: {
-        text: "Size = # of deaths"
+        text: "Bubble Size = Mortality Rate (%)"
       },
 
       xAxis: {
         type: "logarithmic",
         gridLineWidth: 1,
         title: {
-          text: "Total Deaths"
+          text: "Confirmed Cases"
         }
       },
 
       yAxis: {
-        type: "logarithmic",
         startOnTick: false,
         endOnTick: false,
         title: {
-          text: "Mortality Rate"
-        },
-        labels: {
-          format: "{value} %"
-        },
-        maxPadding: 0.2
+          text: "Deaths"
+        }
       },
 
       tooltip: {
@@ -483,9 +477,9 @@ function comparisonChart(coronaData) {
         headerFormat: "<table>",
         pointFormat:
           '<tr><th colspan="2"><h3>{point.country}</h3></th></tr>' +
-          "<tr><th>Infection Rate (R<sub>0</sub>):  {point.x}</th></tr>" +
-          "<tr><th>Mortality Rate:  {point.y}%</th></tr>" +
-          "<tr><th>Total Deaths:  {point.z}</th></tr>",
+          "<tr><th>Confirmed Cases:  {point.x}</th></tr>" +
+          "<tr><th>Deaths:  {point.y}</th></tr>" +
+          "<tr><th>Mortality Rate:  {point.z}%</th></tr>",
         footerFormat: "</table>",
         followPointer: false
       },
@@ -498,53 +492,52 @@ function comparisonChart(coronaData) {
           }
         },
         bubble: {
-          minSize: 26,
-          maxSize: 60
+            minSize: 20
         }
       },
       series: [
         {
           data: [
             {
-              x: totalDeaths,
-              y: mortalityRate,
-              z: 2.3,
+              x: totalConfirmed,
+              y: totalDeaths,
+              z: mortalityRate,
               name: "COVID-19",
               country: "Wuhan Coronavirus",
               color: "#7cb5ec"
             },
             {
-              x: 774,
-              y: 9.6,
-              z: 3,
+              x: 8098,
+              y: 809.8,
+              z: 10,
               name: "SARS",
               country: "2002-2003 Severe Acute Respiratory Syndrome",
               color: "#f7a35c"
             },
             {
-              x: 15261,
-              y: 6.8,
-              z: 2,
+              x: 2494,
+              y: 848,
+              z: 34,
+              name: "MERS",
+              country: "2012-Middle East Acute Respiratory Syndrome",
+              color: "#aaeeee"
+            },
+            {
+              x: 28616,
+              y: 11446,
+              z: 40,
               name: "Ebola",
               country: "2014-2016 Ebola Outbreak in West Africa",
               color: "#90ee7e"
             },
             {
-              x: 34200,
-              y: 0.1,
-              z: 1.3,
+              x: 35000000,
+              y: 34200,
+              z: 0.1,
               name: "Flu",
               country: "2018-2019 USA Flu",
               color: "#ff0066"
             },
-            {
-              x: 362500,
-              y: 0.02,
-              z: 1.5,
-              name: "H1N1",
-              country: "Swine Flu",
-              color: "#eeaaee"
-            }
           ]
         }
       ]
