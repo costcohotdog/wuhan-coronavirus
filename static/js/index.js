@@ -1012,9 +1012,15 @@ function streamChart(coronaData) {
       },
 
       title: {
-        floating: true,
+        floating: false,
         align: "left",
         text: "Infections Outside of China"
+      },
+
+      subtitle: {
+        floating: false,
+        align: "left",
+        text: "Click and drag along x-axis to zoom"
       },
 
       xAxis: {
@@ -1121,13 +1127,14 @@ function stackedBarChart(obj) {
 
   Highcharts.chart("stackedBar", {
     chart: {
-      type: "column"
+      type: "column",
+      zoomType: "xy"
     },
     title: {
-      text: "Infections in China"
+      text: "Infections in Chinese Provinces"
     },
     subtitle: {
-      text: "By Province"
+      text: "Click and Drag to Zoom"
     },
     xAxis: {
       categories: dates
