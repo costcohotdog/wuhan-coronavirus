@@ -453,7 +453,7 @@ function comparisonChart(coronaData) {
       },
 
       title: {
-        text: "Disease Mortality and Infection Rates"
+        text: "COVID-19 compared to other infectious diseases"
       },
       subtitle: {
         text: "Bubble Size = Mortality Rate (%)"
@@ -483,7 +483,7 @@ function comparisonChart(coronaData) {
           '<tr><th colspan="2"><h4>{point.country}</h4></th></tr>' +
           "<tr><th>Confirmed Cases:  {point.x:,.0f}</th></tr>" +
           "<tr><th>Deaths:  {point.y}</th></tr>" +
-          "<tr><th>Mortality Rate:  {point.z}%</th></tr>",
+          "<tr><th>Mortality Rate:  {point.z:.2f}%</th></tr>",
         footerFormat: "</table>",
         followPointer: false
       },
@@ -551,7 +551,7 @@ function comparisonChart(coronaData) {
 
 function chinaWorldInfections(obj) {
     //get days
-    let parseDate = d3.timeFormat("%m/%d/%Y")
+    let parseDate = d3.timeFormat("%m-%d")
     let date;
     
     dates = obj.map(date => {
@@ -587,6 +587,9 @@ function chinaWorldInfections(obj) {
     })
 
     Highcharts.chart("china-vs-world-infections-chart", {
+      chart: {
+        type: "spline"
+      },
       title: {
         text: "Total Infections"
       },
@@ -743,7 +746,7 @@ function worldcountriesInfections(obj) {
         
         if (worldTop10[i][0] == "Others") {
           let post = {
-            name: "Diamond Princess cruise ship",
+            name: "Diamond Princess Cruise Ship",
             y: worldTop10[i][1],
             color: colorsTop10[i]
           };
@@ -947,7 +950,7 @@ function worldcountriesInfections(obj) {
 function streamChart(coronaData) {
 
     // get date
-    let parseDate = d3.timeFormat("%Y-%m-%d");
+    let parseDate = d3.timeFormat("%m-%d");
     let date;
     let dates;
     dates = coronaData.map(date => {
@@ -1020,6 +1023,15 @@ function streamChart(coronaData) {
             
         });
     }
+  
+    for (name in seriesObj.series) {
+      if (seriesObj.series[name].name === 'Others') {
+        seriesObj.series[name].name = "Diamond Princess Cruise Ship";
+      };
+    }
+
+    console.log(seriesObj)
+  
     
     // create stream chart
     Highcharts.chart("streamChart", {
@@ -1047,9 +1059,10 @@ function streamChart(coronaData) {
         categories: dates,
         crosshair: true,
         labels: {
-          align: "left",
+          align: "center",
           reserveSpace: false,
-          rotation: 270
+          rotation: 0,
+          y: -20
         },
         lineWidth: 0,
         margin: 30,
@@ -1084,7 +1097,7 @@ function streamChart(coronaData) {
 
 function stackedBarChart(obj) {
 
-  let parseDate = d3.timeFormat("%Y-%m-%d")
+  let parseDate = d3.timeFormat("%m-%d")
   let date;
   let dates;
   dates = obj.map(date => {
@@ -1145,7 +1158,7 @@ function stackedBarChart(obj) {
 
   Highcharts.chart("stackedBar", {
     chart: {
-      type: "column",
+      type: "areaspline",
       zoomType: "xy"
     },
     title: {
@@ -1155,7 +1168,8 @@ function stackedBarChart(obj) {
       text: "Click and Drag to Zoom"
     },
     xAxis: {
-      categories: dates
+      categories: dates,
+      crosshair: true
     },
     yAxis: {
       min: 0,
@@ -1169,7 +1183,10 @@ function stackedBarChart(obj) {
     plotOptions: {
       series: {
         borderWidth: 0.1,
-        stacking: "normal"
+        stacking: "normal",
+        marker: {
+          enabled: false
+        }
       }
     },
     series: seriesObj.series
