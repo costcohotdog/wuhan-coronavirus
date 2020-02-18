@@ -341,7 +341,7 @@ function deathsVSrecovered(coronaData) {
         {
           name: "Deaths",
           data: deaths,
-          color: "#df0e62"
+          color: "#ff4242"
         }
       ],
 
@@ -410,7 +410,7 @@ function deathsVSrecovered(coronaData) {
         {
           name: "Mortality Rate",
           data: mortalityRate,
-          color: "#df0e62"
+          color: "#ff4242"
         }
       ],
 
@@ -478,9 +478,10 @@ function comparisonChart(coronaData) {
       tooltip: {
         useHTML: true,
         headerFormat: "<table>",
+        valueDecimals: 0,
         pointFormat:
           '<tr><th colspan="2"><h4>{point.country}</h4></th></tr>' +
-          "<tr><th>Confirmed Cases:  {point.x}</th></tr>" +
+          "<tr><th>Confirmed Cases:  {point.x:,.0f}</th></tr>" +
           "<tr><th>Deaths:  {point.y}</th></tr>" +
           "<tr><th>Mortality Rate:  {point.z}%</th></tr>",
         footerFormat: "</table>",
@@ -495,7 +496,7 @@ function comparisonChart(coronaData) {
           }
         },
         bubble: {
-            minSize: 20
+          minSize: 20
         }
       },
       series: [
@@ -540,7 +541,7 @@ function comparisonChart(coronaData) {
               name: "Flu",
               country: "2018-2019 USA Flu",
               color: "#ff0066"
-            },
+            }
           ]
         }
       ]
@@ -636,7 +637,7 @@ function chinaWorldInfections(obj) {
         {
           name: "China",
           data: china,
-          color: "#df0e62"
+          color: "#ff4242"
         },
         {
           name: "World",
@@ -1216,7 +1217,7 @@ Highcharts.theme = {
     thousandsSep: ","
   },
   colors: [
-    "#ff0066",
+    "#ff4242",
     "#7cb5ec",
     "#f7a35c",
     "#7798BF",

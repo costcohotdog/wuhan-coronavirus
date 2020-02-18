@@ -59,10 +59,10 @@ d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
 
         // add circle markers
         var circle = L.circle([lat, lng], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: (confirmed+1000)*30
+          color: "red",
+          fillColor: "#ff4242",
+          fillOpacity: 0.5,
+          radius: (confirmed + 1000) * 30
         }).addTo(mymap);
 
         // popup
