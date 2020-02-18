@@ -285,7 +285,8 @@ function deathsVSrecovered(coronaData) {
     coronaData.map(data => {
         recovered.push(data.total_recovered);
         deaths.push(data.total_deaths);
-        mortalityRate.push(data.total_deaths*100/data.total_confirmed)
+        
+        mortalityRate.push((data.total_deaths/(data.total_confirmed+data.total_recovered+data.total_deaths))*100)
     })
 
     console.log(mortalityRate)
@@ -696,7 +697,7 @@ function worldcountriesInfections(obj) {
 
         let post = {
             name: countries[i],
-            value: countrySum
+            data: countrySum
         }
         
         if (countries[i] === 'Mainland China') {
@@ -711,7 +712,7 @@ function worldcountriesInfections(obj) {
     let sortable = [];
 
     for (const obj in worldSeries) {
-        sortable.push([worldSeries[obj].name, worldSeries[obj].value]);
+        sortable.push([worldSeries[obj].name, worldSeries[obj].data]);
     }
 
     sortable.sort(function(a, b) {
@@ -925,7 +926,137 @@ function worldcountriesInfections(obj) {
 //   Plotly.newPlot('lower-right-chart', [trace1, trace2], layout, {responsive: true, displayModeBar: false})
 // }
 
+function streamChart(coronaData) {
 
+    // get date
+    let parseDate = d3.timeFormat("%Y-%m-%d");
+    let date;
+    let dates;
+    dates = coronaData.map(date => {
+      for (let [key, value] of Object.entries(date.date)) {
+        date = new Date(value);
+        date.setTime(
+          date.getTime() - new Date().getTimezoneOffset() * 60 * -1000
+        );
+
+        return parseDate(date);
+      }
+    });
+
+    // retrieve latest date
+    latestDate = coronaData[coronaData.length - 1];
+
+    // get list of countries
+    let countries =[];
+    for (const property in latestDate.locations) {
+        if (countries.includes(latestDate.locations[property].region)) {
+            continue
+        }
+        else {
+            countries.push(latestDate.locations[property].region)
+        }
+    }
+
+    // create series object
+    let seriesObj = {
+      series: []
+    };
+
+    // push objects to series object
+    let post;
+    for (const i in countries) {
+        
+        post = {
+            name: countries[i],
+            data: []
+        };
+
+        // exclude china
+        if (countries[i] !== 'Mainland China') {
+            seriesObj.series.push(post);
+        }
+    }
+    
+    let country, sum;
+    for (const location in seriesObj.series) {
+        countryName = seriesObj.series[location].name;
+    
+        // loop through each day
+        coronaData.map(data => {
+            
+            let dailySum = 0;
+
+            // loop through each location each day
+            for (const country in data.locations) {
+                
+                if (data.locations[country].region === countryName) {
+                    dailySum +=
+                    data.locations[country].confirmed +
+                    data.locations[country].recovered +
+                    data.locations[country].deaths;
+                }
+                
+            }
+
+            seriesObj.series[location].data.push(dailySum);
+            
+        });
+    }
+    
+    // create stream chart
+    Highcharts.chart("streamChart", {
+      chart: {
+        type: "streamgraph",
+        marginBottom: 40,
+        zoomType: "x"
+      },
+
+      title: {
+        floating: true,
+        align: "left",
+        text: "Infections Outside of China"
+      },
+
+      xAxis: {
+        maxPadding: 0,
+        type: "category",
+        categories: dates,
+        crosshair: true,
+        labels: {
+          align: "left",
+          reserveSpace: false,
+          rotation: 270
+        },
+        lineWidth: 0,
+        margin: 30,
+        tickWidth: 0
+      },
+
+      yAxis: {
+        visible: false,
+        startOnTick: false,
+        endOnTick: false
+      },
+
+      legend: {
+        enabled: false
+      },
+
+      plotOptions: {
+        series: {
+          label: {
+            minFontSize: 5,
+            maxFontSize: 15,
+            style: {
+              color: "rgba(255,255,255,1)"
+            }
+          }
+        }
+      },
+
+      series: seriesObj.series
+    });
+}
 
 function stackedBarChart(obj) {
 
@@ -941,7 +1072,7 @@ function stackedBarChart(obj) {
     };
 
   })
-  // console.log(dates);
+  
   let lastDateObj = obj[obj.length - 1]
 
 
@@ -985,6 +1116,9 @@ function stackedBarChart(obj) {
 
 
   };
+
+  console.log(seriesObj.series);
+
   Highcharts.chart("stackedBar", {
     chart: {
       type: "column"
@@ -1040,6 +1174,7 @@ d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
   stackedBarChart(coronaData);
   deathsVSrecovered(coronaData);
   comparisonChart(coronaData);
+  streamChart(coronaData);
 
   d3.json('http://127.0.0.1:5000/api/sars').then(function(result,error) {
     let sarsData = result
