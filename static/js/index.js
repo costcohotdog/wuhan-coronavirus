@@ -306,9 +306,9 @@ function deathsVSrecovered(coronaData) {
         }
       },
       yAxis: {
-          title: {
-              text: ''
-          }
+        title: {
+          text: ""
+        }
       },
       tooltip: {
         shared: true,
@@ -335,11 +335,13 @@ function deathsVSrecovered(coronaData) {
       series: [
         {
           name: "Recovered",
-          data: recovered
+          data: recovered,
+          color: "#fac70b"
         },
         {
           name: "Deaths",
-          data: deaths
+          data: deaths,
+          color: "#df0e62"
         }
       ],
 
@@ -365,7 +367,7 @@ function deathsVSrecovered(coronaData) {
         text: ""
       },
       subtitle: {
-          text: "Mortality Rate (%)"
+        text: "Mortality Rate (%)"
       },
       xAxis: {
         categories: dates,
@@ -408,7 +410,7 @@ function deathsVSrecovered(coronaData) {
         {
           name: "Mortality Rate",
           data: mortalityRate,
-          color: "#ff5757"
+          color: "#df0e62"
         }
       ],
 
@@ -477,7 +479,7 @@ function comparisonChart(coronaData) {
         useHTML: true,
         headerFormat: "<table>",
         pointFormat:
-          '<tr><th colspan="2"><h3>{point.country}</h3></th></tr>' +
+          '<tr><th colspan="2"><h4>{point.country}</h4></th></tr>' +
           "<tr><th>Confirmed Cases:  {point.x}</th></tr>" +
           "<tr><th>Deaths:  {point.y}</th></tr>" +
           "<tr><th>Mortality Rate:  {point.z}%</th></tr>",
@@ -509,7 +511,7 @@ function comparisonChart(coronaData) {
             },
             {
               x: 8098,
-              y: 809.8,
+              y: 810,
               z: 10,
               name: "SARS",
               country: "2002-2003 Severe Acute Respiratory Syndrome",
@@ -626,7 +628,7 @@ function chinaWorldInfections(obj) {
         series: {
           label: {
             connectorAllowed: false
-          },
+          }
         }
       },
 
@@ -634,12 +636,12 @@ function chinaWorldInfections(obj) {
         {
           name: "China",
           data: china,
-          color: "#ff5757"
+          color: "#df0e62"
         },
         {
           name: "World",
           data: notChina,
-          color: "#e6e6e6"
+          color: "#fac70b"
         }
       ],
 
@@ -723,18 +725,33 @@ function worldcountriesInfections(obj) {
 
     let worldTop10 = sortable.slice(0,10)
 
+    let colorsTop10 = [
+      "#fac70b",
+      "#facd35",
+      "#fad34e",
+      "#fad964",
+      "#fbdf78",
+      "#fbe58c",
+      "#fceaa0",
+      "#fdefb3",
+      "#fef4c6",
+      "#fff9d9"
+    ];
+
     for (i in worldTop10) {
         
         if (worldTop10[i][0] == "Others") {
           let post = {
             name: "Diamond Princess cruise ship",
-            y: worldTop10[i][1]
+            y: worldTop10[i][1],
+            color: colorsTop10[i]
           };
           worldTop10Series.push(post);
         } else {
           let post = {
             name: worldTop10[i][0],
-            y: worldTop10[i][1]
+            y: worldTop10[i][1],
+            color: colorsTop10[i]
           };
           worldTop10Series.push(post);
         }      
@@ -1199,12 +1216,12 @@ Highcharts.theme = {
     thousandsSep: ","
   },
   colors: [
+    "#ff0066",
     "#7cb5ec",
     "#f7a35c",
-    "#90ee7e",
     "#7798BF",
+    "#90ee7e",
     "#aaeeee",
-    "#ff0066",
     "#eeaaee",
     "#55BF3B",
     "#DF5353",

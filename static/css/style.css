@@ -38,6 +38,7 @@ p {
 }
 
 .intro-backgroundimage {
+  border-radius: 15px;
   position: absolute;
   z-index: -1;
   background-image: url(https://www.saubereluftmitmaske.eu/wp-content/uploads/2020/01/Coronaviruses_004_lores.jpg);
@@ -54,6 +55,7 @@ p {
 }
 
 .newyear-backgroundimage {
+  border-radius: 15px;
   position: absolute;
   z-index: -1;
   background-image: url(https://resize.hswstatic.com/w_907/gif/chinese-new-year-5.jpg);
@@ -69,6 +71,7 @@ p {
 }
 
 .spread-backgroundimage {
+  border-radius: 15px;
   position: absolute;
   z-index: -1;
   background-image: url(https://cosmos-production-assets.s3.amazonaws.com/file/spina/photo/14331/GettyImages-171136267.jpg);
@@ -85,6 +88,7 @@ p {
 }
 
 .global-backgroundimage {
+  border-radius: 15px;
   position: absolute;
   z-index: -1;
   background-image: url(https://user32265.clients-cdnnow.ru/localStorage/post/7f/10/67/0e/7f10670e_resizedScaled_740to986.jpg);
@@ -100,6 +104,7 @@ p {
 }
 
 .deaths-backgroundimage {
+  border-radius: 15px;
   position: absolute;
   z-index: -1;
   background-image: url(https://i.ibb.co/KL9Rmck/49534370233-1376f512b1-k.jpg);
