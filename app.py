@@ -4,8 +4,8 @@ from bson.json_util import dumps
 import article_scraper
 
 app = Flask(__name__)
-username = 'Terra925'
-password = 'H%40mmond271'
+username = 'read_only'
+password = 'rJMef22QkRqPDFzk'
 client = MongoClient("mongodb+srv://" + username + ":" + password + "@cluster0-paegd.mongodb.net/test?retryWrites=true&w=majority")
 db = client.corona_virus
 
