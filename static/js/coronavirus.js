@@ -1,7 +1,7 @@
 
 this.d3v3 = d3
 
-var width = 600,
+var width = 960,
     height = 500,
     root;
 
