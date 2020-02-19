@@ -26,6 +26,10 @@ news_feed = article_scraper.scrape()
 def home():
     return render_template('index.html', data=cases)
 
+@app.route('/api', methods=['GET'])
+def api():
+    return render_template('api.html', data=cases)
+
 @app.route('/api/sars',methods=['GET'])
 def api_sars():
     sars_list = list(sars_collection.find())
