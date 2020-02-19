@@ -632,7 +632,7 @@ function chinaWorldInfections(obj) {
         type: "spline"
       },
       title: {
-        text: "Total Infections"
+        text: "Confirmed Cases"
       },
 
       subtitle: {
@@ -641,7 +641,7 @@ function chinaWorldInfections(obj) {
 
       yAxis: {
         title: {
-          text: "Infections"
+          text: "Confirmed Cases"
         }
       },
 
@@ -817,7 +817,7 @@ function worldcountriesInfections(obj) {
       },
       yAxis: {
           title: {
-              text: 'Infections'
+              text: 'Confirmed Cases'
           }
       },
       legend: {
@@ -1215,7 +1215,7 @@ function stackedBarChart(obj) {
     yAxis: {
       min: 0,
       title: {
-        text: "Infections"
+        text: "Confirmed Cases"
       }
     },
     legend: {

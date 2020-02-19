@@ -284,3 +284,20 @@ body, .bg-dark {
   border-radius: 5px;
   border-color: #a3a3a3;
 }
+
+/* timeline stuff */
+.leaflet-bottom.leaflet-left{
+        width: 100%;
+      }
+.leaflet-control-container .leaflet-timeline-controls{
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  margin-bottom: 15px;
+}
+
+.leaflet-control-layers-expanded { 
+  background: #343332;
+  color: #c1c0c0;
+}
+
