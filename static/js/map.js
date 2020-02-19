@@ -26,12 +26,6 @@ d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
     // create array of location data
     const locationsArray = Object.entries(locations)
     
-    var a = [
-        ["tag_17", 0, 4],
-        ["tag_18", 13, 18],
-        ["tag_435", 6, 11]
-    ];
-    
     // sort the locations in descending confirmed cases
     // helps selecting overlaying markers for popups
     locationsArray.sort(sortFunction);

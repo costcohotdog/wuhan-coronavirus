@@ -20,11 +20,11 @@ function totalCounts(obj) {
 
   const latestDate = obj[obj.length - 1];
 
-  // 1. Calculate total countries
-  const totalInfected = latestDate.total_confirmed + latestDate.total_recovered + latestDate.total_deaths;
+  // 1. Calculate total infected
+  const totalInfected = latestDate.total_confirmed;
 
   //2. Calculate total deaths
-  const totalDeaths = latestDate.total_deaths
+  const totalDeaths = latestDate.total_deaths;
 
   //3. Calculate total countries
   let countries = []
@@ -278,23 +278,41 @@ function deathsVSrecovered(coronaData) {
     }
     });
     
+    let infected = [];
     let recovered = [];
     let deaths = [];
+    let infectionRate = [];
+    let recoveryRate = [];
     let mortalityRate = [];
 
     coronaData.map(data => {
+        infected.push(data.total_confirmed);
         recovered.push(data.total_recovered);
         deaths.push(data.total_deaths);
         
-        mortalityRate.push((data.total_deaths/(data.total_confirmed+data.total_recovered+data.total_deaths))*100)
+        recoveryRate.push((data.total_recovered / data.total_confirmed) * 100);
+        mortalityRate.push((data.total_deaths/data.total_confirmed)*100)
     })
 
-    console.log(mortalityRate)
+    for (let i in infected) {
+      
+      if (i < 2 ) {
+        infectionRate.push(0)
+      }
+      else {
+        let difference = infected[i] - infected[i-1]
+        infectionRate.push((difference/infected[i-1])*100)
+      }
+      
+    }
 
     // create chart deaths vs recoveries chart
     Highcharts.chart("deaths-vs-recovered-chart", {
       title: {
-        text: "Deaths vs. Recoveries"
+        text: "Totals and Rates"
+      },
+      subtitle: {
+        text: "Use legends to enable/disable series"
       },
       xAxis: {
         categories: dates,
@@ -321,7 +339,12 @@ function deathsVSrecovered(coronaData) {
       },
 
       legend: {
-        enabled: false
+        enabled: true,
+        align: "left",
+        verticalAlign: "top",
+        floating: true,
+        y: 60,
+        x: 25
       },
 
       plotOptions: {
@@ -333,6 +356,12 @@ function deathsVSrecovered(coronaData) {
       },
 
       series: [
+        {
+          name: "Confirmed Cases",
+          data: infected,
+          color: "#e13a9d",
+          visible: false
+        },
         {
           name: "Recovered",
           data: recovered,
@@ -367,7 +396,7 @@ function deathsVSrecovered(coronaData) {
         text: ""
       },
       subtitle: {
-        text: "Mortality Rate (%)"
+        text: "Rates (%)"
       },
       xAxis: {
         categories: dates,
@@ -395,7 +424,8 @@ function deathsVSrecovered(coronaData) {
       },
 
       legend: {
-        enabled: false
+        enabled: true,
+        x: -110
       },
 
       plotOptions: {
@@ -407,6 +437,17 @@ function deathsVSrecovered(coronaData) {
       },
 
       series: [
+        {
+          name: "Infection Rate",
+          data: infectionRate,
+          color: "#e13a9d",
+          visible: false
+        },
+        {
+          name: "Recovery Rate",
+          data: recoveryRate,
+          color: "#fac70b"
+        },
         {
           name: "Mortality Rate",
           data: mortalityRate,
@@ -508,7 +549,7 @@ function comparisonChart(coronaData) {
               z: mortalityRate,
               name: "COVID-19",
               country: "Wuhan Coronavirus",
-              color: "#7cb5ec"
+              color: "#ff4242"
             },
             {
               x: 8098,
@@ -516,7 +557,7 @@ function comparisonChart(coronaData) {
               z: 10,
               name: "SARS",
               country: "2002-2003 Severe Acute Respiratory Syndrome",
-              color: "#f7a35c"
+              color: "#fac70b"
             },
             {
               x: 2494,
@@ -532,7 +573,7 @@ function comparisonChart(coronaData) {
               z: 40,
               name: "Ebola",
               country: "2014-2016 Ebola Outbreak in West Africa",
-              color: "#90ee7e"
+              color: "#e13a9d"
             },
             {
               x: 35000000,
@@ -540,7 +581,7 @@ function comparisonChart(coronaData) {
               z: 0.1,
               name: "Flu",
               country: "2018-2019 USA Flu",
-              color: "#ff0066"
+              color: "#f7a35c"
             }
           ]
         }
@@ -551,7 +592,7 @@ function comparisonChart(coronaData) {
 
 function chinaWorldInfections(obj) {
     //get days
-    let parseDate = d3.timeFormat("%m-%d")
+    let parseDate = d3.timeFormat("%m/%d/%Y")
     let date;
     
     dates = obj.map(date => {
@@ -617,7 +658,7 @@ function chinaWorldInfections(obj) {
       tooltip: {
         shared: true,
         useHTML: true,
-        headerFormat: "<small>{point.key}</small><table>",
+        headerFormat: "{point.key}<table>",
         pointFormat:
           '<tr><td style="color: {series.color}">{series.name}: </td>' +
           '<td style="text-align: right"><b>{point.y}</b></td></tr>',
@@ -1044,13 +1085,15 @@ function streamChart(coronaData) {
       title: {
         floating: false,
         align: "left",
-        text: "Infections Outside of China"
+        text: "Confirmed Cases Outside of China",
+        y: 70
       },
 
       subtitle: {
         floating: false,
         align: "left",
-        text: "Click and drag along x-axis to zoom"
+        text: "Click and drag along x-axis to zoom",
+        y: 90
       },
 
       xAxis: {
@@ -1145,7 +1188,7 @@ function stackedBarChart(obj) {
 
       for (const x in data.locations) {
         if (x === state) {
-          sum = data.locations[x].confirmed + data.locations[x].recovered + data.locations[x].deaths;
+          sum = data.locations[x].confirmed;
           seriesObj.series[location].data.push(sum)
         }
       }
@@ -1154,15 +1197,13 @@ function stackedBarChart(obj) {
 
   };
 
-  console.log(seriesObj.series);
-
   Highcharts.chart("stackedBar", {
     chart: {
       type: "areaspline",
       zoomType: "xy"
     },
     title: {
-      text: "Infections in Chinese Provinces"
+      text: "Chinese Provinces Confirmed Cases"
     },
     subtitle: {
       text: "Click and Drag to Zoom"
@@ -1238,7 +1279,7 @@ Highcharts.theme = {
     "#7cb5ec",
     "#f7a35c",
     "#7798BF",
-    "#90ee7e",
+    "#fac70b",
     "#aaeeee",
     "#eeaaee",
     "#55BF3B",
