@@ -93,7 +93,6 @@
                 </div>
               </div>
             </div>
-            <!-- <div id='timeline'></div> -->
           </div>
           <div class="col-md-7">
             <div id='stackedBar' style="height: 500px"></div>
@@ -114,7 +113,7 @@
       <!-- Interactive Map -->
       <div id="mapid"></div>
 
-      
+
       <div id ="global" class="row ml-3 mr-3" style="height: 900px;">
         <div class="col-md-8">
           <div class="row">
@@ -141,7 +140,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="row justify-content-center" style="margin-top: 200px; margin-bottom: 200px">
         <div class="col-md-12">
           <div id="streamChart" style="height: 900px"></div>
@@ -180,13 +179,56 @@
         </div>
       </div>
 
+
+      <div id="spreadChart">
+        <div class="spreadChart-backgroundimage"></div>
+        <div id='spreadChart-container'>
+          <div class="row justify-content-center h-100">
+            <div class="col-md-8 my-auto text-center">
+              <h2>The R0 ("R naught") value of Covid19 is currently estimated to be 3.</h2>
+              <h4 class='spreadChart-subtitle'>This means that one person infected with the virus will likely spread it to 3 other individuals.</h4>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- Spread charts below bottom charts -->
-      <div class="spread-charts row"></div>
+      <div class="spread-charts row justify-content-center">
       <div class="col-mg-5">
         <div id='corona-chart'></div>
       </div>
+      </div>
 
-      <div class="container-flex">
+      <div class="row" style='margin: 3em;'>
+        <div class="col-md-5 my-auto" style="height: 400px">
+          <div class="newsfeed-backgroundimage"></div>
+          <div id='newsfeed-container'>
+            <div class="row justify-content-center">
+              <div class="col-md-12 my-auto text-center">
+                <h3>News quickly spread about the virus as the WHO declared a global emergency</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-5">
+          <div class="row justify-content-center">
+          <div id='timeline' class="timeline"></div>
+        </div>
+        <div class="row justify-content-center">
+          <button id='show-more' type="button" class="btn btn-warning" style="margin-left: 1em;">Show More</button>
+        </div>
+        <div class="row justify-content-center" style='margin-left: 10px;'>
+          <a class="twitter-timeline" data-height="300" data-theme="dark" href="https://twitter.com/V2019N?ref_src=twsrc%5Etfw">Tweets by V2019N</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        </div>
+        </div>
+
+      </div>
+
+
+      <!-- <div class="container-flex">
         <div class="row justify-content-center">
           <div class="col-md-5">
             <a class="twitter-timeline" data-height="1200" data-theme="dark" href="https://twitter.com/V2019N?ref_src=twsrc%5Etfw">Tweets by V2019N</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -201,7 +243,7 @@
           </div>
 
         </div>
-      </div>
+      </div> -->
 
     </div>
 

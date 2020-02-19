@@ -29,12 +29,16 @@ p {
     color: white;
 }
 
-#intro, #newyear, #spread, #global {
+#intro, #newyear, #spread, #global, #spreadChart {
   position: relative;
 }
 
 .intro-subtitle {
   margin-top: 4rem;
+}
+
+.spreadChart-subtitle {
+  margin-top: 2rem;
 }
 
 .intro-backgroundimage {
@@ -108,13 +112,46 @@ p {
   position: absolute;
   z-index: -1;
   background-image: url(https://i.ibb.co/KL9Rmck/49534370233-1376f512b1-k.jpg);
-  background-position-x: center;
+  background-position-x: bottom;
   background-size: cover;
-  background-position-y: bottom;
+  background-position-y: center;
   background-origin: initial;
   background-clip: initial;
   background-color: initial;
   height: 100%;
+  width: 95%;
+  opacity: 0.5;
+}
+
+.spreadChart-backgroundimage {
+  border-radius: 15px;
+  position: absolute;
+  z-index: -1;
+  background-image: url(https://static01.nyt.com/images/2020/01/27/world/27china-social01/merlin_167853390_376f44ea-e956-422b-8293-88162b4d8bda-superJumbo.jpg);
+  background-position-x: center;
+  background-size: cover;
+  background-position-y: center;
+  background-attachment: fixed;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: initial;
+  height: 200px;
+  width: 100%;
+  opacity: 0.5;
+}
+
+.newsfeed-backgroundimage {
+  border-radius: 15px;
+  position: absolute;
+  z-index: -1;
+  background-image: url(https://static01.nyt.com/images/2020/02/11/multimedia/00xp-virustimeline/merlin_168765846_a430c80e-b84d-4ee4-a65e-4adda3f1e353-superJumbo.jpg?quality=90&auto=webp);
+  background-position-x: center;
+  background-size: cover;
+  background-position-y: center;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: initial;
+  height: 500px;
   width: 95%;
   opacity: 0.5;
 }
@@ -131,6 +168,11 @@ p {
   height: 100%;
 }
 
+#newsfeed-container {
+  height: 300px;
+}
+
+
 #newyear {
   margin-top: 200px;
   margin-bottom: 200px;
@@ -143,6 +185,10 @@ p {
 }
 
 #spread-container {
+  height: 200px;
+}
+
+#spreadChart-container {
   height: 200px;
 }
 
@@ -192,18 +238,19 @@ body, .bg-dark {
 
 .node {
   cursor: pointer;
-  stroke: #7A7A7A;
-  stroke-width: 1.5px;
+  stroke: #fff;
+  stroke-width: .2px;
+  color: yellow;
 }
 
 .link {
   fill: none;
-  stroke: #9ecae1;
+  stroke: #FAC70B;
   stroke-width: 1.5px;
 }
 
 .spread-charts {
-  background-color: rgb(88, 88, 88);
+
 }
 
 .timeline {
@@ -212,6 +259,8 @@ body, .bg-dark {
   border-radius: 5px;
   border-color: #a3a3a3;
   padding: 10px;
+  margin-left: 1em;
+  margin-top: 200px;
 }
 
 .story-date {
@@ -228,3 +277,8 @@ body, .bg-dark {
   font-family: 'Arial';
   border-bottom: 2px solid #a3a3a3;
 }
+
+/* #corona-chart {
+  padding: 10px;
+  margin: 20px;
+} */

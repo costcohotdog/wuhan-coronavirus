@@ -3,7 +3,7 @@ var mymap = L.map('mapid', { zoomControl: false, scrollWheelZoom: false }).setVi
 mymap.on('focus', function() { mymap.scrollWheelZoom.enable(); });
 mymap.on('blur', function() { mymap.scrollWheelZoom.disable(); });
 //  retrive data and run functions
-d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
+d3.json('https://covid2019-tracker.appspot.com/api/date').then(function(result,error) {
 
     // basemap layer
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -25,17 +25,17 @@ d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
 
     // create array of location data
     const locationsArray = Object.entries(locations)
-    
+
     var a = [
         ["tag_17", 0, 4],
         ["tag_18", 13, 18],
         ["tag_435", 6, 11]
     ];
-    
+
     // sort the locations in descending confirmed cases
     // helps selecting overlaying markers for popups
     locationsArray.sort(sortFunction);
-    
+
     function sortFunction(a, b) {
         if (a[1].confirmed === b[1].confirmed) {
         return 0;

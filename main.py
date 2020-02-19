@@ -1,9 +1,11 @@
 from flask import Flask, jsonify, render_template, redirect, current_app
 from pymongo import MongoClient
+from flask_cors import CORS
 from bson.json_util import dumps
 import article_scraper
 
 app = Flask(__name__)
+CORS(app)
 username = 'read_only'
 password = 'rJMef22QkRqPDFzk'
 client = MongoClient("mongodb+srv://" + username + ":" + password + "@cluster0-paegd.mongodb.net/test?retryWrites=true&w=majority")
