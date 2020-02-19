@@ -473,7 +473,7 @@ function deathsVSrecovered(coronaData) {
 }
 
 function comparisonChart(coronaData) {
-    
+
     // get latest day data
     let latestDay = coronaData[coronaData.length-1]
 
@@ -594,12 +594,12 @@ function chinaWorldInfections(obj) {
     //get days
     let parseDate = d3.timeFormat("%m/%d/%Y")
     let date;
-    
+
     dates = obj.map(date => {
         for (let [key, value] of Object.entries(date.date)) {
         date = new Date(value);
         date.setTime( date.getTime() - new Date().getTimezoneOffset()*60*(-1000));
-    
+
         return parseDate(date)
         };
     })
@@ -746,14 +746,14 @@ function worldcountriesInfections(obj) {
             name: countries[i],
             data: countrySum
         }
-        
+
         if (countries[i] === 'Mainland China') {
             chinaSeries.push(post);
         }
         else {
             worldSeries.push(post);
         }
-        
+
     }
 
     let sortable = [];
@@ -784,7 +784,7 @@ function worldcountriesInfections(obj) {
     ];
 
     for (i in worldTop10) {
-        
+
         if (worldTop10[i][0] == "Others") {
           let post = {
             name: "Diamond Princess Cruise Ship",
@@ -799,7 +799,7 @@ function worldcountriesInfections(obj) {
             color: colorsTop10[i]
           };
           worldTop10Series.push(post);
-        }      
+        }
     }
 
     Highcharts.chart("world-countries-infections-chart", {
@@ -1027,7 +1027,7 @@ function streamChart(coronaData) {
     // push objects to series object
     let post;
     for (const i in countries) {
-        
+
         post = {
             name: countries[i],
             data: []
@@ -1038,33 +1038,33 @@ function streamChart(coronaData) {
             seriesObj.series.push(post);
         }
     }
-    
+
     let country, sum;
     for (const location in seriesObj.series) {
         countryName = seriesObj.series[location].name;
-    
+
         // loop through each day
         coronaData.map(data => {
-            
+
             let dailySum = 0;
 
             // loop through each location each day
             for (const country in data.locations) {
-                
+
                 if (data.locations[country].region === countryName) {
                     dailySum +=
                     data.locations[country].confirmed +
                     data.locations[country].recovered +
                     data.locations[country].deaths;
                 }
-                
+
             }
 
             seriesObj.series[location].data.push(dailySum);
-            
+
         });
     }
-  
+
     for (name in seriesObj.series) {
       if (seriesObj.series[name].name === 'Others') {
         seriesObj.series[name].name = "Diamond Princess Cruise Ship";
@@ -1072,8 +1072,8 @@ function streamChart(coronaData) {
     }
 
     console.log(seriesObj)
-  
-    
+
+
     // create stream chart
     Highcharts.chart("streamChart", {
       chart: {
@@ -1152,7 +1152,7 @@ function stackedBarChart(obj) {
     };
 
   })
-  
+
   let lastDateObj = obj[obj.length - 1]
 
 
@@ -1239,7 +1239,7 @@ function stackedBarChart(obj) {
 
 // Load Data then call functions...
 
-d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
+d3.json('https://covid2019-tracker.appspot.com/api/date').then(function(result,error) {
 
   let coronaData = result
   // Update Total Counts
@@ -1259,7 +1259,7 @@ d3.json('http://127.0.0.1:5000/api/date').then(function(result,error) {
   comparisonChart(coronaData);
   streamChart(coronaData);
 
-  d3.json('http://127.0.0.1:5000/api/sars').then(function(result,error) {
+  d3.json('https://covid2019-tracker.appspot.com/api/sars').then(function(result,error) {
     let sarsData = result
 
     // comparisonInfectionChart(coronaData, sarsData);

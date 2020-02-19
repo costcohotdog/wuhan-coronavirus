@@ -32,7 +32,7 @@ function updateNewsFeed(obj) {
 
 
   for (let i=0; i < dates.length; i++) {
-    if (i >= 9) {
+    if (i >= 1) {
       document.getElementById(`headline${i}`).style.display = 'none';
       document.getElementById(`story-date${i}`).style.display = 'none';
     } else {
@@ -53,7 +53,7 @@ function updateNewsFeed(obj) {
       }
     } else {
       for (let i=0; i < dates.length; i++) {
-        if (i >= 9) {
+        if (i >= 1) {
           document.getElementById(`headline${i}`).style.display = 'none';
           document.getElementById(`story-date${i}`).style.display = 'none';
           button.text('Show More');
@@ -70,7 +70,7 @@ function updateNewsFeed(obj) {
 };
 
 
-d3.json('http://127.0.0.1:5000/api/timeline').then(function(result,error) {
+d3.json('https://covid2019-tracker.appspot.com/api/timeline').then(function(result,error) {
 
   updateNewsFeed(result);
 

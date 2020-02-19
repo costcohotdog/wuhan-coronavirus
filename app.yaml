@@ -1,0 +1,9 @@
+runtime: python37
+
+handlers:
+# Matches requests to /images/... to files in static/images/...
+- url: /js
+  static_dir: static/js
+
+- url: /css
+  static_dir: static/css
