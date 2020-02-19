@@ -280,9 +280,25 @@ body, .bg-dark {
 
 #corona-chart {
   padding: 10px;
-  margin: 20px;
+  margin-top: 50px;
   border-style: solid;
   border-width: 2px;
   border-radius: 5px;
   border-color: #a3a3a3;
+}
+
+#api-about {
+  padding: 10px;
+  margin-top: 200px;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 5px;
+  border-color: #a3a3a3;
+
+}
+
+#api-end {
+  padding: 10px;
+  margin-top: 200px;
+
 }

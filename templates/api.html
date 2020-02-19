@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>COVID19 API Access</title>
+    <!-- Google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Orbitron&display=swap" rel="stylesheet">
+    <!-- Local CSS -->
+    <link rel="stylesheet" href="../static/css/style.css">
+  </head>
+  <body>
+
+    <nav class='navbar navbar-expand-lg navbar-light bg-dark'>
+      <a class="navbar-brand" href="">
+        COVID-19 API Access
+      </a>
+      <div id='last-updated' class='update-text ml-auto'></div>
+    </nav>
+
+
+
+    <div class="contained-lg">
+      <div class="row justify-content-center h-100" style="margin-bottom: 150px; margin-bottom: 50px;">
+        <div class="col-md-8">
+
+
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="container-lg">
+      <div class="api-about row justify-content-center h-100" style="margin-bottom: 150px; margin-bottom: 50px;">
+      <div class='col-md-8 my-auto text-center' id="api-about">
+        <h2 class='text-left totals-text'>About</h2>
+        <hr>
+        <p class='text-justify'>This website provides a RESTful API interface for data related to the Covid2019 Virus. Covid2019 is an active global emergency and the number of infected, recovered, and death cases are constantly changing. We will keep the data available through our API updated as this event unfolds.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="container-lg">
+    <div class="api-about row justify-content-center h-100" style="margin-bottom: 150px; margin-bottom: 50px;">
+    <div class='col-md-8 my-auto text-center' id="api-about">
+      <h2 class='text-left totals-text'>End Points</h2>
+      <hr>
+      <p class='text-justify'>We currently have 4 endpoints containing information about the Covid2019 outbreak:</p>
+      <hr>
+      <ul class="list-group">
+    <li class="list-group-item list-group-item-dark">Daily Infection Counts<br><a href="http://covid2019-tracker.appspot.com/api/date">http://covid2019-tracker.appspot.com/api/date</a></li>
+    <li class="list-group-item list-group-item-dark">Daily Infection Counts by Province/State<br><a href="http://covid2019-tracker.appspot.com/api/sars">http://covid2019-tracker.appspot.com/api/sars</a></li>
+    <li class="list-group-item list-group-item-dark">Historical SARS Data<br><a href="http://covid2019-tracker.appspot.com/api/cases">http://covid2019-tracker.appspot.com/api/date</a></li>
+    <li class="list-group-item list-group-item-dark">Important Headlines<br><a href="http://covid2019-tracker.appspot.com/api/timeline">http://covid2019-tracker.appspot.com/api/timeline</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+
+</div>
+
+<div class="container-lg">
+  <div class="api-about row justify-content-center h-100">
+  <div class='col-md-8 my-auto text-center' id="api-about">
+    <h2 class='text-left totals-text'>Source</h2>
+    <hr>
+    <p class='text-justify'>This data is sourced from the WHO (World Health Organization) and John Hopkins University. As news about the virus spread more people wanted access to this data, an open source collection of data was created.</p>
+    <hr>
+    <ul>
+      <li><a href="https://github.com/CSSEGISandData/2019-nCoV">Corona Virus Data</a></li>
+      <li><a href="https://www.kaggle.com/zhongtr0n/sars-who-data">SARS Data</a></li>
+      <li><a href="https://www.pharmaceutical-technology.com/news/coronavirus-a-timeline-of-how-the-deadly-outbreak-evolved/">Timeline Data</a></li>
+    </ul>
+  </div>
+
+</div>
+</div>
+
+<div class="container-lg">
+  <div class="row justify-content-center h-100">
+  <div class='col-md-8 my-auto text-center' id="api-end">
+  </div>
+
+</div>
+</div>
+
+
+  </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.7/d3.min.js"></script>
+    <script src="../static/js/index.js"></script>
+</html>
