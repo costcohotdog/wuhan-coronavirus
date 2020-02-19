@@ -177,7 +177,7 @@ p {
 }
 
 #global {
-  margin-top: 200px;
+  margin-top: 275px;
   margin-bottom: 100px;
   height: 600px;
 }
@@ -297,8 +297,9 @@ body, .bg-dark {
 }
 
 .leaflet-control-layers-expanded { 
-  background: #343332;
+  background: #34333200;
   color: #c1c0c0;
+  box-shadow: 0px 0px 0px;
 }
 
 #api-about {

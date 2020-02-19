@@ -440,18 +440,18 @@ function deathsVSrecovered(coronaData) {
         {
           name: "Infection Rate",
           data: infectionRate,
-          color: "#e13a9d",
+          color: "#e366b0",
           visible: false
         },
         {
           name: "Recovery Rate",
           data: recoveryRate,
-          color: "#fac70b"
+          color: "#ffde66"
         },
         {
           name: "Mortality Rate",
           data: mortalityRate,
-          color: "#ff4242"
+          color: "#ff6e6e"
         }
       ],
 
@@ -554,7 +554,7 @@ function comparisonChart(coronaData) {
             {
               x: 8098,
               y: 810,
-              z: 10,
+              z: 9.6,
               name: "SARS",
               country: "2002-2003 Severe Acute Respiratory Syndrome",
               color: "#fac70b"
@@ -562,7 +562,7 @@ function comparisonChart(coronaData) {
             {
               x: 2494,
               y: 848,
-              z: 34,
+              z: 36,
               name: "MERS",
               country: "2012-Middle East Acute Respiratory Syndrome",
               color: "#aaeeee"
@@ -1319,7 +1319,7 @@ Highcharts.theme = {
     tickColor: "#707073",
     title: {
       style: {
-        color: "#A0A0A3"
+        color: "#cfcfd1"
       }
     }
   },
@@ -1336,7 +1336,7 @@ Highcharts.theme = {
     tickWidth: 1,
     title: {
       style: {
-        color: "#A0A0A3"
+        color: "#cfcfd1"
       }
     }
   },
