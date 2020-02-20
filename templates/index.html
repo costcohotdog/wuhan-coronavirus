@@ -25,9 +25,6 @@
   <body>
 
     <nav class='navbar navbar-expand-lg navbar-light bg-dark'>
-      <div class="navbar-brand">
-        COVID-19
-      </div>
       <a class="navbar-brand" href="/api">
         API Access
       </a>
@@ -102,7 +99,7 @@
           </div>
         </div>
 
-      <div id="spread" style="padding-bottom: 30px;">
+      <div id="spread" style="margin-bottom: 30px;">
         <div class="spread-backgroundimage"></div>
         <div id='spread-container'>
           <div class="row justify-content-center h-100">
@@ -116,12 +113,12 @@
       <!-- Interactive Map -->
       <div id="mapid"></div>
 
-      <div id="spread" style="padding-bottom: 30px; padding-top: 30px;">
+      <div id="news" style="margin-top: 250px; margin-bottom: 30px;">
         <div class="newsfeed-backgroundimage"></div>
         <div id='newsfeed-container'>
           <div class="row justify-content-center h-100">
             <div class="col-md-8 my-auto text-center">
-              <h3>News quickly spread about Covid19 as the WHO declared a global health emergency</h3>
+              <h3>News quickly spread about COVID-19 as the WHO declared a global health emergency</h3>
             </div>
           </div>
         </div>
@@ -231,17 +228,17 @@
         <div id='spreadChart-container'>
           <div class="row justify-content-center h-100">
             <div class="col-md-8 my-auto text-center">
-              <h2>The R0 ("R naught") value of Covid19 is currently estimated to be 3</h2>
+              <h2>The R<sub>0</sub> ("R naught") value of COVID-19 is currently estimated to be 3</h2>
               <h4 class='spreadChart-subtitle'>This means that one person infected with the virus will likely spread it to 3 other individuals</h4>
             </div>
           </div>
         </div>
       </div>
       <!-- Spread charts below bottom charts -->
-      <div class="spread-charts row justify-content-center">
-      <div class="col-mg-5">
-        <div id='corona-chart'><div><p>Circles = Infected Patient<br>Lines = Spread</p></div></div>
-      </div>
+      <div class="spread-charts row justify-content-center" style="margin-bottom: 300px;">
+        <div class="col-mg-5">
+          <div id='corona-chart'><div><p>Circles = Infected Patient<br>Lines = Spread<br>Click circles to collapse/expand</p></div></div>
+        </div>
       </div>
 
 

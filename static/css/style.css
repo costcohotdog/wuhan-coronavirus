@@ -27,7 +27,7 @@ p {
     color: white;
 }
 
-#intro, #newyear, #spread, #global, #spreadChart {
+#intro, #newyear, #spread, #global, #spreadChart, #news {
   position: relative;
 }
 
@@ -187,6 +187,11 @@ p {
 #spread-container {
   height: 200px;
 }
+
+#newsfeed-container {
+  height: 200px;
+}
+
 
 #spreadChart-container {
   height: 200px;
