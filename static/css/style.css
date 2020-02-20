@@ -138,6 +138,7 @@ p {
   opacity: 0.5;
 }
 
+
 .newsfeed-backgroundimage {
   border-radius: 15px;
   position: absolute;
@@ -146,11 +147,12 @@ p {
   background-position-x: center;
   background-size: cover;
   background-position-y: center;
+  background-attachment: fixed;
   background-origin: initial;
   background-clip: initial;
   background-color: initial;
-  height: 500px;
-  width: 95%;
+  height: 200px;
+  width: 100%;
   opacity: 0.5;
 }
 
@@ -296,7 +298,7 @@ body, .bg-dark {
   margin-bottom: 15px;
 }
 
-.leaflet-control-layers-expanded { 
+.leaflet-control-layers-expanded {
   background: #34333200;
   color: #c1c0c0;
   box-shadow: 0px 0px 0px;
