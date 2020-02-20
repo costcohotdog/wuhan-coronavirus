@@ -40,8 +40,6 @@ p {
 }
 
 .intro-backgroundimage {
-  border-radius: 15px;
-  position: absolute;
   z-index: -1;
   background-image: url(https://www.saubereluftmitmaske.eu/wp-content/uploads/2020/01/Coronaviruses_004_lores.jpg);
   background-position-x: center;
@@ -52,8 +50,14 @@ p {
   background-clip: initial;
   background-color: initial;
   height: 300px;
-  width: 100%;
   opacity: 0.5;
+  left: 50%;
+	margin-left: -50vw;
+	margin-right: -50vw;
+	max-width: 100vw;
+	position: absolute;
+	right: 50%;
+	width: 100vw;
 }
 
 .newyear-backgroundimage {
