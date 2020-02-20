@@ -208,7 +208,9 @@ body, .bg-dark {
     font-size: 4rem;
 }
 
-.totals-text, .totals-numbers {
+
+
+.totals-numbers, .totals-text{
   font-family: 'Orbitron', sans-serif;
 }
 

@@ -84,176 +84,188 @@ function lastUpdated(obj) {
   elements.lastUpdated.append('p').text(`Last Updated: ${dateObj.toLocaleDateString()}`);
 };
 
-// function highchartTotal(coronaData, sarsData) {
+function highchartTotal(coronaData, sarsData) {
 
-//   // get total coronavirus infections
-//   let coronaInfections = coronaData.map(infections => {
-//     let totals = infections.total_confirmed + infections.total_recovered + infections.total_deaths;
-//     return totals;
-//   })
+  // get total coronavirus infections
+  let coronaInfections = coronaData.map(infections => {
+    let totals = infections.total_confirmed;
+    return totals;
+  })
 
-//   // get total sars infections
-//   let sarsInfections = sarsData.map(infections => {
-//     let totals = infections.infected + infections.deaths;
-//     return totals;
-//   })
+  // get total sars infections
+  let sarsInfections = sarsData.map(infections => {
+    let totals = infections.infected;
+    return totals;
+  })
 
-//   // get days
-//   let days = [];
-//   for (var i=0; i < sarsInfections.length; i++) {
-//     days.push(i)
-//   }
+  // get days
+  let days = [];
+  for (var i=0; i < sarsInfections.length; i++) {
+    days.push(i)
+  }
 
-//   Highcharts.chart('upper-left-chart', {
+  Highcharts.chart("sarscoronaConfirmed", {
+    title: {
+      text: "Confirmed Cases"
+    },
 
-//     title: {
-//         text: 'Total Infections'
-//     },
+    subtitle: {
+      text: "COVID-19 vs. SARS"
+    },
 
-//     subtitle: {
-//         text: '2019-nCoV vs. SARS'
-//     },
+    yAxis: {
+      title: {
+        text: "Confirmed Cases"
+      }
+    },
 
-//     yAxis: {
-//         title: {
-//             text: 'Infected'
-//         }
-//     },
+    xAxis: {
+      title: {
+        text: "Days Since Outbreak"
+      }
+    },
 
-//     xAxis: {
-//       title: {
-//           text: 'Days Since Outbreak'
-//       }
-//     },
+    tooltip: {
+      shared: true,
+      useHTML: true,
+      headerFormat: "<small>Day {point.key}</small><table>",
+      pointFormat:
+        '<tr><td style="color: {series.color}">{series.name}: </td>' +
+        '<td style="text-align: right"><b>{point.y}</b></td></tr>',
+      footerFormat: "</table>"
+    },
 
-//     tooltip: {
-//       shared: true,
-//       useHTML: true,
-//       headerFormat: '<small>Day {point.key}</small><table>',
-//       pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
-//       '<td style="text-align: right"><b>{point.y}</b></td></tr>',
-//       footerFormat: '</table>',
-//     },
+    legend: {
+      enabled: false
+    },
 
-//     legend: {
-//         enabled: false
-//     },
+    plotOptions: {
+      series: {
+        label: {
+          connectorAllowed: false
+        },
+        pointStart: 1
+      }
+    },
 
-//     plotOptions: {
-//         series: {
-//             label: {
-//                 connectorAllowed: false
-//             },
-//             pointStart: 1
-//         }
-//     },
+    series: [
+      {
+        name: "COVID-19",
+        data: coronaInfections,
+        color: "#ff4242"
+      },
+      {
+        name: "SARS",
+        data: sarsInfections,
+        color: "#fac70b"
+      }
+    ],
 
-//     series: [{
-//         name: '2019-nCoV',
-//         data: coronaInfections
-//     }, {
-//         name: 'SARS',
-//         data: sarsInfections
-//     }],
+    responsive: {
+      rules: [
+        {
+          condition: {
+            maxWidth: 500
+          },
+          chartOptions: {
+            legend: {
+              enabled: false
+            }
+          }
+        }
+      ]
+    }
+  });
 
-//     responsive: {
-//         rules: [{
-//             condition: {
-//                 maxWidth: 500
-//             },
-//             chartOptions: {
-//                 legend: {
-//                     enabled: false
-//                 }
-//             }
-//         }]
-//     }
+}
 
-//   });
+function highchartTotalDeaths(coronaData, sarsData) {
 
-// }
+  // get total coronavirus infections
+  let coronaDeaths = coronaData.map(infections => infections.total_deaths);
 
-// function highchartTotalDeaths(coronaData, sarsData) {
+  // get total sars infections
+  let sarsDeaths = sarsData.map(infections => infections.deaths);
 
-//   // get total coronavirus infections
-//   let coronaDeaths = coronaData.map(infections => infections.total_deaths);
+  // get days
+  let days = [];
+  for (var i=0; i < sarsDeaths.length; i++) {
+    days.push(i)
+  }
 
-//   // get total sars infections
-//   let sarsDeaths = sarsData.map(infections => infections.deaths);
+  Highcharts.chart("sarscoronaDeaths", {
+    title: {
+      text: "Deaths"
+    },
 
-//   // get days
-//   let days = [];
-//   for (var i=0; i < sarsDeaths.length; i++) {
-//     days.push(i)
-//   }
+    subtitle: {
+      text: "COVID-19 vs. SARS"
+    },
 
-//   Highcharts.chart('upper-right-chart', {
+    yAxis: {
+      title: {
+        text: "Deaths"
+      }
+    },
 
-//     title: {
-//         text: 'Total Deaths'
-//     },
+    xAxis: {
+      title: {
+        text: "Days Since Outbreak"
+      }
+    },
 
-//     subtitle: {
-//         text: '2019-nCoV vs. SARS'
-//     },
+    tooltip: {
+      shared: true,
+      useHTML: true,
+      headerFormat: "<small>Day {point.key}</small><table>",
+      pointFormat:
+        '<tr><td style="color: {series.color}">{series.name}: </td>' +
+        '<td style="text-align: right"><b>{point.y}</b></td></tr>',
+      footerFormat: "</table>"
+    },
 
-//     yAxis: {
-//         title: {
-//             text: 'Deaths'
-//         }
-//     },
+    legend: {
+      enabled: false
+    },
 
-//     xAxis: {
-//       title: {
-//           text: 'Days Since Outbreak'
-//       }
-//     },
+    plotOptions: {
+      series: {
+        label: {
+          connectorAllowed: false
+        },
+        pointStart: 1
+      }
+    },
 
-//     tooltip: {
-//       shared: true,
-//       useHTML: true,
-//       headerFormat: '<small>Day {point.key}</small><table>',
-//       pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
-//       '<td style="text-align: right"><b>{point.y}</b></td></tr>',
-//       footerFormat: '</table>',
-//     },
+    series: [
+      {
+        name: "COVID-19",
+        data: coronaDeaths,
+        color: "#ff4242"
+      },
+      {
+        name: "SARS",
+        data: sarsDeaths,
+        color: "#fac70b"
+      }
+    ],
 
-//     legend: {
-//         enabled: false
-//     },
-
-//     plotOptions: {
-//         series: {
-//             label: {
-//                 connectorAllowed: false
-//             },
-//             pointStart: 1
-//         }
-//     },
-
-//     series: [{
-//         name: '2019-nCoV',
-//         data: coronaDeaths
-//     }, {
-//         name: 'SARS',
-//         data: sarsDeaths
-//     }],
-
-//     responsive: {
-//         rules: [{
-//             condition: {
-//                 maxWidth: 500
-//             },
-//             chartOptions: {
-//                 legend: {
-//                     enabled: false
-//                 }
-//             }
-//         }]
-//     }
-
-//   });
-// }
+    responsive: {
+      rules: [
+        {
+          condition: {
+            maxWidth: 500
+          },
+          chartOptions: {
+            legend: {
+              enabled: false
+            }
+          }
+        }
+      ]
+    }
+  });
+}
 
 function deathsVSrecovered(coronaData) {
     //get days
@@ -409,7 +421,7 @@ function deathsVSrecovered(coronaData) {
       },
       yAxis: {
         title: {
-          text: "%"
+          text: ""
         }
       },
       tooltip: {
@@ -440,18 +452,18 @@ function deathsVSrecovered(coronaData) {
         {
           name: "Infection Rate",
           data: infectionRate,
-          color: "#e366b0",
+          color: "#e13a9d",
           visible: false
         },
         {
           name: "Recovery Rate",
           data: recoveryRate,
-          color: "#ffde66"
+          color: "#fac70b"
         },
         {
           name: "Mortality Rate",
           data: mortalityRate,
-          color: "#ff6e6e"
+          color: "#ff4242"
         }
       ],
 
@@ -504,7 +516,7 @@ function comparisonChart(coronaData) {
         type: "logarithmic",
         gridLineWidth: 1,
         title: {
-          text: "Confirmed Cases"
+          text: "Confirmed Cases (Log Scale)"
         }
       },
 
@@ -1264,8 +1276,8 @@ d3.json('https://covid2019-tracker.appspot.com/api/date').then(function(result,e
 
     // comparisonInfectionChart(coronaData, sarsData);
     // comparisonDeathChart(coronaData, sarsData);
-    // highchartTotal(coronaData, sarsData);
-    // highchartTotalDeaths(coronaData, sarsData)
+    highchartTotal(coronaData, sarsData);
+    highchartTotalDeaths(coronaData, sarsData)
   })
 })
 
