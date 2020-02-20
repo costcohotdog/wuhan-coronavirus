@@ -116,6 +116,40 @@
       <!-- Interactive Map -->
       <div id="mapid"></div>
 
+      <div id="spread" style="padding-bottom: 30px; padding-top: 30px;">
+        <div class="newsfeed-backgroundimage"></div>
+        <div id='newsfeed-container'>
+          <div class="row justify-content-center h-100">
+            <div class="col-md-8 my-auto text-center">
+              <h3>News quickly spread about Covid19 as the WHO declared a global health emergency</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="news-feed row justify-content-center">
+        <div class="col-md-8 my-auto">
+          <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+
+            </div>
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span></a>
+
+          </div>
+        </div>
+        <div class="col-md-4 my-auto">
+          <div class="row justify-content-center" style='margin-left: 10px;'>
+            <a class="twitter-timeline" data-height="500" data-theme="dark" href="https://twitter.com/V2019N?ref_src=twsrc%5Etfw">Tweets by V2019N</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+          </div>
+        </div>
+      </div>
 
       <div id ="global" class="row ml-3 mr-3" style="height: 900px;">
         <div class="col-md-8">
@@ -197,8 +231,8 @@
         <div id='spreadChart-container'>
           <div class="row justify-content-center h-100">
             <div class="col-md-8 my-auto text-center">
-              <h2>The R0 ("R naught") value of Covid19 is currently estimated to be 3.</h2>
-              <h4 class='spreadChart-subtitle'>This means that one person infected with the virus will likely spread it to 3 other individuals.</h4>
+              <h2>The R0 ("R naught") value of Covid19 is currently estimated to be 3</h2>
+              <h4 class='spreadChart-subtitle'>This means that one person infected with the virus will likely spread it to 3 other individuals</h4>
             </div>
           </div>
         </div>
@@ -206,38 +240,11 @@
       <!-- Spread charts below bottom charts -->
       <div class="spread-charts row justify-content-center">
       <div class="col-mg-5">
-        <div id='corona-chart'></div>
+        <div id='corona-chart'><div><p>Circles = Infected Patient<br>Lines = Spread</p></div></div>
       </div>
       </div>
 
-      <div class="row" style='margin: 3em;'>
-        <div class="col-md-5 my-auto" style="height: 400px">
-          <div class="newsfeed-backgroundimage"></div>
-          <div id='newsfeed-container'>
-            <div class="row justify-content-center">
-              <div class="col-md-12 my-auto text-center">
-                <h3>News quickly spread about the virus as the WHO declared a global emergency</h3>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2">
 
-        </div>
-        <div class="col-md-5">
-          <div class="row justify-content-center">
-          <div id='timeline' class="timeline"></div>
-        </div>
-        <div class="row justify-content-center">
-          <button id='show-more' type="button" class="btn btn-warning" style="margin-left: 1em;">Show More</button>
-        </div>
-        <div class="row justify-content-center" style='margin-left: 10px;'>
-          <a class="twitter-timeline" data-height="300" data-theme="dark" href="https://twitter.com/V2019N?ref_src=twsrc%5Etfw">Tweets by V2019N</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-        </div>
-        </div>
-
-      </div>
 
       <div class="row justify-content-center">
         <div class="col-md-12 text-center">
@@ -283,8 +290,10 @@
   <script src="../static/js/leaflet.timeline.js"></script>
   <script src="../static/js/map.js"></script>
 
-
-
+  <!-- Bootstrap -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 
   </html>
