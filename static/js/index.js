@@ -39,15 +39,16 @@ function totalCounts(obj) {
   }
   const totalCountries = countries.length
 
-  let counterDif = totalInfected - 700;
+  let counterDifInfected = totalInfected - 700;
+  let counterDifDeaths = totalDeaths - 700;
 
   //4. Update DOM
   let elements = getDOMElements()
   elements.infected.append('p').text(totalInfected);
   elements.deaths.append('p').text(totalDeaths);
   elements.countries.append('p').text(totalCountries)
-  animateValue("total-infected-number", counterDif, totalInfected, 0);
-  animateValue("total-deaths-number", 0, totalDeaths, 3500);
+  animateValue("total-infected-number", counterDifInfected, totalInfected, 0);
+  animateValue("total-deaths-number", counterDifDeaths, totalDeaths, 3500);
   animateValue("total-countries-number", 0, totalCountries, 3500);
 
 };
