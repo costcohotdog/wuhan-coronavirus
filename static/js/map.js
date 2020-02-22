@@ -1,12 +1,14 @@
-// // map object
-// var mymap = L.map('mapid', { zoomControl: false, scrollWheelZoom: false }).setView([25, 0], 2);
-// mymap.on('focus', function() { mymap.scrollWheelZoom.enable(); });
-// mymap.on('blur', function() { mymap.scrollWheelZoom.disable(); });
-
 //  retrive data and run functions
 d3.json('https://covid2019-tracker.appspot.com/api/date').then(function(result,error) {
 
-    // Create the timeline and controls
+    ///////////////////////////////
+    // date/time parsing
+    ///////////////////////////////
+
+    // date format function for timeline slider
+    var parseDate = d3.timeFormat("%m-%d-%Y");
+
+    // create the timelinecontrol object with date format option
     var timelineControl = L.timelineSliderControl(
         {formatOutput: date => {
             date = new Date(date);
@@ -17,67 +19,50 @@ d3.json('https://covid2019-tracker.appspot.com/api/date').then(function(result,e
         }}
     );
 
+    // create an array to hold time points for creating features object
+    let featuresDates = result.map(data => {
+        for (let [key, value] of Object.entries(data.date)) {
+            return value
+        }
+    })
 
-    // parse dates
-    var parseDate = d3.timeFormat("%m-%d-%Y");
-    let date;
-    let dates;
-    dates = result.map(date => {
-      for (let [key, value] of Object.entries(date.date)) {
-        date = new Date(value);
-        date.setTime(
-          date.getTime() - new Date().getTimezoneOffset() * 60 * -1000
-        );
-
-        return parseDate(date);
-      }
-    });
+    console.log(featuresDates)
 
     ///////////////////////////////
     // create geojson object
     ///////////////////////////////
 
+    // create feature collection object
     let featureCollection = {
         "type": "FeatureCollection",
         "features": []
     }
 
+    // date counter for featuresDates array above
     let dateCount = -1;
+
+    // time offset for start/end dates
+    const timeDiff = 1e1;
 
     // loop through each day
     result.map(data => {
-
-        // current date
-        // console.log(dates[dateCount])
-
         dateCount += 1;
-
+  
+        // create post object
         let post;
+
         // loop through each location each day
             for (const city in data.locations) {
 
-                if (dateCount === dates.length-1) {
+                // push new feature to post object
+                // timeDiff is used as a time offset so circle markers do not overlap
+                if (dateCount+1 == featuresDates.length) {
                     post = {
                         "type": "Feature",
                         "properties": {
                             "city": city,
-                            "start": dates[dateCount],
-                            "confirmed": data.locations[city].confirmed 
-                        },
-                        "geometry": {
-                            "type": "Point",
-                            "coordinates": [data.locations[city].lat, data.locations[city].lng]
-                        }
-                    }
-                    
-                }
-                else {
-                    post = {
-                        "type": "Feature",
-                        "properties": {
-                            "city": city,
-                            "start": dates[dateCount],
-                            "end": dates[dateCount+1],
+                            "start": featuresDates[dateCount],
+                            "end": featuresDates[dateCount]+timeDiff,
                             "confirmed": data.locations[city].confirmed 
                         },
                         "geometry": {
@@ -86,6 +71,23 @@ d3.json('https://covid2019-tracker.appspot.com/api/date').then(function(result,e
                         }
                     }
                 }
+                else {
+                    post = {
+                        "type": "Feature",
+                        "properties": {
+                            "city": city,
+                            "start": featuresDates[dateCount],
+                            "end": featuresDates[dateCount+1]-timeDiff,
+                            "confirmed": data.locations[city].confirmed 
+                        },
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [data.locations[city].lng, data.locations[city].lat]
+                        }
+                    }
+                }
+            
+                // push post to feature collection array
                 featureCollection.features.push(post);
             }
     })
@@ -93,7 +95,10 @@ d3.json('https://covid2019-tracker.appspot.com/api/date').then(function(result,e
     // push to layer function below
     overlayLayers(featureCollection);
 
-    // create layers function
+    ///////////////////////////////
+    // map layers
+    ///////////////////////////////
+
     function overlayLayers(featureCollection) {
         console.log(featureCollection);
         // confirmed cases layer
@@ -126,9 +131,14 @@ d3.json('https://covid2019-tracker.appspot.com/api/date').then(function(result,e
 
         })
         
+        // push to map creation function
         createMap(casesLayer);
 
     }
+
+    ///////////////////////////////
+    // create the map based on layers pushed to it
+    ///////////////////////////////
 
     function createMap(casesLayer) {
 
@@ -163,67 +173,3 @@ d3.json('https://covid2019-tracker.appspot.com/api/date').then(function(result,e
 
     }
 })
-
-//     // basemap layer
-//     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-//         attribution: 'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-//         maxZoom: 10,
-//         id: 'mapbox/dark-v10',
-//         accessToken: 'pk.eyJ1IjoiY29zdGNvLWhvdGRvZyIsImEiOiJjazYxajkyNGUwNDljM2xvZnZjZmxmcjJqIn0.zW5wSAD1e2DKZIjtlAwNtQ'
-//     }).addTo(mymap);
-    
-//     ///////////////////////////////
-//     // markers and popups
-//     ///////////////////////////////
-
-//     // retrieve latest date
-//     latestDate = result[result.length-1]
-
-//     // location data
-//     locations = latestDate.locations
-
-//     // create array of location data
-//     const locationsArray = Object.entries(locations)
-    
-//     // sort the locations in descending confirmed cases
-//     // helps selecting overlaying markers for popups
-//     locationsArray.sort(sortFunction);
-
-//     function sortFunction(a, b) {
-//         if (a[1].confirmed === b[1].confirmed) {
-//         return 0;
-//         }
-//         return (a[1].confirmed < b[1].confirmed) ? 1 : -1;
-//     }
-
-//     // loop through each location data entry
-//     locationsArray.forEach(location => {
-
-//         // total confirmed, recovered, and deaths
-//         var confirmed = +location[1].confirmed;
-//         var recovered = +location[1].recovered;
-//         var deaths = +location[1].deaths;
-
-//         // latitude
-//         var lat = +location[1].lat;
-
-//         // longitude
-//         var lng = +location[1].lng;
-
-//         // add circle markers
-//         var circle = L.circle([lat, lng], {
-//           color: "red",
-//           fillColor: "#ff4242",
-//           fillOpacity: 0.5,
-//           radius: (confirmed) * 30
-//         }).addTo(mymap);
-
-//         // popup
-//         var toolTip = `<strong>${location[0]}</strong><br>Confirmed: ${confirmed}<br>Recovered: ${recovered}<br>Deaths: ${deaths}`;
-
-//         // bind popup
-//         circle.bindTooltip(toolTip);
-//     })
-
-
-// })
