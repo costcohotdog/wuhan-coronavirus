@@ -24,7 +24,7 @@ p {
 }
 
 .intro-subtitle {
-  margin-top: 4rem;
+  margin-top: 3rem;
 }
 
 .spreadChart-subtitle {
@@ -175,8 +175,6 @@ p {
 }
 
 #global {
-  margin-top: 275px;
-  margin-bottom: 100px;
   height: 600px;
 }
 

@@ -567,10 +567,7 @@ function streamChart(coronaData) {
       categories: dates,
       crosshair: true,
       labels: {
-        align: "center",
-        reserveSpace: false,
-        rotation: 0,
-        y: -20
+        enable: false
       },
       lineWidth: 0,
       margin: 30,
