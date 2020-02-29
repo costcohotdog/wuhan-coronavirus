@@ -1,5 +1,5 @@
 // Load Data then call functions
-d3.json('https://covid2019-tracker.appspot.com/api/date').then(function(result,error) {
+d3.json('https://covid2019tracker.appspot.com/api/date').then(function(result,error) {
 
   let coronaData = result
   totalCounts(coronaData);
@@ -156,7 +156,7 @@ function provincesChart(obj) {
     }
   }
 
-  
+
   let state, sum;
 
   // loop through each post that was pushed to the series object
@@ -368,7 +368,7 @@ function top10Infections(obj) {
           data: countrySum
       }
       worldSeries.push(post);
-      
+
   }
 
   // sort by descending
@@ -601,7 +601,7 @@ function streamChart(coronaData) {
 
 // deaths and recoveries totals, and rates
 function deathsVSrecovered(coronaData) {
-  
+
   //get days
   let parseDate = d3.timeFormat("%m/%d/%Y");
   let dates;
@@ -618,7 +618,7 @@ function deathsVSrecovered(coronaData) {
           return parseDate(date);
       }
   });
-  
+
   let infected = [];
   let recovered = [];
   let deaths = [];
@@ -631,7 +631,7 @@ function deathsVSrecovered(coronaData) {
       infected.push(data.total_confirmed);
       recovered.push(data.total_recovered);
       deaths.push(data.total_deaths);
-      
+
       // rate calculations
       recoveryRate.push((data.total_recovered / data.total_confirmed) * 100);
       mortalityRate.push((data.total_deaths/data.total_confirmed)*100)
@@ -639,7 +639,7 @@ function deathsVSrecovered(coronaData) {
 
   // correct for first rate days
   for (let i in infected) {
-    
+
     if (i < 2 ) {
       infectionRate.push(0)
     }
@@ -647,7 +647,7 @@ function deathsVSrecovered(coronaData) {
       let difference = infected[i] - infected[i-1]
       infectionRate.push((difference/infected[i-1])*100)
     }
-    
+
   }
 
   // create chart deaths vs recoveries chart

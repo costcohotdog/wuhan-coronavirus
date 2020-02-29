@@ -1,5 +1,5 @@
 //  retrive data and run functions
-d3.json('https://covid2019-tracker.appspot.com/api/date').then(function(result,error) {
+d3.json('https://covid2019tracker.appspot.com/api/date').then(function(result,error) {
 
     ///////////////////////////////
     // date/time parsing
@@ -47,7 +47,7 @@ d3.json('https://covid2019-tracker.appspot.com/api/date').then(function(result,e
     // loop through each day
     result.map(data => {
         dateCount += 1;
-  
+
         // create post object
         let post;
 
@@ -63,7 +63,7 @@ d3.json('https://covid2019-tracker.appspot.com/api/date').then(function(result,e
                             "city": city,
                             "start": featuresDates[dateCount],
                             "end": featuresDates[dateCount]+timeDiff,
-                            "confirmed": data.locations[city].confirmed 
+                            "confirmed": data.locations[city].confirmed
                         },
                         "geometry": {
                             "type": "Point",
@@ -78,7 +78,7 @@ d3.json('https://covid2019-tracker.appspot.com/api/date').then(function(result,e
                             "city": city,
                             "start": featuresDates[dateCount],
                             "end": featuresDates[dateCount+1]-timeDiff,
-                            "confirmed": data.locations[city].confirmed 
+                            "confirmed": data.locations[city].confirmed
                         },
                         "geometry": {
                             "type": "Point",
@@ -86,7 +86,7 @@ d3.json('https://covid2019-tracker.appspot.com/api/date').then(function(result,e
                         }
                     }
                 }
-            
+
                 // push post to feature collection array
                 featureCollection.features.push(post);
             }
@@ -106,7 +106,7 @@ d3.json('https://covid2019-tracker.appspot.com/api/date').then(function(result,e
 
             // add circle markers
             pointToLayer: function (feature, latlng) {
-            
+
                 // cases
                 let cases = feature.properties.confirmed;
 
@@ -126,11 +126,11 @@ d3.json('https://covid2019-tracker.appspot.com/api/date').then(function(result,e
 
                     return L.circleMarker(latlng, geojsonMarkerOptions).bindTooltip(tooltip).openTooltip();
                 }
-                
+
             }
 
         })
-        
+
         // push to map creation function
         createMap(casesLayer);
 

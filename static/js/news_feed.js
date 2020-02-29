@@ -39,7 +39,7 @@ function updateNewsFeed(obj) {
 };
 
 
-d3.json('https://covid2019-tracker.appspot.com/api/timeline').then(function(result,error) {
+d3.json('https://covid2019tracker.appspot.com/api/timeline').then(function(result,error) {
 
   updateNewsFeed(result);
 
