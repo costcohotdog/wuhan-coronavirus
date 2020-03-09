@@ -6,8 +6,9 @@ from dateutil.parser import parse
 import pymongo
 import dns
 
-path = 'C:/Users/Terra/corona_data'  ### CHANGE THIS TO A DIFFERENT PATH THAN THE CORONAVIRUS REPO
-data_folder = 'C:/Users/terra/corona_data/csse_covid_19_data/csse_covid_19_time_series/'  ### CHANGE THIS TO A DIFFERENT PATH THAN THE CORONAVIRUS REPO
+path = 'C:/Users/Smili_000/Desktop/Bootcamp/corona_data/COVID-19'  ### CHANGE THIS TO A DIFFERENT PATH THAN THE CORONAVIRUS REPO
+# CHANGE THIS TO A DIFFERENT PATH THAN THE CORONAVIRUS REPO
+data_folder = 'C:/Users/Smili_000/Desktop/Bootcamp/corona_data/COVID-19/csse_covid_19_data/csse_covid_19_time_series/'
 
 g = git.cmd.Git(path)
 g.pull()
@@ -175,10 +176,10 @@ for index, row in totals.iterrows():
     for i, r in by_date.iterrows():
         ### only add to post if the date in by_date df matches the date in current itteration of totals df
         if r['Date'] == date:
-            location = r['Province/State']
+            location = r['Province/State'].replace('.', '')
             ### temporary object to hold data that will be added to "locations" in post
             obj = {
-                        "region": r['Country/Region'],
+                "region": r['Country/Region'].replace('.', ''),
                         "lat": r["Lat"],
                         "lng": r["Long"],
                         "confirmed": r["Confirmed Cases"],
