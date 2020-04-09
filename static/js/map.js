@@ -6,6 +6,7 @@ d3.json('https://covid2019tracker.appspot.com/api/date').then(function(result,er
     ///////////////////////////////
 
     // date format function for timeline slider
+    console.log(result[0]);
     var parseDate = d3.timeFormat("%m-%d-%Y");
 
     // create the timelinecontrol object with date format option
