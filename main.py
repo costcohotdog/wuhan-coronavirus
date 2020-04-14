@@ -51,7 +51,7 @@ def api_county_date_data():
     }
     }
     query2 = {
-    "date": date
+    "formatted_date": date
     }
     date_list = list(date_collection.find({"$and": [query1,query2]}).sort('date'))
     return current_app.response_class(dumps(date_list), mimetype="application/json")
