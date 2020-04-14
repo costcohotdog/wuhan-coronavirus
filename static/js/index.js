@@ -1,5 +1,5 @@
 // Load Data then call functions
-d3.json('http://127.0.0.1:5000/api/date ').then(function(result,error) {
+d3.json('http://127.0.0.1:5000/api/global ').then(function(result,error) {
 
   let coronaData = result
   totalCounts(coronaData);
@@ -10,17 +10,19 @@ d3.json('http://127.0.0.1:5000/api/date ').then(function(result,error) {
   deathsVSrecovered(coronaData);
   diseaseComparisonChart(coronaData);
   streamChart(coronaData);
+  worldMap(coronaData);
 
-  d3.json('https://covid2019-tracker.appspot.com/api/sars').then(function(result,error) {
+  d3.json('http://127.0.0.1:5000/api/sars').then(function(result,error) {
     let sarsData = result
     highchartTotal(coronaData, sarsData);
     highchartTotalDeaths(coronaData, sarsData)
   })
 })
 
-///////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////////////
 // Totals and last updated
-///////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
 
 function getDOMElements() {
   // This function gets DOM elements and returns them
@@ -29,7 +31,7 @@ function getDOMElements() {
   const elements = {
     infected : d3.select('#total-infected-number'),
     deaths: d3.select('#total-deaths-number'),
-    countries: d3.select('#total-countries-number'),
+    active: d3.select('#total-active-number'),
     lastUpdated: d3.select('#last-updated'),
   }
 
@@ -40,72 +42,245 @@ function totalCounts(obj) {
   // This function will take in the api/date json object
   // and then display the total counters at the top of the page
 
-  const latestDate = obj[obj.length - 1];
+  // get most recent date
+  const latest_date = obj[obj.length -1].date;
 
-  // 1. Calculate total infected
-  const totalInfected = latestDate.total_confirmed;
+  // calculate totals
+  let total_cases = 0;
+  let total_deaths = 0;
+  let total_recoveries = 0; 
+  let active_cases = 0;
 
-  //2. Calculate total deaths
-  const totalDeaths = latestDate.total_deaths;
-
-  //3. Calculate total countries
-  let countries = []
-  let country;
-  for (const property in latestDate.locations) {
-    country = latestDate.locations[property].region;
-    if (countries.includes(country)) {
-
-    }else {
-      countries.push(country)
+  for (const doc in obj) {
+    if (obj[doc].date == latest_date) {
+      total_cases += obj[doc].confirmed;
+      total_deaths += obj[doc].deaths;
+      total_recoveries += obj[doc].recovered;
     }
   }
-  const totalCountries = countries.length
 
-  let counterDifInfected = totalInfected - 700;
-  let counterDifDeaths = totalDeaths - 700;
+  active_cases = total_cases - total_deaths - total_recoveries;
 
-  //4. Update DOM
+  // offset for counter animation
+  let counterDifInfected = total_cases - 70000;
+  let counterDifDeaths = total_deaths - 7000;
+
+  // update DOM
   let elements = getDOMElements()
-  elements.infected.append('p').text(totalInfected);
-  elements.deaths.append('p').text(totalDeaths);
-  elements.countries.append('p').text(totalCountries)
-  animateValue("total-infected-number", counterDifInfected, totalInfected, 0);
-  animateValue("total-deaths-number", counterDifDeaths, totalDeaths, 3500);
-  animateValue("total-countries-number", 0, totalCountries, 3500);
+  elements.infected.append('p').text(total_cases);
+  elements.active.append('p').text(active_cases)
+  elements.deaths.append('p').text(total_deaths);
 
+  animateValue("total-infected-number", counterDifInfected, total_cases, 10000);
+  animateValue("total-active-number", total_cases, 3500);
+  animateValue("total-deaths-number", counterDifDeaths, total_deaths, 3500);
 };
 
 function animateValue(id, start, end, duration) {
-    // This function animates the counters
-    var range = end - start;
-    var current = start;
-    var increment = end > start? 1 : -1;
-    var stepTime = Math.abs(Math.floor(duration / range));
-    var obj = document.getElementById(id);
-    var timer = setInterval(function() {
-        current += increment;
-        obj.innerHTML = current;
-        if (current == end) {
-            clearInterval(timer);
-        }
-    }, stepTime);
+  // This function animates the counters
+  var range = end - start;
+  var current = start;
+  var increment = end > start? 1 : -1;
+  var stepTime = Math.abs(Math.floor(duration / range));
+  var obj = document.getElementById(id);
+  var timer = setInterval(function() {
+      current += increment;
+      // obj.innerHTML = current;
+      if (current == end) {
+          clearInterval(timer);
+      }
+  }, stepTime);
 };
 
 function lastUpdated(obj) {
-  // This function takes in the api/date Object
-  // and calculates the last time the corona virus data was Updated.
-  // It then updates the 'last-updated' section of the DOM
-  let date;
-  const latest = obj[obj.length -1]
-  for (let [key, value] of Object.entries(latest.date)) {
-    date = value
+  // function to display most recent date of data
 
-  };
-  const dateObj = new Date(date);
-  dateObj.setTime( dateObj.getTime() - new Date().getTimezoneOffset()*60*(-1000) );
+  // get most recent date
+  const latest_date = obj[obj.length -1].date;
+
+  // update DOM
   const elements = getDOMElements();
-  elements.lastUpdated.append('p').text(`Last Updated: ${dateObj.toLocaleDateString()}`);
+  elements.lastUpdated.append('p').text(`Last Updated: ${latest_date}`);
 };
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+// Map
+//////////////////////////////////////////////////////////////////////////////////////////
+
+function worldMap(result) {
+
+    ///////////////////////////////
+    // date/time parsing
+    ///////////////////////////////
+
+    // date format function for timeline slider
+    var parseDate = d3.timeFormat("%m-%d-%Y");
+
+    // create the timelinecontrol object with date format option
+    var timelineControl = L.timelineSliderControl(
+        {formatOutput: date => {
+            date = new Date(date);
+            date.setTime(
+              date.getTime() - new Date().getTimezoneOffset() * 60 * -1000
+            );
+            return parseDate(date);
+        }}
+    );
+
+    // create an array to hold time points for creating features object
+    let featuresDates = result.map(data => {
+        for (let [key, value] of Object.entries(data.date)) {
+            return value
+        }
+    })
+
+
+    ///////////////////////////////
+    // create geojson object
+    ///////////////////////////////
+
+    // create feature collection object
+    let featureCollection = {
+        "type": "FeatureCollection",
+        "features": []
+    }
+
+    // date counter for featuresDates array above
+    let dateCount = -1;
+
+    // time offset for start/end dates
+    const timeDiff = 1e1;
+
+    // loop through each day
+    result.map(data => {
+        dateCount += 1;
+
+        // create post object
+        let post;
+
+        // loop through each location each day
+            for (const city in data.locations) {
+
+                // push new feature to post object
+                // timeDiff is used as a time offset so circle markers do not overlap
+                if (dateCount+1 == featuresDates.length) {
+                    post = {
+                        "type": "Feature",
+                        "properties": {
+                            "city": city,
+                            "start": featuresDates[dateCount],
+                            "end": featuresDates[dateCount]+timeDiff,
+                            "confirmed": data.locations[city].confirmed
+                        },
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [data.locations[city].lng, data.locations[city].lat]
+                        }
+                    }
+                }
+                else {
+                    post = {
+                        "type": "Feature",
+                        "properties": {
+                            "city": city,
+                            "start": featuresDates[dateCount],
+                            "end": featuresDates[dateCount+1]-timeDiff,
+                            "confirmed": data.locations[city].confirmed
+                        },
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [data.locations[city].lng, data.locations[city].lat]
+                        }
+                    }
+                }
+
+                // push post to feature collection array
+                featureCollection.features.push(post);
+            }
+    })
+
+    // push to layer function below
+    overlayLayers(featureCollection);
+
+    ///////////////////////////////
+    // map layers
+    ///////////////////////////////
+
+    function overlayLayers(featureCollection) {
+        
+        // confirmed cases layer
+        let casesLayer = L.timeline(featureCollection, {
+
+            // add circle markers
+            pointToLayer: function (feature, latlng) {
+
+                // cases
+                let cases = feature.properties.confirmed;
+
+                if (cases > 0) {
+                    // circle marker options
+                    let geojsonMarkerOptions = {
+                    radius: Math.sqrt(cases / 10) + 3,
+                    fillColor: "#ff4242",
+                    color: "#fac70b",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                    };
+
+                    // popup
+                    let tooltip = `<strong>${feature.properties.city}</strong><br>Confirmed Cases: ${cases}`;
+
+                    return L.circleMarker(latlng, geojsonMarkerOptions).bindTooltip(tooltip).openTooltip();
+                }
+
+            }
+
+        })
+
+        // push to map creation function
+        createMap(casesLayer);
+
+    }
+
+    ///////////////////////////////
+    // create the map based on layers pushed to it
+    ///////////////////////////////
+
+    function createMap(casesLayer) {
+
+        // dark basemap object
+        let baseDark = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+            attribution: 'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 10,
+            id: 'mapbox/dark-v10',
+            accessToken: 'pk.eyJ1IjoiY29zdGNvLWhvdGRvZyIsImEiOiJjazYxajkyNGUwNDljM2xvZnZjZmxmcjJqIn0.zW5wSAD1e2DKZIjtlAwNtQ'
+        })
+
+        // map object
+        let mymap = L.map('mapid', { layers: [baseDark], zoomControl: false, scrollWheelZoom: false }).setView([25, 0], 2);
+        mymap.on('focus', function() { mymap.scrollWheelZoom.enable(); });
+        mymap.on('blur', function() { mymap.scrollWheelZoom.disable(); });
+
+        // object holding basemaps
+        let baseMaps = {
+            "Dark": baseDark
+        }
+
+        // object holding overlay layers
+        let overlayMaps = {
+            "Confirmed Cases": casesLayer
+        }
+
+        // layer control
+        L.control.layers(baseMaps, overlayMaps).addTo(mymap)
+        mymap.addLayer(casesLayer)
+        timelineControl.addTo(mymap);
+        timelineControl.addTimelines(casesLayer);
+
+    }
+}
 
 ///////////////////////////////
 // Charts
@@ -114,67 +289,66 @@ function lastUpdated(obj) {
 // chinese provinces
 function provincesChart(obj) {
 
-  // parse date into dates array
-  let parseDate = d3.timeFormat("%m-%d")
-  let dates;
-  dates = obj.map(date => {
-    for (let [key, value] of Object.entries(date.date)) {
-      date = new Date(value)
-      date.setTime( date.getTime() - new Date().getTimezoneOffset()*60*(-1000));
+  // preview data
+  console.log(obj[0])
 
-      return parseDate(date)
-    };
+  // create array of dates (x-axis categories) and provinces (series names)
+  let dates =[]
+  let provinces =[]
+  obj.map( data => {
+    if (data.region == "China") {
+      if (!(dates.includes(data.date))) {
+        dates.push(data.date)
+      }
+      if (!(provinces.includes(data.location))) {
+        provinces.push(data.location)
+      }
+    }
   })
 
-  // get last date object
-  let lastDateObj = obj[obj.length - 1]
+  console.log(dates)
 
-  // create list of provinces
-  let states = [];
-  for (const property in lastDateObj.locations) {
-    if (lastDateObj.locations[property].region === "Mainland China") {
-      states.push(property);
-    }
-  }
+  // sort
+  dates.sort( (a,b) => {
+    return new Date(a) - new Date(b)
+  })
+  provinces.sort((a, b) => a.localeCompare(b))
 
-  let seriesObj = {
+  // create series object for chart
+  let chart_series = {
     series: []
   };
   let post;
 
-  // loop through states list and push post object to series object
-  for (const i in states) {
+  // loop through provinces array and push to chart series object
+  for (const i in provinces) {
     post = {
-      name: states[i],
+      name: provinces[i],
       data: []
     }
-    if (states[i] === 'Hubei') {
-        seriesObj.series.unshift(post)
+    if (provinces[i] === 'Hubei') {
+        chart_series.series.unshift(post) // put Hubei first for visual purposes
     }
     else {
-        seriesObj.series.push(post)
+        chart_series.series.push(post)
     }
   }
 
+  let province_name, sum;
 
-  let state, sum;
-
-  // loop through each post that was pushed to the series object
-  for (const location in seriesObj.series) {
-
-    // set state equal to the name value in each post of the series object
-    state = seriesObj.series[location].name;
-
-    // loop through each day and push confimed cases for each profince to appropriate seriesObj position
+  // loop through each province that was pushed to the series object
+  for (const province in chart_series.series) {
+    province_name = chart_series.series[province].name; // province name
     obj.map(data => {
-      for (const x in data.locations) {
-        if (x === state) {
-          sum = data.locations[x].confirmed;
-          seriesObj.series[location].data.push(sum)
-        }
+      if (data.location === province_name) {
+        console.log('cool')
+        sum = data.confirmed;
+        chart_series.series[province].data.push(sum)
       }
     });
   };
+
+  console.log(chart_series)
 
   // create stacked area chart
   Highcharts.chart("stackedArea", {

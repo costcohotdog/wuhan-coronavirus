@@ -11,13 +11,46 @@ p {
   margin-bottom: 0;
 }
 
+
+/* Navbar */
+
+.navbar-light .navbar-brand, .update-text, body {
+  color: white;
+}
+
+
+/* Chinese Provinces */
+
+.newyear-backgroundimage {
+  border-radius: 15px;
+  position: absolute;
+  z-index: -1;
+  background-image: url(https://resize.hswstatic.com/w_907/gif/chinese-new-year-5.jpg);
+  background-position-x: center;
+  background-size: cover;
+  background-position-y: center;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: initial;
+  height: 100%;
+  width: 95%;
+  opacity: 0.5;
+}
+
+#newyear-container h3{
+  font-size: 1.5rem;
+}
+
+#newyear-container h5{
+  font-size: 0.75rem;
+  padding-top: 1rem;
+}
+
 #mapid {
   height: 600px;
 }
 
-.navbar-light .navbar-brand, .update-text, body {
-    color: white;
-}
+
 
 #intro, #newyear, #spread, #global, #spreadChart, #news {
   position: relative;
@@ -50,22 +83,6 @@ p {
 	position: absolute;
 	right: 50%;
 	width: 100vw;
-}
-
-.newyear-backgroundimage {
-  border-radius: 15px;
-  position: absolute;
-  z-index: -1;
-  background-image: url(https://resize.hswstatic.com/w_907/gif/chinese-new-year-5.jpg);
-  background-position-x: center;
-  background-size: cover;
-  background-position-y: center;
-  background-origin: initial;
-  background-clip: initial;
-  background-color: initial;
-  height: 100%;
-  width: 95%;
-  opacity: 0.5;
 }
 
 .spread-backgroundimage {
