@@ -15,16 +15,16 @@ date_collection = db['daily_cases']
 data = [date for date in date_collection.find()]
 
 sars_collection = db['sars']
-data = [day for day in sars_collection.find()]
+sars_data = [day for day in sars_collection.find()]
 
 
 @app.route('/', methods=['GET'])
 def home():
-    return render_template('index.html', data=cases)
+    return render_template('index.html', data=data)
 
 @app.route('/api', methods=['GET'])
 def api():
-    return render_template('api.html', data=cases)
+    return render_template('api.html', data=data)
 
 @app.route('/api/sars',methods=['GET'])
 def api_sars():
