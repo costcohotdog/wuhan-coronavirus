@@ -9,7 +9,7 @@ d3.json('http://127.0.0.1:5000/api/global ').then(function(result,error) {
   // top10Infections(coronaData);
   // deathsVSrecovered(coronaData);
   // diseaseComparisonChart(coronaData);
-  // streamChart(coronaData);
+  streamChart(coronaData);
   worldMap(coronaData);
 
   d3.json('http://127.0.0.1:5000/api/sars').then(function(result,error) {
@@ -18,6 +18,33 @@ d3.json('http://127.0.0.1:5000/api/global ').then(function(result,error) {
     // highchartTotalDeaths(coronaData, sarsData)
   })
 })
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+// Useful functions
+//////////////////////////////////////////////////////////////////////////////////////////
+
+// get array of formatted dates
+function dates_array(obj) {
+  let dates =[]
+  obj.map( data => {
+    if (!(dates.includes(data.formatted_date))) {
+      dates.push(data.formatted_date)
+    }
+  })
+  return dates
+}
+
+// get array of countries
+function countries_array(obj) {
+  let countries = []
+  obj.map(data => {
+    if (!(countries.includes(data.region))) {
+      countries.push(data.region)
+    }
+  })
+  return countries
+}
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -96,7 +123,7 @@ function lastUpdated(obj) {
   // function to display most recent date of data
 
   // get most recent date
-  const latest_date = obj[obj.length -1].date;
+  const latest_date = obj[obj.length -1].formatted_date;
 
   // update DOM
   const elements = getDOMElements();
@@ -109,7 +136,7 @@ function lastUpdated(obj) {
 //////////////////////////////////////////////////////////////////////////////////////////
 
 function worldMap(result) {
-  console.log(result[0])
+  
   ///////////////////////////////
   // timepoints and countries
   ///////////////////////////////
@@ -142,6 +169,7 @@ function worldMap(result) {
     }
   })
 
+
   ///////////////////////////////
   // create geojson object
   ///////////////////////////////
@@ -152,33 +180,28 @@ function worldMap(result) {
       "features": []
   }
 
-  // date counter for featuresDates array above
-  let dateCount = -1;
-
-  // time offset for start/end dates
-  const timeDiff = 1e1;
-
-
+  // loop over each day in the timepoints array created earlier
   for (day in timepoints) {
+
+    // loop through data
     result.map(data => {
-      
-      let post;
+
+      // post to feature collection for dates matching the timepoint
       for (let [key, value] of Object.entries(data.date)) {
         if (value == timepoints[day]){
-          post = {
+          let post = {
             "type": "Feature",
             "properties": {
                 "city": data.location,
                 "start": timepoints[day],
-                "end": timepoints[day]+86399999,
-                "confirmed": data.confirmed - data.recovered - data.deaths
+                "end": timepoints[day]+86399999, // offset so the markers don't overlap
+                "confirmed": data.confirmed - data.recovered - data.deaths // active cases only
             },
             "geometry": {
                 "type": "Point",
                 "coordinates": [data.lng, data.lat]
             }
           }
-          
           featureCollection.features.push(post);
         }
       }
@@ -242,7 +265,7 @@ function worldMap(result) {
 
   function overlayLayers(featureCollection) {
       
-      // confirmed cases layer
+      // active cases layer
       let casesLayer = L.timeline(featureCollection, {
 
           // add circle markers
@@ -653,83 +676,85 @@ function provincesChart(obj) {
 //   });
 // }
 
-// // non-china countries stream
-// function streamChart(coronaData) {
+// non-china countries stream
+function streamChart(coronaData) {
 
-//   // get date
-//   let parseDate = d3.timeFormat("%m-%d");
-//   let date;
-//   let dates;
-//   dates = coronaData.map(date => {
-//     for (let [key, value] of Object.entries(date.date)) {
-//       date = new Date(value);
-//       date.setTime(
-//         date.getTime() - new Date().getTimezoneOffset() * 60 * -1000
-//       );
+  // get dates
+  let dates = dates_array(coronaData)
+  
+  // retrieve latest date
+  latestDate = coronaData[coronaData.length - 1];
 
-//       return parseDate(date);
-//     }
-//   });
+  // get countries
+  let countries = countries_array(coronaData).sort((a, b) => a.localeCompare(b))
 
-//   // retrieve latest date
-//   latestDate = coronaData[coronaData.length - 1];
+  // create series object for chart
+  let seriesObj = {
+    series: []
+  };
 
-//   // get list of countries
-//   let countries =[];
-//   for (const property in latestDate.locations) {
-//       if (countries.includes(latestDate.locations[property].region)) {
-//           continue
-//       }
-//       else {
-//           countries.push(latestDate.locations[property].region)
-//       }
-//   }
+  // push country names to series object
+  for (const i in countries) {
 
-//   // create series object
-//   let seriesObj = {
-//     series: []
-//   };
+    let post = {
+        name: countries[i],
+        data: []
+    };
+    seriesObj.series.push(post);
+  }
+  console.log(seriesObj)
+  // loop through each country in the chart series object
+  for (const location in seriesObj.series) {
 
-//   // push objects to series object
-//   let post;
-//   for (const i in countries) {
+    // loop through each day in the date array
+    for (const day in dates) {
 
-//       post = {
-//           name: countries[i],
-//           data: []
-//       };
+      var daily_sum = 0;
 
-//       // exclude china
-//       if (countries[i] !== 'Mainland China') {
-//           seriesObj.series.push(post);
-//       }
-//   }
+      // go through data
+      coronaData.map( data => {
 
-//   let country, sum;
-//   for (const location in seriesObj.series) {
-//       countryName = seriesObj.series[location].name;
+        // find entries matching the country and date, calculate active cases
+        if(data.formatted_date == dates[day] && data.region == seriesObj.series[location].name) {
+          daily_sum += data.confirmed - data.recovered - data.deaths;
+        }
+      })
 
-//       // loop through each day
-//       coronaData.map(data => {
+      // only keep data above 100 for chart readability
+      if (daily_sum > 100) {
+        seriesObj.series[location].data.push(daily_sum);
+      }
+      else {
+        seriesObj.series[location].data.push(0);
+      }
+    }
+  }
 
-//           let dailySum = 0;
+  // // loop through each country in the chart series object
+  // for (const location in seriesObj.series) {
+  //   countryName = seriesObj.series[location].name;
 
-//           // loop through each location each day
-//           for (const country in data.locations) {
+  //   // loop through the data
+  //   coronaData.map(data => {
 
-//               if (data.locations[country].region === countryName) {
-//                   dailySum +=
-//                   data.locations[country].confirmed +
-//                   data.locations[country].recovered +
-//                   data.locations[country].deaths;
-//               }
+  //     let dailySum = 0;
 
-//           }
+  //     // loop through each location each day
+  //     for (const country in data.locations) {
 
-//           seriesObj.series[location].data.push(dailySum);
+  //         if (data.locations[country].region === countryName) {
+  //             dailySum +=
+  //             data.locations[country].confirmed +
+  //             data.locations[country].recovered +
+  //             data.locations[country].deaths;
+  //         }
 
-//       });
-//   }
+  //     }
+
+  //     seriesObj.series[location].data.push(dailySum);
+
+  //   });
+  // }
 
 //   // rename Others to the cruise ship
 //   for (name in seriesObj.series) {
@@ -738,65 +763,65 @@ function provincesChart(obj) {
 //     };
 //   }
 
-//   // create stream chart
-//   Highcharts.chart("streamChart", {
-//     chart: {
-//       type: "streamgraph",
-//       marginBottom: 40,
-//       zoomType: "x"
-//     },
+  // create stream chart
+  Highcharts.chart("streamChart", {
+    chart: {
+      type: "streamgraph",
+      marginBottom: 40,
+      zoomType: "x"
+    },
 
-//     title: {
-//       floating: false,
-//       align: "left",
-//       text: "Confirmed Cases Outside of China",
-//       y: 70
-//     },
+    title: {
+      floating: false,
+      align: "left",
+      text: "Confirmed Cases Outside of China",
+      y: 70
+    },
 
-//     subtitle: {
-//       floating: false,
-//       align: "left",
-//       text: "Click and drag along x-axis to zoom",
-//       y: 90
-//     },
+    subtitle: {
+      floating: false,
+      align: "left",
+      text: "Click and drag along x-axis to zoom",
+      y: 90
+    },
 
-//     xAxis: {
-//       maxPadding: 0,
-//       type: "category",
-//       categories: dates,
-//       crosshair: true,
-//       labels: {
-//         enable: false
-//       },
-//       lineWidth: 0,
-//       margin: 30,
-//       tickWidth: 0
-//     },
+    xAxis: {
+      maxPadding: 0,
+      type: "category",
+      categories: dates,
+      crosshair: true,
+      labels: {
+        enable: false
+      },
+      lineWidth: 0,
+      margin: 30,
+      tickWidth: 0
+    },
 
-//     yAxis: {
-//       visible: false,
-//       startOnTick: false,
-//       endOnTick: false
-//     },
+    yAxis: {
+      visible: false,
+      startOnTick: false,
+      endOnTick: false
+    },
 
-//     legend: {
-//       enabled: false
-//     },
+    legend: {
+      enabled: false
+    },
 
-//     plotOptions: {
-//       series: {
-//         label: {
-//           minFontSize: 5,
-//           maxFontSize: 15,
-//           style: {
-//             color: "rgba(255,255,255,1)"
-//           }
-//         }
-//       }
-//     },
-//     series: seriesObj.series
-//   });
-// }
+    plotOptions: {
+      series: {
+        label: {
+          minFontSize: 5,
+          maxFontSize: 15,
+          style: {
+            color: "rgba(255,255,255,1)"
+          }
+        }
+      }
+    },
+    series: seriesObj.series
+  });
+}
 
 // // deaths and recoveries totals, and rates
 // function deathsVSrecovered(coronaData) {

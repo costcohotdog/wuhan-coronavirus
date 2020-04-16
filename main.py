@@ -15,20 +15,16 @@ date_collection = db['daily_cases']
 data = [date for date in date_collection.find()]
 
 sars_collection = db['sars']
-sars_data = [day for day in sars_collection.find()]
+data = [day for day in sars_collection.find()]
 
 
 @app.route('/', methods=['GET'])
 def home():
-    return render_template('index.html', data=data)
-
-@app.route('/dashboard', methods=['GET'])
-def dashboard():
-    return render_template('dashboard.html', data=data)
+    return render_template('index.html', data=cases)
 
 @app.route('/api', methods=['GET'])
 def api():
-    return render_template('api.html', data=data)
+    return render_template('api.html', data=cases)
 
 @app.route('/api/sars',methods=['GET'])
 def api_sars():
@@ -55,7 +51,7 @@ def api_county_date_data():
     }
     }
     query2 = {
-    "formatted_date": date
+    "date": date
     }
     date_list = list(date_collection.find({"$and": [query1,query2]}).sort('date'))
     return current_app.response_class(dumps(date_list), mimetype="application/json")
@@ -63,7 +59,7 @@ def api_county_date_data():
 @app.route('/api/global', methods=['GET'])
 def api_global_data():
     query1 = {
-    "region": {"$not": {"$regex": 'US', "$options": 'i'}}
+    "fips": { "$exists": False }
     }
     date_list = list(date_collection.find(query1).sort('date'))
     return current_app.response_class(dumps(date_list), mimetype="application/json")
