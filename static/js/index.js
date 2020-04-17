@@ -7,7 +7,7 @@ d3.json('http://127.0.0.1:5000/api/global ').then(function(result,error) {
   provincesChart(coronaData);
   // chinaWorldInfectionsChart(coronaData);
   // top10Infections(coronaData);
-  // deathsVSrecovered(coronaData);
+  deathsVSrecovered(coronaData);
   // diseaseComparisonChart(coronaData);
   streamChart(coronaData);
   worldMap(coronaData);
@@ -778,39 +778,6 @@ function streamChart(coronaData) {
     }
   }
 
-  // // loop through each country in the chart series object
-  // for (const location in seriesObj.series) {
-  //   countryName = seriesObj.series[location].name;
-
-  //   // loop through the data
-  //   coronaData.map(data => {
-
-  //     let dailySum = 0;
-
-  //     // loop through each location each day
-  //     for (const country in data.locations) {
-
-  //         if (data.locations[country].region === countryName) {
-  //             dailySum +=
-  //             data.locations[country].confirmed +
-  //             data.locations[country].recovered +
-  //             data.locations[country].deaths;
-  //         }
-
-  //     }
-
-  //     seriesObj.series[location].data.push(dailySum);
-
-  //   });
-  // }
-
-//   // rename Others to the cruise ship
-//   for (name in seriesObj.series) {
-//     if (seriesObj.series[name].name === 'Others') {
-//       seriesObj.series[name].name = "Diamond Princess Cruise Ship";
-//     };
-//   }
-
   // create stream chart
   Highcharts.chart("streamChart", {
     chart: {
@@ -875,222 +842,226 @@ function streamChart(coronaData) {
   });
 }
 
-// // deaths and recoveries totals, and rates
-// function deathsVSrecovered(coronaData) {
+// deaths and recoveries totals, and rates
+function deathsVSrecovered(coronaData) {
 
-//   //get days
-//   let parseDate = d3.timeFormat("%m/%d/%Y");
-//   let dates;
-//   dates = coronaData.map(date => {
-//       for (let [key,value] of Object.entries(date.date)) {
-//           date = new Date(value);
-//           date.setTime(
-//           date.getTime() -
-//               new Date().getTimezoneOffset() *
-//               60 *
-//               -1000
-//           );
+  // get dates
+  let dates = dates_array(coronaData);
 
-//           return parseDate(date);
-//       }
-//   });
+  let confirmed = [];
+  let active = [];
+  let recovered = [];
+  let deaths = [];
+  let infectionRate = [];
+  let recoveryRate = [];
+  let mortalityRate = [];
 
-//   let infected = [];
-//   let recovered = [];
-//   let deaths = [];
-//   let infectionRate = [];
-//   let recoveryRate = [];
-//   let mortalityRate = [];
+  // calculate totals for each day
+  for (day in dates) {
+    let day_confirmed = 0;
+    let day_recovered = 0;
+    let day_deaths = 0;
 
-//   // push data to lists
-//   coronaData.map(data => {
-//       infected.push(data.total_confirmed);
-//       recovered.push(data.total_recovered);
-//       deaths.push(data.total_deaths);
+    coronaData.map(data => {
+      if (data.formatted_date == dates[day]) {
+        day_confirmed += data.confirmed;
+        day_recovered += data.recovered;
+        day_deaths += data.deaths;
+      }
+    })
+    confirmed.push(day_confirmed);
+    active.push(day_confirmed - day_deaths - day_recovered)
+    recovered.push(day_recovered);
+    deaths.push(day_deaths);
 
-//       // rate calculations
-//       recoveryRate.push((data.total_recovered / data.total_confirmed) * 100);
-//       mortalityRate.push((data.total_deaths/data.total_confirmed)*100)
-//   })
+    // rate calculations
+    recoveryRate.push((day_recovered / day_confirmed) * 100);
+    mortalityRate.push((day_deaths / day_confirmed)*100)
 
-//   // correct for first rate days
-//   for (let i in infected) {
+  }
 
-//     if (i < 2 ) {
-//       infectionRate.push(0)
-//     }
-//     else {
-//       let difference = infected[i] - infected[i-1]
-//       infectionRate.push((difference/infected[i-1])*100)
-//     }
+  // correct for first rate days
+  for (let i in active) {
 
-//   }
+    if (i < 2 ) {
+      infectionRate.push(0)
+    }
+    else {
+      let difference = active[i] - active[i-1]
+      infectionRate.push((difference/active[i-1])*100)
+    }
 
-//   // create chart deaths vs recoveries chart
-//   Highcharts.chart("deaths-vs-recovered-chart", {
-//     title: {
-//       text: "Totals and Rates"
-//     },
-//     subtitle: {
-//       text: "Use legends to enable/disable series"
-//     },
-//     xAxis: {
-//       categories: dates,
-//       title: {
-//         text: "Date"
-//       },
-//       labels: {
-//         enabled: false
-//       }
-//     },
-//     yAxis: {
-//       title: {
-//         text: ""
-//       }
-//     },
-//     tooltip: {
-//       shared: true,
-//       useHTML: true,
-//       headerFormat: "{point.key}<table>",
-//       pointFormat:
-//         '<tr><td style="color: {series.color}">{series.name}: </td>' +
-//         '<td style="text-align: right"><b>{point.y}</b></td></tr>',
-//       footerFormat: "</table>"
-//     },
+  }
 
-//     legend: {
-//       enabled: true,
-//       align: "left",
-//       verticalAlign: "top",
-//       floating: true,
-//       y: 60,
-//       x: 25
-//     },
+  // create chart deaths vs recoveries chart
+  Highcharts.chart("deaths-vs-recovered-chart", {
+    title: {
+      text: "Totals and Rates"
+    },
+    subtitle: {
+      text: "Use legends to enable/disable series"
+    },
+    xAxis: {
+      categories: dates,
+      title: {
+        text: "Date"
+      },
+      labels: {
+        enabled: false
+      }
+    },
+    yAxis: {
+      title: {
+        text: ""
+      }
+    },
+    tooltip: {
+      shared: true,
+      useHTML: true,
+      headerFormat: "{point.key}<table>",
+      pointFormat:
+        '<tr><td style="color: {series.color}">{series.name}: </td>' +
+        '<td style="text-align: right"><b>{point.y}</b></td></tr>',
+      footerFormat: "</table>"
+    },
 
-//     plotOptions: {
-//       series: {
-//         label: {
-//           connectorAllowed: false
-//         }
-//       }
-//     },
+    legend: {
+      enabled: true,
+      align: "left",
+      verticalAlign: "top",
+      floating: true,
+      y: 60,
+      x: 25
+    },
 
-//     series: [
-//       {
-//         name: "Confirmed Cases",
-//         data: infected,
-//         color: "#e13a9d",
-//         visible: false
-//       },
-//       {
-//         name: "Recovered",
-//         data: recovered,
-//         color: "#fac70b"
-//       },
-//       {
-//         name: "Deaths",
-//         data: deaths,
-//         color: "#ff4242"
-//       }
-//     ],
+    plotOptions: {
+      series: {
+        label: {
+          connectorAllowed: false
+        }
+      }
+    },
 
-//     responsive: {
-//       rules: [
-//         {
-//           condition: {
-//             maxWidth: 500
-//           },
-//           chartOptions: {
-//             legend: {
-//               enabled: false
-//             }
-//           }
-//         }
-//       ]
-//     }
-//   });
+    series: [
+      {
+        name: "Confirmed Cases",
+        data: confirmed,
+        color: "#e13a9d",
+        visible: false
+      },
+      {
+        name: "Active Cases",
+        data: active,
+        color: "#e13a9d",
+      },
+      {
+        name: "Recovered",
+        data: recovered,
+        color: "#fac70b"
+      },
+      {
+        name: "Deaths",
+        data: deaths,
+        color: "#ff4242"
+      }
+    ],
 
-//   // create mortality rate chart
-//   Highcharts.chart("mortality-rate-chart", {
-//     title: {
-//       text: ""
-//     },
-//     subtitle: {
-//       text: "Rates (%)"
-//     },
-//     xAxis: {
-//       categories: dates,
-//       title: {
-//         text: "Date"
-//       },
-//       labels: {
-//         enabled: false
-//       }
-//     },
-//     yAxis: {
-//       title: {
-//         text: ""
-//       }
-//     },
-//     tooltip: {
-//       shared: true,
-//       useHTML: true,
-//       valueDecimals: 2,
-//       headerFormat: "{point.key}<table>",
-//       pointFormat:
-//         '<tr><td style="color: {series.color}">{series.name}: </td>' +
-//         '<td style="text-align: right"><b>{point.y}%</b></td></tr>',
-//       footerFormat: "</table>"
-//     },
+    responsive: {
+      rules: [
+        {
+          condition: {
+            maxWidth: 500
+          },
+          chartOptions: {
+            legend: {
+              enabled: false
+            }
+          }
+        }
+      ]
+    }
+  });
 
-//     legend: {
-//       enabled: true,
-//       x: -110
-//     },
+  // create mortality rate chart
+  Highcharts.chart("mortality-rate-chart", {
+    title: {
+      text: ""
+    },
+    subtitle: {
+      text: "Rates (%)"
+    },
+    xAxis: {
+      categories: dates,
+      title: {
+        text: "Date"
+      },
+      labels: {
+        enabled: false
+      }
+    },
+    yAxis: {
+      title: {
+        text: ""
+      }
+    },
+    tooltip: {
+      shared: true,
+      useHTML: true,
+      valueDecimals: 2,
+      headerFormat: "{point.key}<table>",
+      pointFormat:
+        '<tr><td style="color: {series.color}">{series.name}: </td>' +
+        '<td style="text-align: right"><b>{point.y}%</b></td></tr>',
+      footerFormat: "</table>"
+    },
 
-//     plotOptions: {
-//       series: {
-//         label: {
-//           connectorAllowed: false
-//         }
-//       }
-//     },
+    legend: {
+      enabled: true,
+      x: -110
+    },
 
-//     series: [
-//       {
-//         name: "Infection Rate",
-//         data: infectionRate,
-//         color: "#e13a9d",
-//         visible: false
-//       },
-//       {
-//         name: "Recovery Rate",
-//         data: recoveryRate,
-//         color: "#fac70b"
-//       },
-//       {
-//         name: "Mortality Rate",
-//         data: mortalityRate,
-//         color: "#ff4242"
-//       }
-//     ],
+    plotOptions: {
+      series: {
+        label: {
+          connectorAllowed: false
+        }
+      }
+    },
 
-//     responsive: {
-//       rules: [
-//         {
-//           condition: {
-//             maxWidth: 500
-//           },
-//           chartOptions: {
-//             legend: {
-//               enabled: false
-//             }
-//           }
-//         }
-//       ]
-//     }
-//   });
-// }
+    series: [
+      {
+        name: "Infection Rate",
+        data: infectionRate,
+        color: "#e13a9d"
+      },
+      {
+        name: "Recovery Rate",
+        data: recoveryRate,
+        color: "#fac70b"
+      },
+      {
+        name: "Mortality Rate",
+        data: mortalityRate,
+        color: "#ff4242"
+      }
+    ],
+
+    responsive: {
+      rules: [
+        {
+          condition: {
+            maxWidth: 500
+          },
+          chartOptions: {
+            legend: {
+              enabled: false
+            }
+          }
+        }
+      ]
+    }
+  });
+}
 
 // // disease comparison
 // function diseaseComparisonChart(coronaData) {
