@@ -26,11 +26,6 @@ def home():
 def api():
     return render_template('api.html', data=cases)
 
-@app.route('/api/sars',methods=['GET'])
-def api_sars():
-    sars_list = list(sars_collection.find())
-    return current_app.response_class(dumps(sars_list), mimetype="application/json")
-
 @app.route('/api/county', methods=['GET'])
 def api_county_data():
     query1 = {

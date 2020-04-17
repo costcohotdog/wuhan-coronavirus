@@ -8,15 +8,10 @@ d3.json('http://127.0.0.1:5000/api/global ').then(function(result,error) {
   // chinaWorldInfectionsChart(coronaData);
   // top10Infections(coronaData);
   deathsVSrecovered(coronaData);
-  // diseaseComparisonChart(coronaData);
+  diseaseComparisonChart(coronaData);
   streamChart(coronaData);
   worldMap(coronaData);
-
-  d3.json('http://127.0.0.1:5000/api/sars').then(function(result,error) {
-    let sarsData = result
-    // highchartTotal(coronaData, sarsData);
-    // highchartTotalDeaths(coronaData, sarsData)
-  })
+  
 })
 
 
@@ -1063,124 +1058,133 @@ function deathsVSrecovered(coronaData) {
   });
 }
 
-// // disease comparison
-// function diseaseComparisonChart(coronaData) {
+// disease comparison
+function diseaseComparisonChart(obj) {
 
-//   // get latest day data
-//   let latestDay = coronaData[coronaData.length-1]
+  // get most recent date
+  const latest_date = obj[obj.length -1].formatted_date;
 
-//   // totals and rate
-//   let totalDeaths = latestDay.total_deaths;
-//   let totalConfirmed = latestDay.total_confirmed;
-//   let mortalityRate = ((latestDay.total_deaths * 100) / latestDay.total_confirmed);
+  // calculate totals
+  let total_cases = 0;
+  let total_deaths = 0;
 
-//   // create comparison chart
-//   Highcharts.chart("rates-comparison", {
-//     chart: {
-//       type: "bubble",
-//       plotBorderWidth: 1,
-//       zoomType: "xy"
-//     },
+  for (const doc in obj) {
+    if (obj[doc].formatted_date == latest_date) {
+      total_cases += obj[doc].confirmed;
+      total_deaths += obj[doc].deaths;
+    }
+  }
 
-//     legend: {
-//       enabled: false
-//     },
+  // mortality rate
+  let mortalityRate = ((total_deaths * 100) / total_cases);
 
-//     title: {
-//       text: "COVID-19 compared to other infectious diseases"
-//     },
-//     subtitle: {
-//       text: "Bubble Size = Mortality Rate (%)"
-//     },
+  // create comparison chart
+  Highcharts.chart("rates-comparison", {
+    chart: {
+      type: "bubble",
+      plotBorderWidth: 1,
+      zoomType: "xy"
+    },
 
-//     xAxis: {
-//       type: "logarithmic",
-//       gridLineWidth: 1,
-//       title: {
-//         text: "Confirmed Cases (Log Scale)"
-//       }
-//     },
+    legend: {
+      enabled: false
+    },
 
-//     yAxis: {
-//       startOnTick: false,
-//       endOnTick: false,
-//       title: {
-//         text: "Deaths"
-//       }
-//     },
+    title: {
+      text: "COVID-19 compared to other infectious diseases"
+    },
+    subtitle: {
+      text: "Bubble Size = Mortality Rate (%)"
+    },
 
-//     tooltip: {
-//       useHTML: true,
-//       headerFormat: "<table>",
-//       valueDecimals: 0,
-//       pointFormat:
-//         '<tr><th colspan="2"><h4>{point.country}</h4></th></tr>' +
-//         "<tr><th>Confirmed Cases:  {point.x:,.0f}</th></tr>" +
-//         "<tr><th>Deaths:  {point.y}</th></tr>" +
-//         "<tr><th>Mortality Rate:  {point.z:.2f}%</th></tr>",
-//       footerFormat: "</table>",
-//       followPointer: false
-//     },
+    xAxis: {
+      type: "logarithmic",
+      gridLineWidth: 1,
+      title: {
+        text: "Confirmed Cases (Log Scale)"
+      }
+    },
 
-//     plotOptions: {
-//       series: {
-//         dataLabels: {
-//           enabled: true,
-//           format: "{point.name}"
-//         }
-//       },
-//       bubble: {
-//         minSize: 20
-//       }
-//     },
-//     series: [
-//       {
-//         data: [
-//           {
-//             x: totalConfirmed,
-//             y: totalDeaths,
-//             z: mortalityRate,
-//             name: "COVID-19",
-//             country: "Wuhan Coronavirus",
-//             color: "#ff4242"
-//           },
-//           {
-//             x: 8098,
-//             y: 810,
-//             z: 9.6,
-//             name: "SARS",
-//             country: "2002-2003 Severe Acute Respiratory Syndrome",
-//             color: "#fac70b"
-//           },
-//           {
-//             x: 2494,
-//             y: 848,
-//             z: 36,
-//             name: "MERS",
-//             country: "2012-Middle East Acute Respiratory Syndrome",
-//             color: "#aaeeee"
-//           },
-//           {
-//             x: 28616,
-//             y: 11446,
-//             z: 40,
-//             name: "Ebola",
-//             country: "2014-2016 Ebola Outbreak in West Africa",
-//             color: "#e13a9d"
-//           },
-//           {
-//             x: 35000000,
-//             y: 34200,
-//             z: 0.1,
-//             name: "Flu",
-//             country: "2018-2019 USA Flu",
-//             color: "#f7a35c"
-//           }
-//         ]
-//       }
-//     ]
-//   });
-// }
+    yAxis: {
+      startOnTick: false,
+      endOnTick: false,
+      title: {
+        text: "Deaths"
+      }
+    },
+
+    tooltip: {
+      useHTML: true,
+      headerFormat: "<table>",
+      valueDecimals: 0,
+      pointFormat:
+        '<tr><th colspan="2"><h4>{point.country}</h4></th></tr>' +
+        "<tr><th>Confirmed Cases:  {point.x:,.0f}</th></tr>" +
+        "<tr><th>Deaths:  {point.y}</th></tr>" +
+        "<tr><th>Mortality Rate:  {point.z:.2f}%</th></tr>",
+      footerFormat: "</table>",
+      followPointer: false
+    },
+
+    plotOptions: {
+      series: {
+        dataLabels: {
+          enabled: true,
+          format: "{point.name}"
+        }
+      },
+      bubble: {
+        minSize: 20
+      }
+    },
+    series: [
+      {
+        data: [
+          {
+            x: total_cases,
+            y: total_deaths,
+            z: mortalityRate,
+            name: "COVID-19",
+            country: "Wuhan Coronavirus",
+            color: "#ff4242"
+          },
+          {
+            x: 8098,
+            y: 810,
+            z: 9.6,
+            name: "SARS",
+            country: "2002-2003 Severe Acute Respiratory Syndrome",
+            color: "#fac70b"
+          },
+          {
+            x: 2494,
+            y: 848,
+            z: 36,
+            name: "MERS",
+            country: "2012-Middle East Acute Respiratory Syndrome",
+            color: "#aaeeee"
+          },
+          {
+            x: 28616,
+            y: 11446,
+            z: 40,
+            name: "Ebola",
+            country: "2014-2016 Ebola Outbreak in West Africa",
+            color: "#e13a9d"
+          },
+          {
+            x: 35000000,
+            y: 34200,
+            z: 0.1,
+            name: "Flu",
+            country: "2018-2019 USA Flu",
+            color: "#f7a35c"
+          }
+        ]
+      }
+    ]
+  });
+}
 
 // // COVID-19 vs sars
 // function highchartTotal(coronaData, sarsData) {
