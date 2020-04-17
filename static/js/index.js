@@ -46,7 +46,54 @@ function countries_array(obj) {
   return countries
 }
 
+// return top x active cases countries
+function countries_top_active(obj, top_num) {
+  let countries = countries_array(obj);
+  // create data series for each country
+  let worldSeries = [];
+  // loop through country list
+  for (i in countries) {
+      let countrySum = 0;
+      // loop through latest date data, total confirmed cases for each country
+      obj.map(data => {
+        if(data.region == countries[i]) {
+          countrySum += data.confirmed - data.deaths - data.recovered;
+        }
+      })
 
+      // push country and confirmed cases data to series
+      let post = {
+          name: countries[i],
+          active: countrySum
+      }
+      worldSeries.push(post);
+
+  }
+    // sort by descending
+  let sortable = [];
+  for (const obj in worldSeries) {
+      sortable.push([worldSeries[obj].name, worldSeries[obj].active]);
+  }
+  sortable.sort(function(a, b) {
+    return b[1] - a[1];
+  });
+
+  // select the top x
+  let worldTop = sortable.slice(0,top_num).map(x => { return x[0]})
+  
+  // only keep the country names
+
+  return worldTop
+}
+
+// var data = [{ a: 1, b: 2, c: 3, d: 4 }, { a: 2, b: 3, c: 4, d: 5 }],
+//     sum = data.map(function (object) {
+//         return Object.keys(object).reduce(function (sum, key) {
+//             return sum + (key !== 'a' && object[key]);
+//         }, 0);
+//     });
+
+// console.log(sum);
 //////////////////////////////////////////////////////////////////////////////////////////
 // Totals and last updated
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -680,32 +727,33 @@ function provincesChart(obj) {
 function streamChart(coronaData) {
 
   // get dates
-  let dates = dates_array(coronaData)
+  let dates = dates_array(coronaData);
   
   // retrieve latest date
   latestDate = coronaData[coronaData.length - 1];
 
-  // get countries
-  let countries = countries_array(coronaData).sort((a, b) => a.localeCompare(b))
-
+  // get countries, only getting top 20 active cases for visibility and lag
+  let top_20 = countries_top_active(coronaData, 30).sort((a, b) => a.localeCompare(b));
+  
   // create series object for chart
   let seriesObj = {
     series: []
   };
 
   // push country names to series object
-  for (const i in countries) {
+  for (const i in top_20) {
 
     let post = {
-        name: countries[i],
+        name: top_20[i],
         data: []
     };
     seriesObj.series.push(post);
+    
   }
-  console.log(seriesObj)
+
   // loop through each country in the chart series object
   for (const location in seriesObj.series) {
-
+    
     // loop through each day in the date array
     for (const day in dates) {
 
@@ -720,8 +768,8 @@ function streamChart(coronaData) {
         }
       })
 
-      // only keep data above 100 for chart readability
-      if (daily_sum > 100) {
+      // only keep data above 10000 for chart readability
+      if (daily_sum > 1000) {
         seriesObj.series[location].data.push(daily_sum);
       }
       else {
@@ -774,8 +822,12 @@ function streamChart(coronaData) {
     title: {
       floating: false,
       align: "left",
-      text: "Confirmed Cases Outside of China",
+      text: "Active Cases",
       y: 70
+    },
+
+    subtitle: {
+      text: 'Top 30 countries'
     },
 
     subtitle: {
