@@ -19,6 +19,19 @@ p {
 }
 
 
+/* Totals */
+
+.totals-numbers {
+  font-size: 3rem;
+}
+
+
+
+.totals-numbers, .totals-text{
+font-family: 'Orbitron', sans-serif;
+}
+
+
 /* Chinese Provinces */
 
 .newyear-backgroundimage {
@@ -90,6 +103,23 @@ p {
   position: absolute;
   z-index: -1;
   background-image: url(https://cosmos-production-assets.s3.amazonaws.com/file/spina/photo/14331/GettyImages-171136267.jpg);
+  background-position-x: center;
+  background-size: cover;
+  background-position-y: center;
+  background-attachment: fixed;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: initial;
+  height: 200px;
+  width: 100%;
+  opacity: 0.5;
+}
+
+.masks-backgroundimage {
+  border-radius: 15px;
+  position: absolute;
+  z-index: -1;
+  background-image: url('../images/masks.PNG');
   background-position-x: center;
   background-size: cover;
   background-position-y: center;
@@ -220,16 +250,6 @@ body, .bg-dark {
 
 .upper-charts, .lower-charts, #upper-left-chart {
     height: 400px;
-}
-
-.totals-numbers {
-    font-size: 4rem;
-}
-
-
-
-.totals-numbers, .totals-text{
-  font-family: 'Orbitron', sans-serif;
 }
 
 .modebar{

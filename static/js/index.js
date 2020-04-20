@@ -11,7 +11,7 @@ d3.json('http://127.0.0.1:5000/api/global ').then(function(result,error) {
   diseaseComparisonChart(coronaData);
   streamChart(coronaData);
   worldMap(coronaData);
-  
+  cases_countries(coronaData);
 })
 
 
@@ -41,20 +41,31 @@ function countries_array(obj) {
   return countries
 }
 
-// return top x active cases countries
-function countries_top_active(obj, top_num) {
+// return top x countries, where type == 'active' or 'confirmed'
+function countries_top(obj, top_num, type) {
   let countries = countries_array(obj);
   // create data series for each country
   let worldSeries = [];
   // loop through country list
   for (i in countries) {
       let countrySum = 0;
-      // loop through latest date data, total confirmed cases for each country
-      obj.map(data => {
-        if(data.region == countries[i]) {
-          countrySum += data.confirmed - data.deaths - data.recovered;
-        }
-      })
+      
+      // loop through latest date data, total cases for each country
+      // check whether 'active' or 'confirmed' cases were requested
+      if (type == 'active') {
+        obj.map(data => {
+          if(data.region == countries[i]) {
+            countrySum += data.confirmed - data.deaths - data.recovered;
+          }
+        })
+      }
+      else if (type == 'confirmed') {
+        obj.map(data => {
+          if(data.region == countries[i]) {
+            countrySum += data.confirmed;
+          }
+        })
+      }
 
       // push country and confirmed cases data to series
       let post = {
@@ -62,7 +73,6 @@ function countries_top_active(obj, top_num) {
           active: countrySum
       }
       worldSeries.push(post);
-
   }
     // sort by descending
   let sortable = [];
@@ -339,7 +349,6 @@ function worldMap(result) {
 
       // push to map creation function
       createMap(casesLayer);
-
   }
 
   ///////////////////////////////
@@ -372,13 +381,15 @@ function worldMap(result) {
       }
 
       // layer control
-      L.control.layers(baseMaps, overlayMaps).addTo(mymap)
+      // L.control.layers(baseMaps, overlayMaps).addTo(mymap)
       mymap.addLayer(casesLayer)
       timelineControl.addTo(mymap);
       timelineControl.addTimelines(casesLayer);
 
   }
+  
 }
+
 
 ///////////////////////////////
 // Charts
@@ -478,245 +489,115 @@ function provincesChart(obj) {
   });
 };
 
-// // china vs world total cases
-// function chinaWorldInfectionsChart(obj) {
 
-//    // parse date into dates array
-//   let parseDate = d3.timeFormat("%m/%d/%Y")
-//   let dates;
-//   dates = obj.map(date => {
-//       for (let [key, value] of Object.entries(date.date)) {
-//       date = new Date(value);
-//       date.setTime( date.getTime() - new Date().getTimezoneOffset()*60*(-1000));
+// confirmed cases by country
+function cases_countries(obj) {
 
-//       return parseDate(date)
-//       };
-//   })
+  // get top 20 country names by active cases
+  let top_countries = countries_top(obj, 20, 'confirmed').sort((a, b) => a.localeCompare(b));
 
-//   // get infections for china and non-china
-//   let china = [];
-//   let notChina = [];
-//   let country, sum;
-//   obj.map(data => {
-//       let chinaSum = 0;
-//       let notChinaSum = 0;
-//       for (const property in data.locations) {
-//         country = data.locations[property].region;
-//         if (country === "Mainland China") {
-//             chinaSum += data.locations[property].confirmed;
-//         }
-//         else {
-//             notChinaSum += data.locations[property].confirmed;
-//         }
-//       }
-//       notChina.push(notChinaSum);
-//       china.push(chinaSum);
-//   })
+  // get dates
+  let dates = dates_array(obj);
+  
+  // create series for chart
+  let series = [];
 
-//   // create chart
-//   Highcharts.chart("china-vs-world-infections-chart", {
-//     chart: {
-//       type: "spline"
-//     },
-//     title: {
-//       text: "Confirmed Cases"
-//     },
+  // push country names with empty data array to series object
+  for (const i in top_countries) {
 
-//     subtitle: {
-//       text: "China vs. World"
-//     },
+    let post = {
+        name: top_countries[i],
+        data: []
+    };
+    series.push(post);
+  }
+  
+  // loop through each country in the chart series object
+  for (const location in series) {
 
-//     yAxis: {
-//       title: {
-//         text: "Confirmed Cases"
-//       }
-//     },
+    // loop through each day in the date array
+    for (const day in dates) {
 
-//     xAxis: {
-//       categories: dates,
-//       title: {
-//         text: "Date"
-//       },
-//       labels: {
-//         enabled: false
-//       }
-//     },
+      // daily sum for each country
+      let daily_sum = 0;
 
-//     tooltip: {
-//       shared: true,
-//       useHTML: true,
-//       headerFormat: "{point.key}<table>",
-//       pointFormat:
-//         '<tr><td style="color: {series.color}">{series.name}: </td>' +
-//         '<td style="text-align: right"><b>{point.y}</b></td></tr>',
-//       footerFormat: "</table>"
-//     },
+      // go through data
+      obj.map( data => {
 
-//     legend: {
-//       enabled: false
-//     },
+        // find entries matching the country and date, calculate active cases
+        if(data.formatted_date == dates[day] && data.region == series[location].name) {
+          daily_sum += data.confirmed;
+        }
+      })
 
-//     plotOptions: {
-//       series: {
-//         label: {
-//           connectorAllowed: false
-//         }
-//       }
-//     },
+      // start data once 100 cases was reached
+      if (daily_sum > 100) {
+        series[location].data.push(daily_sum);
+      }
+    }
+  }
+  
 
-//     series: [
-//       {
-//         name: "China",
-//         data: china,
-//         color: "#ff4242"
-//       },
-//       {
-//         name: "World",
-//         data: notChina,
-//         color: "#fac70b"
-//       }
-//     ],
+  // create chart
+  Highcharts.chart('cases_countries', {
 
-//     responsive: {
-//       rules: [
-//         {
-//           condition: {
-//             maxWidth: 500
-//           },
-//           chartOptions: {
-//             legend: {
-//               enabled: false
-//             }
-//           }
-//         }
-//       ]
-//     }
-//   });
+    title: {
+        text: 'Confirmed Cases: Top 20 Countries'
+    },
 
-// }
+    subtitle: {
+        text: 'Starting at 100 cases'
+    },
 
-// // top-10 non-china countries confirmed cases
-// function top10Infections(obj) {
+    yAxis: {
+        type: 'logarithmic',
+        title: {
+            text: 'Confirmed Cases'
+        },
+        min: 100
+    },
 
-//   // retrieve latest date
-//   latestDate = obj[obj.length-1]
+    xAxis: {
+        title: {
+          text: "Days Since 100 Confirmed Cases"
+        }
+    },
 
-//   // create list of countries
-//   let countries =[];
-//   //loop through latest date data
-//   for (const property in latestDate.locations) {
-//       // check if the country is in the list aleady
-//       if (countries.includes(latestDate.locations[property].region)) {
-//           continue
-//       }
-//       else if (latestDate.locations[property].region !== 'Mainland China') {
-//           countries.push(latestDate.locations[property].region)
-//       }
-//   }
+    legend: {
+        enabled: false
+    },
 
-//   // create data series for each country
-//   let worldSeries = [];
-//   // loop through country list
-//   for (i in countries) {
-//       let countrySum = 0;
-//       // loop through latest date data, total confirmed cases for each country
-//       for (const property in latestDate.locations) {
-//           if (latestDate.locations[property].region === countries[i]) {
-//               countrySum += latestDate.locations[property].confirmed;
-//           }
-//       }
+    plotOptions: {
+        series: {
+            label: {
+                connectorAllowed: false
+            },
+            pointStart: 1,
+            marker: {
+              enabled: false
+            }
+        }
+    },
 
-//       // push country and confirmed cases data to series
-//       let post = {
-//           name: countries[i],
-//           data: countrySum
-//       }
-//       worldSeries.push(post);
+    series: series,
 
-//   }
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
 
-//   // sort by descending
-//   let sortable = [];
-//   for (const obj in worldSeries) {
-//       sortable.push([worldSeries[obj].name, worldSeries[obj].data]);
-//   }
-//   sortable.sort(function(a, b) {
-//     return b[1] - a[1];
-//   });
-
-//   let worldTop10Series = [];
-
-//   // select the top 10
-//   let worldTop10 = sortable.slice(0,10)
-
-//   let colorsTop10 = [
-//     "#fac70b",
-//     "#facd35",
-//     "#fad34e",
-//     "#fad964",
-//     "#fbdf78",
-//     "#fbe58c",
-//     "#fceaa0",
-//     "#fdefb3",
-//     "#fef4c6",
-//     "#fff9d9"
-//   ];
-
-//   // create data series
-//   for (i in worldTop10) {
-
-//       if (worldTop10[i][0] == "Others") {
-//         let post = {
-//           name: "Diamond Princess Cruise Ship",
-//           y: worldTop10[i][1],
-//           color: colorsTop10[i]
-//         };
-//         worldTop10Series.push(post);
-//       } else {
-//         let post = {
-//           name: worldTop10[i][0],
-//           y: worldTop10[i][1],
-//           color: colorsTop10[i]
-//         };
-//         worldTop10Series.push(post);
-//       }
-//   }
-
-//   Highcharts.chart("world-countries-infections-chart", {
-//     chart: {
-//       type: "column"
-//     },
-//     title: {
-//       text: ""
-//     },
-//     subtitle: {
-//       text: "Top 10 Non-China Countries"
-//     },
-//     xAxis: {
-//       type: "category"
-//     },
-//     yAxis: {
-//         title: {
-//             text: 'Confirmed Cases'
-//         }
-//     },
-//     legend: {
-//       enabled: false
-//     },
-//     tooltip: {
-//       headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-//       pointFormat:
-//         '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}<br/>'
-//     },
-//     series: [
-//       {
-//         name: "Countries",
-//         colorByPoint: true,
-//         data: worldTop10Series
-//       }
-//     ]
-//   });
-// }
+});
+}
 
 // non-china countries stream
 function streamChart(coronaData) {
@@ -728,7 +609,7 @@ function streamChart(coronaData) {
   latestDate = coronaData[coronaData.length - 1];
 
   // get countries, only getting top 20 active cases for visibility and lag
-  let top_20 = countries_top_active(coronaData, 30).sort((a, b) => a.localeCompare(b));
+  let top_20 = countries_top(coronaData, 30, 'active').sort((a, b) => a.localeCompare(b));
   
   // create series object for chart
   let seriesObj = {
@@ -1185,6 +1066,246 @@ function diseaseComparisonChart(obj) {
     ]
   });
 }
+
+// // china vs world total cases
+// function chinaWorldInfectionsChart(obj) {
+
+//    // parse date into dates array
+//   let parseDate = d3.timeFormat("%m/%d/%Y")
+//   let dates;
+//   dates = obj.map(date => {
+//       for (let [key, value] of Object.entries(date.date)) {
+//       date = new Date(value);
+//       date.setTime( date.getTime() - new Date().getTimezoneOffset()*60*(-1000));
+
+//       return parseDate(date)
+//       };
+//   })
+
+//   // get infections for china and non-china
+//   let china = [];
+//   let notChina = [];
+//   let country, sum;
+//   obj.map(data => {
+//       let chinaSum = 0;
+//       let notChinaSum = 0;
+//       for (const property in data.locations) {
+//         country = data.locations[property].region;
+//         if (country === "Mainland China") {
+//             chinaSum += data.locations[property].confirmed;
+//         }
+//         else {
+//             notChinaSum += data.locations[property].confirmed;
+//         }
+//       }
+//       notChina.push(notChinaSum);
+//       china.push(chinaSum);
+//   })
+
+//   // create chart
+//   Highcharts.chart("china-vs-world-infections-chart", {
+//     chart: {
+//       type: "spline"
+//     },
+//     title: {
+//       text: "Confirmed Cases"
+//     },
+
+//     subtitle: {
+//       text: "China vs. World"
+//     },
+
+//     yAxis: {
+//       title: {
+//         text: "Confirmed Cases"
+//       }
+//     },
+
+//     xAxis: {
+//       categories: dates,
+//       title: {
+//         text: "Date"
+//       },
+//       labels: {
+//         enabled: false
+//       }
+//     },
+
+//     tooltip: {
+//       shared: true,
+//       useHTML: true,
+//       headerFormat: "{point.key}<table>",
+//       pointFormat:
+//         '<tr><td style="color: {series.color}">{series.name}: </td>' +
+//         '<td style="text-align: right"><b>{point.y}</b></td></tr>',
+//       footerFormat: "</table>"
+//     },
+
+//     legend: {
+//       enabled: false
+//     },
+
+//     plotOptions: {
+//       series: {
+//         label: {
+//           connectorAllowed: false
+//         }
+//       }
+//     },
+
+//     series: [
+//       {
+//         name: "China",
+//         data: china,
+//         color: "#ff4242"
+//       },
+//       {
+//         name: "World",
+//         data: notChina,
+//         color: "#fac70b"
+//       }
+//     ],
+
+//     responsive: {
+//       rules: [
+//         {
+//           condition: {
+//             maxWidth: 500
+//           },
+//           chartOptions: {
+//             legend: {
+//               enabled: false
+//             }
+//           }
+//         }
+//       ]
+//     }
+//   });
+
+// }
+
+// // top-10 non-china countries confirmed cases
+// function top10Infections(obj) {
+
+//   // retrieve latest date
+//   latestDate = obj[obj.length-1]
+
+//   // create list of countries
+//   let countries =[];
+//   //loop through latest date data
+//   for (const property in latestDate.locations) {
+//       // check if the country is in the list aleady
+//       if (countries.includes(latestDate.locations[property].region)) {
+//           continue
+//       }
+//       else if (latestDate.locations[property].region !== 'Mainland China') {
+//           countries.push(latestDate.locations[property].region)
+//       }
+//   }
+
+//   // create data series for each country
+//   let worldSeries = [];
+//   // loop through country list
+//   for (i in countries) {
+//       let countrySum = 0;
+//       // loop through latest date data, total confirmed cases for each country
+//       for (const property in latestDate.locations) {
+//           if (latestDate.locations[property].region === countries[i]) {
+//               countrySum += latestDate.locations[property].confirmed;
+//           }
+//       }
+
+//       // push country and confirmed cases data to series
+//       let post = {
+//           name: countries[i],
+//           data: countrySum
+//       }
+//       worldSeries.push(post);
+
+//   }
+
+//   // sort by descending
+//   let sortable = [];
+//   for (const obj in worldSeries) {
+//       sortable.push([worldSeries[obj].name, worldSeries[obj].data]);
+//   }
+//   sortable.sort(function(a, b) {
+//     return b[1] - a[1];
+//   });
+
+//   let worldTop10Series = [];
+
+//   // select the top 10
+//   let worldTop10 = sortable.slice(0,10)
+
+//   let colorsTop10 = [
+//     "#fac70b",
+//     "#facd35",
+//     "#fad34e",
+//     "#fad964",
+//     "#fbdf78",
+//     "#fbe58c",
+//     "#fceaa0",
+//     "#fdefb3",
+//     "#fef4c6",
+//     "#fff9d9"
+//   ];
+
+//   // create data series
+//   for (i in worldTop10) {
+
+//       if (worldTop10[i][0] == "Others") {
+//         let post = {
+//           name: "Diamond Princess Cruise Ship",
+//           y: worldTop10[i][1],
+//           color: colorsTop10[i]
+//         };
+//         worldTop10Series.push(post);
+//       } else {
+//         let post = {
+//           name: worldTop10[i][0],
+//           y: worldTop10[i][1],
+//           color: colorsTop10[i]
+//         };
+//         worldTop10Series.push(post);
+//       }
+//   }
+
+//   Highcharts.chart("world-countries-infections-chart", {
+//     chart: {
+//       type: "column"
+//     },
+//     title: {
+//       text: ""
+//     },
+//     subtitle: {
+//       text: "Top 10 Non-China Countries"
+//     },
+//     xAxis: {
+//       type: "category"
+//     },
+//     yAxis: {
+//         title: {
+//             text: 'Confirmed Cases'
+//         }
+//     },
+//     legend: {
+//       enabled: false
+//     },
+//     tooltip: {
+//       headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+//       pointFormat:
+//         '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}<br/>'
+//     },
+//     series: [
+//       {
+//         name: "Countries",
+//         colorByPoint: true,
+//         data: worldTop10Series
+//       }
+//     ]
+//   });
+// }
 
 // // COVID-19 vs sars
 // function highchartTotal(coronaData, sarsData) {
