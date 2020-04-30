@@ -1,5 +1,5 @@
 # Wuhan Coronavirus COVID-19 Tracker
-View the app [HERE](https://covid2019tracker.appspot.com/)
+View the app [HERE](https://covid2019-tracker.appspot.com/)
 
 <img src="https://github.com/L0per/wuhan-coronavirus/blob/master/static/images/header-preview.PNG?raw=true" alt="stream-chart" width="500"/>
 
