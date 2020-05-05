@@ -366,7 +366,7 @@ function worldMap(result) {
       })
 
       // map object
-      let mymap = L.map('mapid', { layers: [baseDark], zoomControl: false, scrollWheelZoom: false }).setView([25, 0], 2);
+      let mymap = L.map('mapid', { layers: [baseDark], scrollWheelZoom: false }).setView([25, 0], 2);
       mymap.on('focus', function() { mymap.scrollWheelZoom.enable(); });
       mymap.on('blur', function() { mymap.scrollWheelZoom.disable(); });
 
@@ -382,7 +382,7 @@ function worldMap(result) {
 
       // layer control
       // L.control.layers(baseMaps, overlayMaps).addTo(mymap)
-      mymap.addLayer(casesLayer)
+      mymap.addLayer(casesLayer);
       timelineControl.addTo(mymap);
       timelineControl.addTimelines(casesLayer);
 
@@ -399,21 +399,21 @@ function worldMap(result) {
 function provincesChart(obj) {
 
   // create array of dates (x-axis categories) and provinces (series names)
-  let dates =[]
-  let provinces =[]
+  let dates =[];
+  let provinces =[];
   obj.map( data => {
     if (data.region == "China") {
       if (!(dates.includes(data.formatted_date))) {
-        dates.push(data.formatted_date)
+        dates.push(data.formatted_date);
       }
       if (!(provinces.includes(data.location))) {
-        provinces.push(data.location)
+        provinces.push(data.location);
       }
     }
-  })
+  });
 
   // sort provinces
-  provinces.sort((a, b) => a.localeCompare(b))
+  provinces.sort((a, b) => a.localeCompare(b));
 
   // create series object for chart
   let chart_series = {
@@ -426,7 +426,7 @@ function provincesChart(obj) {
     post = {
       name: provinces[i],
       data: []
-    }
+    };
     if (provinces[i] === 'Hubei') {
         chart_series.series.unshift(post) // put Hubei first for visual purposes
     }

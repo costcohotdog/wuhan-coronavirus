@@ -20,11 +20,11 @@ data = [day for day in sars_collection.find()]
 
 @app.route('/', methods=['GET'])
 def home():
-    return render_template('index.html', data=cases)
+    return render_template('index.html', data=data)
 
 @app.route('/api', methods=['GET'])
 def api():
-    return render_template('api.html', data=cases)
+    return render_template('api.html', data=data)
 
 @app.route('/api/county', methods=['GET'])
 def api_county_data():
